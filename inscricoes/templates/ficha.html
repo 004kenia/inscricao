@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Inscrição - Instituto 17 de Dezembro</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #00a8e8;
+            --dark-color: #ffffff;
+            --light-color: #333333;
+            --accent-color: #0077cc;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --error-color: #dc3545;
+            --glass-color: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb .separator {
+            color: #999;
+        }
+        
+        /* Formulário de Inscrição */
+        .application-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+        
+        .application-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .application-header h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .application-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #eee;
+            border-radius: 10px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            width: 33%;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        
+        .form-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .form-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-section-header h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .form-section-header .step-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group .required {
+            color: var(--error-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 119, 204, 0.1);
+        }
+        
+        .form-control-file {
+            display: none;
+        }
+        
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .file-upload-label {
+            background: #f5f5f5;
+            border: 1px dashed #ccc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+        }
+        
+        .file-upload-label:hover {
+            background: #eee;
+            border-color: var(--accent-color);
+        }
+        
+        .file-upload-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload-text {
+            color: #666;
+        }
+        
+        .file-upload-text strong {
+            color: var(--primary-color);
+        }
+        
+        .file-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .radio-option input {
+            width: auto;
+        }
+        
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #f5f5f5;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        /* OCR Status Styles */
+        .ocr-loading {
+            display: none;
+            background: rgba(0, 86, 179, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .ocr-success {
+            display: none;
+            background: rgba(40, 167, 69, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            color: var(--success-color);
+        }
+        
+        .ocr-error {
+            display: none;
+            background: rgba(220, 53, 69, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            color: var(--error-color);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: #555;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .application-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IMI</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Sistema de Inscrições</p>
+                </div>
+            </a>
+            <div class="user-info">
+                <span>João da Silva</span>
+                <div class="user-avatar">JS</div>
+            </div>
+        </header>
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">Início</a>
+            <span class="separator">/</span>
+            <a href="#">Minha Conta</a>
+            <span class="separator">/</span>
+            <span>Formulário de Inscrição</span>
+        </div>
+        
+        <!-- Formulário de Inscrição -->
+        <div class="application-container">
+            <div class="application-header">
+                <h2>Formulário de Inscrição</h2>
+                <p>Preencha todos os campos obrigatórios para completar sua inscrição no curso selecionado</p>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            
+            <form id="applicationForm">
+                <!-- Seção 1: Informações Pessoais -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Informações Pessoais</h3>
+                        <div class="step-number">1</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idCopy">Cópia do BI (PDF) <span class="required">*</span></label>
+                        <input type="file" id="idCopy" class="form-control-file" accept=".pdf" required>
+                        <div class="file-upload">
+                            <label for="idCopy" class="file-upload-label">
+                                <div class="file-upload-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="file-upload-text">
+                                    <strong>Clique para enviar</strong> ou arraste o arquivo
+                                </div>
+                                <div class="file-name" id="idCopyFileName">Nenhum arquivo selecionado</div>
+                            </label>
+                        </div>
+                        <div class="ocr-loading" id="ocrLoading">
+                            <i class="fas fa-spinner fa-spin"></i> Extraindo dados do BI...
+                        </div>
+                        <div class="ocr-success" id="ocrSuccess">
+                            <i class="fas fa-check-circle"></i> Dados extraídos com sucesso!
+                        </div>
+                        <div class="ocr-error" id="ocrError">
+                            <i class="fas fa-exclamation-circle"></i> <span id="ocrErrorMessage">Erro ao extrair dados</span>
+                        </div>
+                        <div class="error-message">Por favor, envie uma cópia do seu BI</div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Nome Completo <span class="required">*</span></label>
+                            <input type="text" id="fullName" class="form-control" required>
+                            <div class="error-message">Por favor, insira seu nome completo</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="idNumber">Número do BI <span class="required">*</span></label>
+                            <input type="text" id="idNumber" class="form-control" required>
+                            <div class="error-message">Por favor, insira seu número de BI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="birthDate">Data de Nascimento <span class="required">*</span></label>
+                            <input type="date" id="birthDate" class="form-control" required>
+                            <div class="error-message">Por favor, insira sua data de nascimento</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age">Idade</label>
+                            <input type="number" id="age" class="form-control" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="idIssueDate">Data de Emissão <span class="required">*</span></label>
+                            <input type="date" id="idIssueDate" class="form-control" required>
+                            <div class="error-message">Por favor, insira a data de emissão</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gênero <span class="required">*</span></label>
+                            <select id="gender" class="form-control" required>
+                                <option value="">Selecione</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                            </select>
+                            <div class="error-message">Por favor, selecione seu gênero</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="nationality">Nacionalidade <span class="required">*</span></label>
+                        <input type="text" id="nationality" class="form-control" required>
+                        <div class="error-message">Por favor, insira sua nacionalidade</div>
+                    </div>
+                </div>
+                
+                <!-- Seção 2: Documentos -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Documentos Necessários</h3>
+                        <div class="step-number">2</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="certificate">Certificado da 9ª Classe (PDF) <span class="required">*</span></label>
+                        <input type="file" id="certificate" class="form-control-file" accept=".pdf" required>
+                        <div class="file-upload">
+                            <label for="certificate" class="file-upload-label">
+                                <div class="file-upload-icon">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="file-upload-text">
+                                    <strong>Clique para enviar</strong> ou arraste o arquivo
+                                </div>
+                                <div class="file-name" id="certificateFileName">Nenhum arquivo selecionado</div>
+                            </label>
+                        </div>
+                        <div class="error-message">Por favor, envie seu certificado</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="photo">Foto 3x4 <span class="required">*</span></label>
+                        <input type="file" id="photo" class="form-control-file" accept="image/*" required>
+                        <div class="file-upload">
+                            <label for="photo" class="file-upload-label">
+                                <div class="file-upload-icon">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="file-upload-text">
+                                    <strong>Clique para enviar</strong> sua foto
+                                </div>
+                                <div class="file-name" id="photoFileName">Nenhum arquivo selecionado</div>
+                            </label>
+                        </div>
+                        <div class="error-message">Por favor, envie sua foto</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medicalReport">Atestado Médico (Opcional)</label>
+                        <input type="file" id="medicalReport" class="form-control-file" accept=".pdf,.jpg,.png">
+                        <div class="file-upload">
+                            <label for="medicalReport" class="file-upload-label">
+                                <div class="file-upload-icon">
+                                    <i class="fas fa-file-medical"></i>
+                                </div>
+                                <div class="file-upload-text">
+                                    <strong>Clique para enviar</strong> (PDF ou imagem)
+                                </div>
+                                <div class="file-name" id="medicalReportFileName">Nenhum arquivo selecionado</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Seção 3: Informações Acadêmicas -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Informações Acadêmicas</h3>
+                        <div class="step-number">3</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="selectedCourse">Curso Selecionado <span class="required">*</span></label>
+                        <select id="selectedCourse" class="form-control" required>
+                            <option value="">Selecione o curso</option>
+                            <option value="electrotecnica">Electrotécnica</option>
+                            <option value="mecanica">Mecânica Industrial</option>
+                            <option value="informatica">Informática Industrial</option>
+                        </select>
+                        <div class="error-message">Por favor, selecione um curso</div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="schoolName">Nome da Escola Anterior <span class="required">*</span></label>
+                            <input type="text" id="schoolName" class="form-control" required>
+                            <div class="error-message">Por favor, insira o nome da escola</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="schoolYear">Ano de Conclusão <span class="required">*</span></label>
+                            <input type="number" id="schoolYear" class="form-control" min="1900" max="2024" required>
+                            <div class="error-message">Por favor, insira o ano de conclusão</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="schoolAddress">Endereço da Escola</label>
+                        <input type="text" id="schoolAddress" class="form-control">
+                    </div>
+                </div>
+                
+                <!-- Seção 4: Informações de Contato -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Informações de Contato</h3>
+                        <div class="step-number">4</div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="phone">Telefone <span class="required">*</span></label>
+                            <input type="tel" id="phone" class="form-control" required>
+                            <div class="error-message">Por favor, insira seu telefone</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email <span class="required">*</span></label>
+                            <input type="email" id="email" class="form-control" required>
+                            <div class="error-message">Por favor, insira um email válido</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="province">Província <span class="required">*</span></label>
+                            <select id="province" class="form-control" required>
+                                <option value="">Selecione a província</option>
+                                <option value="luanda">Luanda</option>
+                                <option value="benguela">Benguela</option>
+                                <option value="huila">Huíla</option>
+                                <option value="cabinda">Cabinda</option>
+                            </select>
+                            <div class="error-message">Por favor, selecione sua província</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="municipality">Município <span class="required">*</span></label>
+                            <select id="municipality" class="form-control" required disabled>
+                                <option value="">Primeiro selecione a província</option>
+                            </select>
+                            <div class="error-message">Por favor, selecione seu município</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Endereço Completo <span class="required">*</span></label>
+                        <input type="text" id="address" class="form-control" required>
+                        <div class="error-message">Por favor, insira seu endereço</div>
+                    </div>
+                </div>
+                
+                <!-- Seção 5: Motivação -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Motivação para o Curso</h3>
+                        <div class="step-number">5</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motivation">Por que você deseja se inscrever neste curso? <span class="required">*</span></label>
+                        <textarea id="motivation" class="form-control form-textarea" required></textarea>
+                        <div class="error-message">Por favor, explique sua motivação</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expectations">Quais são suas expectativas em relação ao curso? <span class="required">*</span></label>
+                        <textarea id="expectations" class="form-control form-textarea" required></textarea>
+                        <div class="error-message">Por favor, descreva suas expectativas</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="futurePlans">Como você planeja usar o conhecimento adquirido no futuro? <span class="required">*</span></label>
+                        <textarea id="futurePlans" class="form-control form-textarea" required></textarea>
+                        <div class="error-message">Por favor, descreva seus planos futuros</div>
+                    </div>
+                </div>
+                
+                <!-- Seção 6: Termos e Condições -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <h3>Termos e Condições</h3>
+                        <div class="step-number">6</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="radio-option">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">Eu declaro que todas as informações fornecidas são verdadeiras e aceito os <a href="#">termos e condições</a> do Instituto. <span class="required">*</span></label>
+                        </div>
+                        <div class="error-message">Você deve aceitar os termos e condições</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="radio-option">
+                            <input type="checkbox" id="newsletter">
+                            <label for="newsletter">Desejo receber informações sobre cursos e eventos do Instituto por email.</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ações do Formulário -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Salvar e Continuar Depois</button>
+                    <button type="submit" class="btn btn-primary">Enviar Inscrição</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IMI 17 de Dezembro</div>
+            
+            <div class="footer-links">
+                <a href="#">Início</a>
+                <a href="#">Cursos</a>
+                <a href="#">Processo de Inscrição</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos e Condições</a>
+            </div>
+            
+            <p class="copyright">© 2024 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Simulação de API de OCR para extrair dados do BI
+        async function extractDataFromBI(file) {
+            // Em um sistema real, aqui você faria uma chamada para uma API de OCR
+            // Esta é uma simulação que retorna dados após 2 segundos
+            
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    try {
+                        // Dados simulados que seriam extraídos do BI
+                        const extractedData = {
+                            fullName: "JOÃO CARLOS DA SILVA",
+                            idNumber: "005678123LA045",
+                            birthDate: "1990-05-15",
+                            issueDate: "2015-08-20",
+                            gender: "male",
+                            nationality: "Angolana"
+                        };
+                        resolve(extractedData);
+                    } catch (error) {
+                        reject(error);
+                    }
+                }, 2000);
+            });
+        }
+
+        // Processar o BI quando um arquivo for selecionado
+        document.getElementById('idCopy').addEventListener('change', async function() {
+            const file = this.files[0];
+            if (!file) return;
+            
+            // Mostrar nome do arquivo
+            document.getElementById('idCopyFileName').textContent = file.name;
+            
+            // Mostrar status de carregamento
+            const loadingElement = document.getElementById('ocrLoading');
+            const successElement = document.getElementById('ocrSuccess');
+            const errorElement = document.getElementById('ocrError');
+            
+            loadingElement.style.display = 'block';
+            successElement.style.display = 'none';
+            errorElement.style.display = 'none';
+            
+            try {
+                // Extrair dados do BI (simulado)
+                const extractedData = await extractDataFromBI(file);
+                
+                // Preencher os campos automaticamente
+                document.getElementById('fullName').value = extractedData.fullName;
+                document.getElementById('idNumber').value = extractedData.idNumber;
+                document.getElementById('birthDate').value = extractedData.birthDate;
+                document.getElementById('idIssueDate').value = extractedData.issueDate;
+                document.getElementById('gender').value = extractedData.gender;
+                document.getElementById('nationality').value = extractedData.nationality;
+                
+                // Calcular idade automaticamente
+                const birthDate = new Date(extractedData.birthDate);
+                const today = new Date();
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+                
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                
+                document.getElementById('age').value = age;
+                
+                // Mostrar sucesso
+                loadingElement.style.display = 'none';
+                successElement.style.display = 'block';
+                
+            } catch (error) {
+                console.error("Erro ao extrair dados do BI:", error);
+                loadingElement.style.display = 'none';
+                errorElement.style.display = 'block';
+                document.getElementById('ocrErrorMessage').textContent = 
+                    "Não foi possível extrair os dados automaticamente. Por favor, preencha manualmente.";
+            }
+        });
+
+        // Cálculo da idade baseada na data de nascimento
+        document.getElementById('birthDate').addEventListener('change', function() {
+            const birthDate = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            document.getElementById('age').value = age;
+        });
+        
+        // Mostrar nome dos arquivos selecionados
+        document.getElementById('certificate').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
+            document.getElementById('certificateFileName').textContent = fileName;
+        });
+        
+        document.getElementById('photo').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
+            document.getElementById('photoFileName').textContent = fileName;
+        });
+        
+        document.getElementById('medicalReport').addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
+            document.getElementById('medicalReportFileName').textContent = fileName;
+        });
+        
+        // Habilitar município quando província for selecionada
+        document.getElementById('province').addEventListener('change', function() {
+            const municipalitySelect = document.getElementById('municipality');
+            municipalitySelect.disabled = !this.value;
+            
+            if (this.value) {
+                // Simulação de municípios - na prática, você teria uma lista real
+                municipalitySelect.innerHTML = '<option value="">Selecione o município</option>';
+                
+                const municipalities = {
+                    'luanda': ['Belas', 'Cacuaco', 'Cazenga', 'Ícolo e Bengo', 'Luanda', 'Quiçama', 'Talatona', 'Viana'],
+                    'benguela': ['Baía Farta', 'Balombo', 'Benguela', 'Bocoio', 'Caimbambo', 'Catumbela', 'Chongorói', 'Cubal', 'Ganda', 'Lobito'],
+                    'huila': ['Caconda', 'Caluquembe', 'Chibia', 'Chicomba', 'Chipindo', 'Gambos', 'Humpata', 'Jamba', 'Lubango', 'Matala', 'Quilengues', 'Quipungo'],
+                    'cabinda': ['Belize', 'Buco-Zau', 'Cabinda', 'Cacongo']
+                };
+                
+                municipalities[this.value].forEach(municipality => {
+                    const option = document.createElement('option');
+                    option.value = municipality.toLowerCase();
+                    option.textContent = municipality;
+                    municipalitySelect.appendChild(option);
+                });
+            } else {
+                municipalitySelect.innerHTML = '<option value="">Primeiro selecione a província</option>';
+            }
+        });
+        
+        // Validação do formulário
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validar todos os campos obrigatórios
+            const requiredFields = this.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                const errorMessage = field.parentElement.querySelector('.error-message');
+                
+                if (!field.value) {
+                    errorMessage.style.display = 'block';
+                    field.style.borderColor = 'var(--error-color)';
+                    isValid = false;
+                } else {
+                    errorMessage.style.display = 'none';
+                    field.style.borderColor = '#ddd';
+                }
+                
+                // Validação especial para email
+                if (field.type === 'email' && field.value && !field.value.includes('@')) {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Por favor, insira um email válido';
+                    field.style.borderColor = 'var(--error-color)';
+                    isValid = false;
+                }
+            });
+            
+            // Validar termos e condições
+            const termsCheckbox = document.getElementById('terms');
+            const termsError = termsCheckbox.parentElement.parentElement.querySelector('.error-message');
+            
+            if (!termsCheckbox.checked) {
+                termsError.style.display = 'block';
+                isValid = false;
+            } else {
+                termsError.style.display = 'none';
+            }
+            
+            // Se o formulário for válido, mostrar mensagem de sucesso
+            if (isValid) {
+                alert('Inscrição enviada com sucesso! Você receberá um email de confirmação em breve.');
+                // Aqui você enviaria o formulário para o servidor
+                // this.submit();
+            }
+        });
+        
+        // Simular progresso ao rolar a página
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const pageHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercentage = (scrollPosition / pageHeight) * 100;
+            
+            // Limitar a 100% e atualizar a barra de progresso
+            document.querySelector('.progress').style.width = Math.min(scrollPercentage, 100) + '%';
+        });
+    </script>
+</body>
+</html>

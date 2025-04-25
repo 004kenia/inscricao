@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos e Condições - Instituto 17 de Dezembro</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #00a8e8;
+            --dark-color: #ffffff;
+            --light-color: #333333;
+            --accent-color: #0077cc;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --error-color: #dc3545;
+            --glass-color: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Conteúdo dos Termos */
+        .terms-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 3rem;
+        }
+        
+        .terms-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .terms-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .terms-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .terms-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .terms-section {
+            margin-bottom: 2.5rem;
+        }
+        
+        .terms-section h2 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .terms-section h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .terms-section p, .terms-section ul {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .terms-section ul {
+            padding-left: 2rem;
+        }
+        
+        .terms-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: rgba(0, 86, 179, 0.1);
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: #555;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .terms-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .terms-header h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IMI</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Sistema de Inscrições</p>
+                </div>
+            </a>
+            <nav class="nav-links">
+                <a href="#">Início</a>
+                <a href="#">Cursos</a>
+                <a href="#">Inscrições</a>
+                <a href="#">Contato</a>
+            </nav>
+        </header>
+        
+        <!-- Conteúdo dos Termos -->
+        <div class="terms-container">
+            <div class="terms-header">
+                <h1>Termos e Condições</h1>
+                <p>Última atualização: 15 de Janeiro de 2024</p>
+            </div>
+            
+            <div class="terms-content">
+                <div class="terms-section">
+                    <h2>1. Aceitação dos Termos</h2>
+                    <p>Ao acessar e utilizar o sistema de inscrições do Instituto Médio Industrial 17 de Dezembro, você concorda em cumprir estes Termos e Condições, todas as leis e regulamentos aplicáveis, e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.</p>
+                    
+                    <div class="highlight">
+                        <p>Ao prosseguir com sua inscrição, você confirma que leu, compreendeu e aceitou integralmente estes Termos e Condições.</p>
+                    </div>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>2. Elegibilidade</h2>
+                    <p>Para se inscrever nos cursos oferecidos pelo Instituto, você deve:</p>
+                    <ul>
+                        <li>Ter concluído o ensino fundamental (9ª classe) ou equivalente</li>
+                        <li>Possuir documentação válida e comprobatória</li>
+                        <li>Ter no mínimo 15 anos de idade</li>
+                        <li>Fornecer informações verdadeiras e precisas</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>3. Processo de Inscrição</h2>
+                    <h3>3.1 Requisitos</h3>
+                    <p>Para completar sua inscrição, você precisará fornecer:</p>
+                    <ul>
+                        <li>Cópia digitalizada do Bilhete de Identidade ou documento equivalente</li>
+                        <li>Certificado de conclusão da 9ª classe</li>
+                        <li>Foto 3x4 atualizada</li>
+                        <li>Demais documentos específicos do curso escolhido</li>
+                    </ul>
+                    
+                    <h3>3.2 Validação</h3>
+                    <p>Todas as informações fornecidas serão verificadas pelo Instituto. Informações falsas ou documentos fraudulentos resultarão na imediata desqualificação do candidato.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>4. Pagamentos e Taxas</h2>
+                    <p>Alguns cursos podem ter taxas associadas. O pagamento deve ser realizado conforme orientações fornecidas durante o processo de inscrição.</p>
+                    <ul>
+                        <li>Taxas não são reembolsáveis após o início das aulas</li>
+                        <li>O Instituto reserva-se o direito de alterar valores com aviso prévio</li>
+                        <li>Bolsas de estudo estão sujeitas a regulamento específico</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>5. Direitos e Responsabilidades</h2>
+                    <h3>5.1 Do Instituto</h3>
+                    <p>O Instituto Médio Industrial 17 de Dezembro compromete-se a:</p>
+                    <ul>
+                        <li>Fornecer educação técnica de qualidade</li>
+                        <li>Manter um ambiente de aprendizagem seguro e inclusivo</li>
+                        <li>Proteger os dados pessoais dos alunos conforme a lei</li>
+                        <li>Comunicar quaisquer alterações no calendário acadêmico</li>
+                    </ul>
+                    
+                    <h3>5.2 Do Aluno</h3>
+                    <p>O aluno compromete-se a:</p>
+                    <ul>
+                        <li>Comparecer regularmente às aulas e atividades</li>
+                        <li>Manter conduta respeitosa com colegas e professores</li>
+                        <li>Cumprir com os regulamentos internos do Instituto</li>
+                        <li>Zelar pelos equipamentos e instalações da escola</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>6. Proteção de Dados</h2>
+                    <p>O Instituto trata seus dados pessoais em conformidade com a Lei de Proteção de Dados Pessoais. Seus dados serão utilizados exclusivamente para:</p>
+                    <ul>
+                        <li>Processamento de sua inscrição</li>
+                        <li>Comunicações acadêmicas</li>
+                        <li>Estatísticas institucionais</li>
+                        <li>Melhoria dos serviços educacionais</li>
+                    </ul>
+                    <p>Você tem o direito de acessar, retificar ou solicitar a eliminação de seus dados pessoais, conforme previsto em lei.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>7. Propriedade Intelectual</h2>
+                    <p>Todo o material didático fornecido pelo Instituto é protegido por direitos autorais e destina-se exclusivamente ao uso pessoal do aluno para fins educacionais. É proibida a reprodução, distribuição ou comercialização sem autorização expressa.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>8. Cancelamento e Reembolsos</h2>
+                    <h3>8.1 Pelo Aluno</h3>
+                    <p>O aluno pode solicitar o cancelamento de sua matrícula com 30 dias de antecedência ao início do curso, com direito a reembolso parcial conforme política financeira do Instituto.</p>
+                    
+                    <h3>8.2 Pelo Instituto</h3>
+                    <p>O Instituto reserva-se o direito de cancelar cursos que não atinjam o número mínimo de alunos, com reembolso integral dos valores pagos.</p>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>9. Disposições Gerais</h2>
+                    <ul>
+                        <li>Estes Termos podem ser atualizados periodicamente</li>
+                        <li>O Instituto não se responsabiliza por danos a equipamentos pessoais</li>
+                        <li>Casos omissos serão resolvidos pela direção do Instituto</li>
+                        <li>Estes Termos são regidos pelas leis da República de Angola</li>
+                    </ul>
+                </div>
+                
+                <div class="terms-section">
+                    <h2>10. Contato</h2>
+                    <p>Para quaisquer dúvidas sobre estes Termos e Condições, entre em contato conosco:</p>
+                    <ul>
+                        <li>Email: juridico@imi17dezembro.edu.ao</li>
+                        <li>Telefone: +244 222 123 456</li>
+                        <li>Endereço: Rua da Indústria, Nº 123, Luanda, Angola</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IMI 17 de Dezembro</div>
+            
+            <div class="footer-links">
+                <a href="#">Início</a>
+                <a href="#">Cursos</a>
+                <a href="#">Processo de Inscrição</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos e Condições</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <p class="copyright">© 2024 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
