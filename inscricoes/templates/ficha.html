@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -5,6 +6,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Inscrição - Instituto 17 de Dezembro</title>
     <style>
+        /* Adicione isso no início da seção de estilos */
+        body {
+        background: 
+            linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+            url("{% static 'imagem/ipiz.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #333; /* Cor do texto principal mais escura */
+    }
+
+    /* Atualize as cores principais para tons de cinza */
+    :root {
+        --primary-color: #4a4a4a; /* Cinza escuro */
+        --secondary-color: #7a7a7a; /* Cinza médio */
+        --dark-color: #ffffff; /* Branco */
+        --light-color: #333333; /* Cinza muito escuro */
+        --accent-color: #5e5e5e; /* Cinza acentuado */
+        --success-color: #6c757d; /* Cinza para sucesso */
+        --warning-color: #adb5bd; /* Cinza para aviso */
+        --error-color: #495057; /* Cinza para erro */
+        --glass-color: rgba(255, 255, 255, 0.95); /* Branco mais opaco */
+        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+
+    /* Ajuste as cores dos componentes */
+    .application-container {
+        background: var(--glass-color);
+        border: 1px solid #e0e0e0;
+    }
+
+    .logo-icon {
+        background: linear-gradient(135deg, #5e5e5e, #7a7a7a);
+    }
+
+    .logo-text h1 {
+        color: var(--primary-color);
+    }
+
+    .user-avatar {
+        background-color: var(--primary-color);
+    }
+
+    .progress {
+        background: linear-gradient(to right, #5e5e5e, #7a7a7a);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #5e5e5e, #7a7a7a);
+    }
+
+    .btn-secondary {
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+
+    /* Ajuste cores dos status */
+    .ocr-loading {
+        color: #5e5e5e;
+        background-color: #f1f1f1;
+    }
+
+    .ocr-success {
+        color: #5e5e5e;
+        background-color: #e8e8e8;
+    }
+
+    .ocr-error {
+        color: #ffffff;
+        background-color: #5e5e5e;
+    }
+
+    /* Ajuste o footer */
+    footer {
+        background: var(--glass-color);
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .footer-links a {
+        color: #5e5e5e;
+    }
+
+    .footer-links a:hover {
+        color: #333333;
+    }
+        /* Estilos para o formulário */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 0.875em;
+    display: none;
+}
+
+.is-invalid + .error-message {
+    display: block;
+}
+
+.ocr-loading, .ocr-success, .ocr-error {
+    display: none;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.ocr-loading {
+    color: #0d6efd;
+}
+
+.ocr-success {
+    color: #198754;
+    background-color: #d1e7dd;
+}
+
+.ocr-error {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.file-upload {
+    border: 2px dashed #dee2e6;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.file-upload:hover {
+    border-color: #0d6efd;
+}
+
+.file-upload-icon {
+    font-size: 2rem;
+    color: #6c757d;
+}
+
+.file-name {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
         :root {
             --primary-color: #0056b3;
             --secondary-color: #00a8e8;
@@ -462,9 +606,14 @@
                 </div>
             </a>
             <div class="user-info">
-                <span>João da Silva</span>
-                <div class="user-avatar">JS</div>
+                <span>{{ nome_aluno }}</span>
+                <div class="user-avatar">
+                    {% if abreviacao %}
+                        {{ abreviacao }}
+                    {% endif %}
+                </div>
             </div>
+            
         </header>
         
         <!-- Breadcrumb -->
@@ -487,7 +636,9 @@
                 <div class="progress"></div>
             </div>
             
-            <form id="applicationForm">
+            <form id="applicationForm" method="POST" action="{% url 'inscricao' %}" enctype="multipart/form-data">
+
+                {% csrf_token %}
                 <!-- Seção 1: Informações Pessoais -->
                 <div class="form-section">
                     <div class="form-section-header">
@@ -497,7 +648,7 @@
                     
                     <div class="form-group">
                         <label for="idCopy">Cópia do BI (PDF) <span class="required">*</span></label>
-                        <input type="file" id="idCopy" class="form-control-file" accept=".pdf" required>
+                        <input type="file" id="idCopy" name="copia_bi" class="form-control-file" accept=".pdf" required>
                         <div class="file-upload">
                             <label for="idCopy" class="file-upload-label">
                                 <div class="file-upload-icon">
@@ -509,28 +660,19 @@
                                 <div class="file-name" id="idCopyFileName">Nenhum arquivo selecionado</div>
                             </label>
                         </div>
-                        <div class="ocr-loading" id="ocrLoading">
-                            <i class="fas fa-spinner fa-spin"></i> Extraindo dados do BI...
-                        </div>
-                        <div class="ocr-success" id="ocrSuccess">
-                            <i class="fas fa-check-circle"></i> Dados extraídos com sucesso!
-                        </div>
-                        <div class="ocr-error" id="ocrError">
-                            <i class="fas fa-exclamation-circle"></i> <span id="ocrErrorMessage">Erro ao extrair dados</span>
-                        </div>
                         <div class="error-message">Por favor, envie uma cópia do seu BI</div>
                     </div>
                     
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="fullName">Nome Completo <span class="required">*</span></label>
-                            <input type="text" id="fullName" class="form-control" required>
+                            <input type="text" id="fullName" name="nome_completo" class="form-control" required>
                             <div class="error-message">Por favor, insira seu nome completo</div>
                         </div>
                         
                         <div class="form-group">
                             <label for="idNumber">Número do BI <span class="required">*</span></label>
-                            <input type="text" id="idNumber" class="form-control" required>
+                            <input type="text" id="idNumber" name="numero_bi" class="form-control" required>
                             <div class="error-message">Por favor, insira seu número de BI</div>
                         </div>
                     </div>
@@ -538,29 +680,29 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="birthDate">Data de Nascimento <span class="required">*</span></label>
-                            <input type="date" id="birthDate" class="form-control" required>
+                            <input type="date" id="birthDate" name="data_nascimento" class="form-control" required>
                             <div class="error-message">Por favor, insira sua data de nascimento</div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="age">Idade</label>
-                            <input type="number" id="age" class="form-control" readonly>
+                            <label for="age">Idade <span class="required">*</span></label>
+                            <input type="number" id="age" name="idade" class="form-control" required>
                         </div>
                     </div>
                     
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="idIssueDate">Data de Emissão <span class="required">*</span></label>
-                            <input type="date" id="idIssueDate" class="form-control" required>
+                            <input type="date" id="idIssueDate" name="data_emissao" class="form-control" required>
                             <div class="error-message">Por favor, insira a data de emissão</div>
                         </div>
                         
                         <div class="form-group">
                             <label for="gender">Gênero <span class="required">*</span></label>
-                            <select id="gender" class="form-control" required>
+                            <select id="gender" name="genero" class="form-control" required>
                                 <option value="">Selecione</option>
-                                <option value="male">Masculino</option>
-                                <option value="female">Feminino</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
                             </select>
                             <div class="error-message">Por favor, selecione seu gênero</div>
                         </div>
@@ -568,7 +710,7 @@
                     
                     <div class="form-group">
                         <label for="nationality">Nacionalidade <span class="required">*</span></label>
-                        <input type="text" id="nationality" class="form-control" required>
+                        <input type="text" id="nationality" name="nacionalidade" class="form-control" required>
                         <div class="error-message">Por favor, insira sua nacionalidade</div>
                     </div>
                 </div>
@@ -580,9 +722,10 @@
                         <div class="step-number">2</div>
                     </div>
                     
+                    <!-- Campo do Certificado -->
                     <div class="form-group">
                         <label for="certificate">Certificado da 9ª Classe (PDF) <span class="required">*</span></label>
-                        <input type="file" id="certificate" class="form-control-file" accept=".pdf" required>
+                        <input type="file" id="certificate" name="certificado" class="form-control-file" accept=".pdf" required>
                         <div class="file-upload">
                             <label for="certificate" class="file-upload-label">
                                 <div class="file-upload-icon">
@@ -596,38 +739,23 @@
                         </div>
                         <div class="error-message">Por favor, envie seu certificado</div>
                     </div>
-                    
+
+                    <!-- Campo do Atestado Médico -->
                     <div class="form-group">
-                        <label for="photo">Foto 3x4 <span class="required">*</span></label>
-                        <input type="file" id="photo" class="form-control-file" accept="image/*" required>
-                        <div class="file-upload">
-                            <label for="photo" class="file-upload-label">
-                                <div class="file-upload-icon">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="file-upload-text">
-                                    <strong>Clique para enviar</strong> sua foto
-                                </div>
-                                <div class="file-name" id="photoFileName">Nenhum arquivo selecionado</div>
-                            </label>
-                        </div>
-                        <div class="error-message">Por favor, envie sua foto</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="medicalReport">Atestado Médico (Opcional)</label>
-                        <input type="file" id="medicalReport" class="form-control-file" accept=".pdf,.jpg,.png">
+                        <label for="medicalReport">Atestado Médico (PDF) <span class="required">*</span></label>
+                        <input type="file" id="medicalReport" name="atestado_medico" class="form-control-file" accept=".pdf" required>
                         <div class="file-upload">
                             <label for="medicalReport" class="file-upload-label">
                                 <div class="file-upload-icon">
                                     <i class="fas fa-file-medical"></i>
                                 </div>
                                 <div class="file-upload-text">
-                                    <strong>Clique para enviar</strong> (PDF ou imagem)
+                                    <strong>Clique para enviar</strong> ou arraste o arquivo
                                 </div>
                                 <div class="file-name" id="medicalReportFileName">Nenhum arquivo selecionado</div>
                             </label>
                         </div>
+                        <div class="error-message">Por favor, envie o atestado médico</div>
                     </div>
                 </div>
                 
@@ -640,7 +768,7 @@
                     
                     <div class="form-group">
                         <label for="selectedCourse">Curso Selecionado <span class="required">*</span></label>
-                        <select id="selectedCourse" class="form-control" required>
+                        <select id="selectedCourse" name="curso" class="form-control" required>
                             <option value="">Selecione o curso</option>
                             <option value="electrotecnica">Electrotécnica</option>
                             <option value="mecanica">Mecânica Industrial</option>
@@ -652,20 +780,21 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="schoolName">Nome da Escola Anterior <span class="required">*</span></label>
-                            <input type="text" id="schoolName" class="form-control" required>
+                            <input type="text" id="schoolName" name="escola_anterior" class="form-control" required>
                             <div class="error-message">Por favor, insira o nome da escola</div>
                         </div>
                         
                         <div class="form-group">
                             <label for="schoolYear">Ano de Conclusão <span class="required">*</span></label>
-                            <input type="number" id="schoolYear" class="form-control" min="1900" max="2024" required>
+                            <input type="number" id="schoolYear" name="ano_conclusao" class="form-control" min="1900" max="2024" required>
                             <div class="error-message">Por favor, insira o ano de conclusão</div>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="schoolAddress">Endereço da Escola</label>
-                        <input type="text" id="schoolAddress" class="form-control">
+                        <label for="schoolAddress">Endereço da Escola <span class="required">*</span></label>
+                        <input type="text" id="schoolAddress" name="endereco_escola" class="form-control" required>
+                        <div class="error-message">Por favor, insira o endereço da escola</div>
                     </div>
                 </div>
                 
@@ -679,13 +808,13 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="phone">Telefone <span class="required">*</span></label>
-                            <input type="tel" id="phone" class="form-control" required>
+                            <input type="tel" id="phone" name="telefone" class="form-control" required>
                             <div class="error-message">Por favor, insira seu telefone</div>
                         </div>
                         
                         <div class="form-group">
                             <label for="email">Email <span class="required">*</span></label>
-                            <input type="email" id="email" class="form-control" required>
+                            <input type="email" id="email" name="email" class="form-control" required>
                             <div class="error-message">Por favor, insira um email válido</div>
                         </div>
                     </div>
@@ -693,7 +822,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="province">Província <span class="required">*</span></label>
-                            <select id="province" class="form-control" required>
+                            <select id="province" name="provincia" class="form-control" required>
                                 <option value="">Selecione a província</option>
                                 <option value="luanda">Luanda</option>
                                 <option value="benguela">Benguela</option>
@@ -705,8 +834,8 @@
                         
                         <div class="form-group">
                             <label for="municipality">Município <span class="required">*</span></label>
-                            <select id="municipality" class="form-control" required disabled>
-                                <option value="">Primeiro selecione a província</option>
+                            <select id="municipality" name="municipio" class="form-control" required>
+                                <option value="">Selecione o município</option>
                             </select>
                             <div class="error-message">Por favor, selecione seu município</div>
                         </div>
@@ -714,7 +843,7 @@
                     
                     <div class="form-group">
                         <label for="address">Endereço Completo <span class="required">*</span></label>
-                        <input type="text" id="address" class="form-control" required>
+                        <input type="text" id="address" name="endereco" class="form-control" required>
                         <div class="error-message">Por favor, insira seu endereço</div>
                     </div>
                 </div>
@@ -728,19 +857,19 @@
                     
                     <div class="form-group">
                         <label for="motivation">Por que você deseja se inscrever neste curso? <span class="required">*</span></label>
-                        <textarea id="motivation" class="form-control form-textarea" required></textarea>
+                        <textarea id="motivation" name="motivacao" class="form-control form-textarea" required></textarea>
                         <div class="error-message">Por favor, explique sua motivação</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="expectations">Quais são suas expectativas em relação ao curso? <span class="required">*</span></label>
-                        <textarea id="expectations" class="form-control form-textarea" required></textarea>
+                        <textarea id="expectations" name="expectativas" class="form-control form-textarea" required></textarea>
                         <div class="error-message">Por favor, descreva suas expectativas</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="futurePlans">Como você planeja usar o conhecimento adquirido no futuro? <span class="required">*</span></label>
-                        <textarea id="futurePlans" class="form-control form-textarea" required></textarea>
+                        <textarea id="futurePlans" name="planos_futuros" class="form-control form-textarea" required></textarea>
                         <div class="error-message">Por favor, descreva seus planos futuros</div>
                     </div>
                 </div>
@@ -754,7 +883,7 @@
                     
                     <div class="form-group">
                         <div class="radio-option">
-                            <input type="checkbox" id="terms" required>
+                            <input type="checkbox" id="terms" name="aceita_termos" required>
                             <label for="terms">Eu declaro que todas as informações fornecidas são verdadeiras e aceito os <a href="#">termos e condições</a> do Instituto. <span class="required">*</span></label>
                         </div>
                         <div class="error-message">Você deve aceitar os termos e condições</div>
@@ -762,7 +891,7 @@
                     
                     <div class="form-group">
                         <div class="radio-option">
-                            <input type="checkbox" id="newsletter">
+                            <input type="checkbox" id="newsletter" name="receber_informacoes">
                             <label for="newsletter">Desejo receber informações sobre cursos e eventos do Instituto por email.</label>
                         </div>
                     </div>
@@ -794,88 +923,52 @@
         </div>
     </footer>
     
+    
+
     <script>
-        // Simulação de API de OCR para extrair dados do BI
-        async function extractDataFromBI(file) {
-            // Em um sistema real, aqui você faria uma chamada para uma API de OCR
-            // Esta é uma simulação que retorna dados após 2 segundos
-            
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    try {
-                        // Dados simulados que seriam extraídos do BI
-                        const extractedData = {
-                            fullName: "JOÃO CARLOS DA SILVA",
-                            idNumber: "005678123LA045",
-                            birthDate: "1990-05-15",
-                            issueDate: "2015-08-20",
-                            gender: "male",
-                            nationality: "Angolana"
-                        };
-                        resolve(extractedData);
-                    } catch (error) {
-                        reject(error);
-                    }
-                }, 2000);
+        document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do formulário
+    const form = document.getElementById('applicationForm');
+    const idCopyInput = document.getElementById('idCopy');
+    const idCopyFileName = document.getElementById('idCopyFileName');
+    const ocrLoading = document.getElementById('ocrLoading');
+    const ocrSuccess = document.getElementById('ocrSuccess');
+    const ocrError = document.getElementById('ocrError');
+    const birthDateInput = document.getElementById('birthDate');
+    const ageInput = document.getElementById('age');
+    const idIssueDateInput = document.getElementById('idIssueDate');
+    const provinceSelect = document.getElementById('province');
+    const municipalitySelect = document.getElementById('municipality');
+
+    // Dados dos municípios por província
+    const municipalities = {
+        'luanda': ['Belas', 'Cacuaco', 'Cazenga', 'Ícolo e Bengo', 'Luanda', 'Quiçama', 'Viana'],
+        'benguela': ['Baía Farta', 'Balombo', 'Benguela', 'Bocoio', 'Caimbambo', 'Catumbela', 'Chongoroi', 'Cubal', 'Ganda', 'Lobito'],
+        'huila': ['Caconda', 'Caluquembe', 'Chibia', 'Chicomba', 'Chipindo', 'Gambos', 'Humpata', 'Jamba', 'Lubango', 'Matala', 'Quilengues', 'Quipungo'],
+        'cabinda': ['Belize', 'Buco-Zau', 'Cabinda', 'Cacongo']
+    };
+
+    // 1. Atualizar municípios quando a província muda
+    provinceSelect.addEventListener('change', function() {
+        const province = this.value;
+        municipalitySelect.innerHTML = '<option value="">Selecione o município</option>';
+        
+        if (province) {
+            municipalitySelect.disabled = false;
+            municipalities[province].forEach(municipio => {
+                const option = document.createElement('option');
+                option.value = municipio.toLowerCase().replace(' ', '_');
+                option.textContent = municipio;
+                municipalitySelect.appendChild(option);
             });
+        } else {
+            municipalitySelect.disabled = true;
         }
+    });
 
-        // Processar o BI quando um arquivo for selecionado
-        document.getElementById('idCopy').addEventListener('change', async function() {
-            const file = this.files[0];
-            if (!file) return;
-            
-            // Mostrar nome do arquivo
-            document.getElementById('idCopyFileName').textContent = file.name;
-            
-            // Mostrar status de carregamento
-            const loadingElement = document.getElementById('ocrLoading');
-            const successElement = document.getElementById('ocrSuccess');
-            const errorElement = document.getElementById('ocrError');
-            
-            loadingElement.style.display = 'block';
-            successElement.style.display = 'none';
-            errorElement.style.display = 'none';
-            
-            try {
-                // Extrair dados do BI (simulado)
-                const extractedData = await extractDataFromBI(file);
-                
-                // Preencher os campos automaticamente
-                document.getElementById('fullName').value = extractedData.fullName;
-                document.getElementById('idNumber').value = extractedData.idNumber;
-                document.getElementById('birthDate').value = extractedData.birthDate;
-                document.getElementById('idIssueDate').value = extractedData.issueDate;
-                document.getElementById('gender').value = extractedData.gender;
-                document.getElementById('nationality').value = extractedData.nationality;
-                
-                // Calcular idade automaticamente
-                const birthDate = new Date(extractedData.birthDate);
-                const today = new Date();
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const monthDiff = today.getMonth() - birthDate.getMonth();
-                
-                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                
-                document.getElementById('age').value = age;
-                
-                // Mostrar sucesso
-                loadingElement.style.display = 'none';
-                successElement.style.display = 'block';
-                
-            } catch (error) {
-                console.error("Erro ao extrair dados do BI:", error);
-                loadingElement.style.display = 'none';
-                errorElement.style.display = 'block';
-                document.getElementById('ocrErrorMessage').textContent = 
-                    "Não foi possível extrair os dados automaticamente. Por favor, preencha manualmente.";
-            }
-        });
-
-        // Cálculo da idade baseada na data de nascimento
-        document.getElementById('birthDate').addEventListener('change', function() {
+    // 2. Calcular idade automaticamente quando a data de nascimento muda
+    birthDateInput.addEventListener('change', function() {
+        if (this.value) {
             const birthDate = new Date(this.value);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
@@ -885,108 +978,33 @@
                 age--;
             }
             
-            document.getElementById('age').value = age;
-        });
-        
-        // Mostrar nome dos arquivos selecionados
-        document.getElementById('certificate').addEventListener('change', function() {
-            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
-            document.getElementById('certificateFileName').textContent = fileName;
-        });
-        
-        document.getElementById('photo').addEventListener('change', function() {
-            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
-            document.getElementById('photoFileName').textContent = fileName;
-        });
-        
-        document.getElementById('medicalReport').addEventListener('change', function() {
-            const fileName = this.files[0] ? this.files[0].name : 'Nenhum arquivo selecionado';
-            document.getElementById('medicalReportFileName').textContent = fileName;
-        });
-        
-        // Habilitar município quando província for selecionada
-        document.getElementById('province').addEventListener('change', function() {
-            const municipalitySelect = document.getElementById('municipality');
-            municipalitySelect.disabled = !this.value;
-            
-            if (this.value) {
-                // Simulação de municípios - na prática, você teria uma lista real
-                municipalitySelect.innerHTML = '<option value="">Selecione o município</option>';
-                
-                const municipalities = {
-                    'luanda': ['Belas', 'Cacuaco', 'Cazenga', 'Ícolo e Bengo', 'Luanda', 'Quiçama', 'Talatona', 'Viana'],
-                    'benguela': ['Baía Farta', 'Balombo', 'Benguela', 'Bocoio', 'Caimbambo', 'Catumbela', 'Chongorói', 'Cubal', 'Ganda', 'Lobito'],
-                    'huila': ['Caconda', 'Caluquembe', 'Chibia', 'Chicomba', 'Chipindo', 'Gambos', 'Humpata', 'Jamba', 'Lubango', 'Matala', 'Quilengues', 'Quipungo'],
-                    'cabinda': ['Belize', 'Buco-Zau', 'Cabinda', 'Cacongo']
-                };
-                
-                municipalities[this.value].forEach(municipality => {
-                    const option = document.createElement('option');
-                    option.value = municipality.toLowerCase();
-                    option.textContent = municipality;
-                    municipalitySelect.appendChild(option);
-                });
-            } else {
-                municipalitySelect.innerHTML = '<option value="">Primeiro selecione a província</option>';
-            }
-        });
-        
-        // Validação do formulário
-        document.getElementById('applicationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            let isValid = true;
-            
-            // Validar todos os campos obrigatórios
-            const requiredFields = this.querySelectorAll('[required]');
-            requiredFields.forEach(field => {
-                const errorMessage = field.parentElement.querySelector('.error-message');
-                
-                if (!field.value) {
-                    errorMessage.style.display = 'block';
-                    field.style.borderColor = 'var(--error-color)';
-                    isValid = false;
-                } else {
-                    errorMessage.style.display = 'none';
-                    field.style.borderColor = '#ddd';
-                }
-                
-                // Validação especial para email
-                if (field.type === 'email' && field.value && !field.value.includes('@')) {
-                    errorMessage.style.display = 'block';
-                    errorMessage.textContent = 'Por favor, insira um email válido';
-                    field.style.borderColor = 'var(--error-color)';
-                    isValid = false;
-                }
-            });
-            
-            // Validar termos e condições
-            const termsCheckbox = document.getElementById('terms');
-            const termsError = termsCheckbox.parentElement.parentElement.querySelector('.error-message');
-            
-            if (!termsCheckbox.checked) {
-                termsError.style.display = 'block';
-                isValid = false;
-            } else {
-                termsError.style.display = 'none';
-            }
-            
-            // Se o formulário for válido, mostrar mensagem de sucesso
-            if (isValid) {
-                alert('Inscrição enviada com sucesso! Você receberá um email de confirmação em breve.');
-                // Aqui você enviaria o formulário para o servidor
-                // this.submit();
-            }
-        });
-        
-        // Simular progresso ao rolar a página
-        window.addEventListener('scroll', function() {
-            const scrollPosition = window.scrollY;
-            const pageHeight = document.body.scrollHeight - window.innerHeight;
-            const scrollPercentage = (scrollPosition / pageHeight) * 100;
-            
-            // Limitar a 100% e atualizar a barra de progresso
-            document.querySelector('.progress').style.width = Math.min(scrollPercentage, 100) + '%';
-        });
+            ageInput.value = age;
+        }
+    });
+
+   
+
+    
+
+});
     </script>
+
+    <script>
+// Gerenciar exibição dos nomes dos arquivos
+document.getElementById('certificate').addEventListener('change', function(e) {
+    const fileName = e.target.files[0] ? e.target.files[0].name : 'Nenhum arquivo selecionado';
+    document.getElementById('certificateFileName').textContent = fileName;
+});
+
+document.getElementById('medicalReport').addEventListener('change', function(e) {
+    const fileName = e.target.files[0] ? e.target.files[0].name : 'Nenhum arquivo selecionado';
+    document.getElementById('medicalReportFileName').textContent = fileName;
+});
+
+document.getElementById('idCopy').addEventListener('change', function(e) {
+    const fileName = e.target.files[0] ? e.target.files[0].name : 'Nenhum arquivo selecionado';
+    document.getElementById('idCopyFileName').textContent = fileName;
+});
+</script>
 </body>
 </html>

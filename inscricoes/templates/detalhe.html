@@ -1,0 +1,1138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Curso - Instituto 17 de Dezembro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+        }
+
+        .preloader-logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .preloader-text {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #00a8e8;
+            --dark-color: #ffffff;
+            --light-color: #333333;
+            --accent-color: #0077cc;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --glass-color: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Estilos Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu a:hover {
+            color: var(--accent-color);
+        }
+        
+        .close-mobile-menu {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb span {
+            margin: 0 0.5rem;
+            color: #999;
+        }
+        
+        /* Course Detail Header */
+        .course-header {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .course-image {
+            flex: 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .course-info {
+            flex: 1;
+        }
+        
+        .course-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .course-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+        
+        .course-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #555;
+        }
+        
+        .meta-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+        }
+        
+        .secondary-button {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        /* Course Tabs */
+        .course-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-button {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .tab-button.active {
+            color: var(--primary-color);
+        }
+        
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+        }
+        
+        .tab-button:hover:not(.active) {
+            color: var(--accent-color);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 0 15px 15px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Overview Tab */
+        .overview-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .overview-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            color: #555;
+        }
+        
+        .overview-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .highlight-icon {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 0.3rem;
+        }
+        
+        .highlight-text h4 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-text p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Curriculum Tab */
+        .semester {
+            margin-bottom: 2rem;
+        }
+        
+        .semester-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .subjects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .subject {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .subject h4 {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .subject p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Teachers Tab */
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .teacher-card {
+            display: flex;
+            gap: 1.5rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+        
+        .teacher-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .teacher-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+        
+        .teacher-info h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .teacher-title {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .teacher-bio {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .teacher-social {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .social-link {
+            color: #666;
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Requirements Tab */
+        .requirements-list {
+            margin-bottom: 2rem;
+        }
+        
+        .requirements-list h4 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .requirements-list ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .requirements-list li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        /* Related Courses */
+        .related-courses {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .related-courses h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .course-card-image {
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .course-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .course-card:hover .course-card-image img {
+            transform: scale(1.1);
+        }
+        
+        .course-card-content {
+            padding: 1.5rem;
+        }
+        
+        .course-card-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .course-card-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .course-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .course-card-button {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .course-card-button:hover {
+            background: var(--accent-color);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            border-top: 1px solid #eee;
+            margin-top: 5rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links a {
+            color: #555;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 1024px) {
+            .course-header {
+                flex-direction: column;
+            }
+            
+            .course-image {
+                margin-bottom: 2rem;
+            }
+            
+            .teachers-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .course-title {
+                font-size: 1.8rem;
+            }
+            
+            .course-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .course-meta {
+                flex-wrap: wrap;
+            }
+            
+            .tab-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+            
+            .cta-button, .secondary-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 1rem;
+                border-radius: 0;
+            }
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .course-title {
+                font-size: 1.5rem;
+            }
+            
+            .tab-button {
+                padding: 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .teacher-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .teacher-social {
+                justify-content: center;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader" id="preloader">
+            {% load static %}
+            <img src="{% static 'imagem/ipiz.png' %}" alt="Logotipo do Instituto 17 de Dezembro" class="preloader-logo">
+            <div class="preloader-text">Carregando...</div>
+        </div>
+        <div class="preloader-text">Carregando...</div>
+    </div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Sistema de Inscrições</p>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links">
+                <a href="#">Início</a>
+                <a href="#highlights">Destaques</a>
+                <a href="#process">Processo</a>
+                <a href="#courses">Cursos</a>
+                <a href="#events">Eventos</a>
+                <a href="#testimonials">Depoimentos</a>
+                <a href="#stats">Estatísticas</a>
+                <a href="#faq">FAQ</a>
+                <a href="#" id="openLogin">Login</a>
+            </nav>
+        </header>
+        
+        <!-- Menu Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#">Início</a>
+            <a href="#highlights">Destaques</a>
+            <a href="#process">Processo</a>
+            <a href="#courses">Cursos</a>
+            <a href="#events">Eventos</a>
+            <a href="#testimonials">Depoimentos</a>
+            <a href="#stats">Estatísticas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" id="mobileLogin">Login</a>
+        </div>
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">Início</a>
+            <span>/</span>
+            <a href="#">Cursos</a>
+            <span>/</span>
+            <span>{{ curso.nome }}</span>
+        </div>
+        
+        <!-- Course Header -->
+        <div class="course-header">
+            <div class="course-image">
+                <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+            </div>
+            <div class="course-info">
+                <h1 class="course-title">{{ curso.nome }}</h1>
+                <p class="course-subtitle">{{ curso.subtitulo }}</p>
+                
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock meta-icon"></i>
+                        <span>{{ curso.duracao }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-user-graduate meta-icon"></i>
+                        <span>{{ curso.vagas }} vagas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-money-bill-wave meta-icon"></i>
+                        <span>{{ curso.preco }} Kz</span>
+                    </div>
+                </div>
+                
+                <p>{{ curso.descricao }}</p>
+                
+                <div class="course-actions">
+                    <button class="cta-button">Iniciar Inscrição</button>
+                    <button class="cta-button secondary-button">Baixar Programa</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Tabs -->
+        <div class="course-tabs">
+            <button class="tab-button active" data-tab="overview">Visão Geral</button>
+            <button class="tab-button" data-tab="curriculum">Grade Curricular</button>
+            <button class="tab-button" data-tab="teachers">Professores</button>
+            <button class="tab-button" data-tab="requirements">Requisitos</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content active" id="overview">
+            <div class="overview-content">
+                <h3>Sobre o Curso</h3>
+                <p>{{ curso.descricao_completa }}</p>
+                
+                <h3>O que você vai aprender</h3>
+                <div class="overview-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Habilidades Técnicas</h4>
+                            <p>Domine as principais técnicas e ferramentas utilizadas no mercado de trabalho atual.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-chart-line highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Mercado de Trabalho</h4>
+                            <p>Conheça as demandas do mercado e como se destacar na sua área de atuação.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-flask highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Prática Laboratorial</h4>
+                            <p>Acesso a laboratórios equipados com tecnologia de ponta para aprendizagem prática.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-briefcase highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Oportunidades</h4>
+                            <p>Programa de estágios e parcerias com empresas para inserção no mercado de trabalho.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Áreas de Atuação</h3>
+                <p>{{ curso.areas_atuacao }}</p>
+                
+                <h3>Diferenciais do Curso</h3>
+                <p>{{ curso.diferenciais }}</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="curriculum">
+            <div class="curriculum-content">
+                <h3>Grade Curricular Completa</h3>
+                <p>O curso está organizado em módulos que combinam teoria e prática para uma formação completa.</p>
+                
+                <div class="semester">
+                    <h4 class="semester-title">1º Semestre</h4>
+                    <div class="subjects-list">
+                        <div class="subject">
+                            <h4>Introdução à {{ curso.nome }}</h4>
+                            <p>Conceitos básicos e fundamentos da área</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Matemática Aplicada</h4>
+                            <p>Fundamentos matemáticos para aplicações práticas</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Física Técnica</h4>
+                            <p>Princípios físicos aplicados à área técnica</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Desenho Técnico</h4>
+                            <p>Leitura e interpretação de projetos técnicos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="semester">
+                    <h4 class="semester-title">2º Semestre</h4>
+                    <div class="subjects-list">
+                        <div class="subject">
+                            <h4>Tecnologia dos Materiais</h4>
+                            <p>Estudo dos materiais e suas aplicações</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Processos de Fabricação</h4>
+                            <p>Técnicas e métodos de produção industrial</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Metrologia</h4>
+                            <p>Técnicas de medição e controle dimensional</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Segurança no Trabalho</h4>
+                            <p>Normas e procedimentos de segurança industrial</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Adicione mais semestres conforme necessário -->
+                
+                <h3>Estágio Supervisionado</h3>
+                <p>O curso inclui estágio obrigatório no último semestre, com duração de 300 horas, em empresas parceiras do instituto.</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="teachers">
+            <div class="teachers-content">
+                <h3>Corpo Docente</h3>
+                <p>Nossos professores combinam experiência acadêmica com atuação no mercado profissional.</p>
+                
+                <div class="teachers-grid">
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Professor" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.º João Miguel</h4>
+                            <p class="teacher-title">Coordenador do Curso</p>
+                            <p class="teacher-bio">Mestre em Engenharia Industrial com 15 anos de experiência em projetos de automação.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Professora" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.ª Maria Santos</h4>
+                            <p class="teacher-title">Professora Titular</p>
+                            <p class="teacher-bio">Doutora em Engenharia Mecânica com especialização em Manutenção Industrial.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Professor" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.º Carlos Fernandes</h4>
+                            <p class="teacher-title">Professor Assistente</p>
+                            <p class="teacher-bio">Especialista em Controle de Qualidade com experiência em indústrias automotivas.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="requirements">
+            <div class="requirements-content">
+                <h3>Requisitos para Inscrição</h3>
+                
+                <div class="requirements-list">
+                    <h4>Documentação Necessária</h4>
+                    <ul>
+                        <li>Cópia do Bilhete de Identidade ou documento equivalente</li>
+                        <li>Cópia do Certificado de Habilitações Literárias</li>
+                        <li>2 Fotografias tipo passe (fundo branco)</li>
+                        <li>Cópia do Cartão de Utente do Serviço Nacional de Saúde</li>
+                        <li>Comprovativo de residência</li>
+                    </ul>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>Pré-requisitos Acadêmicos</h4>
+                    <ul>
+                        <li>Conclusão do Ensino Médio ou equivalente</li>
+                        <li>Conhecimentos básicos de matemática e física</li>
+                        <li>Para alguns cursos, pode ser necessário teste de aptidão específica</li>
+                    </ul>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>Processo Seletivo</h4>
+                    <p>O ingresso nos cursos técnicos do IMI 17 de Dezembro ocorre através de:</p>
+                    <ul>
+                        <li>Análise documental</li>
+                        <li>Entrevista com a coordenação do curso (quando necessário)</li>
+                        <li>Teste de conhecimentos básicos (para alguns cursos)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">IMI 17 de Dezembro</div>
+        
+        <div class="footer-links">
+            <a href="#">Início</a>
+            <a href="#highlights">Destaques</a>
+            <a href="#process">Processo</a>
+            <a href="#courses">Cursos</a>
+            <a href="#events">Eventos</a>
+            <a href="#testimonials">Depoimentos</a>
+            <a href="#stats">Estatísticas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" id="footerLogin">Login</a>
+            <a href="#">Contato</a>
+        </div>
+        
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <p class="copyright">© 2024 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+    </div>
+</footer>
+<script>
+    // Preloader
+document.addEventListener('DOMContentLoaded', function() {
+const preloader = document.getElementById('preloader');
+
+// Simular um carregamento de 6 segundos
+setTimeout(function() {
+    preloader.classList.add('fade-out');
+    
+    // Remover completamente o preloader após a animação
+    setTimeout(function() {
+        preloader.style.display = 'none';
+    }, 500); // Tempo da animação de fade
+}, 6000); // 6 segundos
+});
+
+// Restante do seu código JavaScript...
+</script>
+</body>
+</html>

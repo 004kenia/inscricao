@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -6,6 +7,44 @@
     <title>Sistema de Inscrição - Instituto 17 de Dezembro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Preloader */
+.preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.preloader.fade-out {
+    opacity: 0;
+}
+
+.preloader-logo {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.preloader-text {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-top: 20px;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
         /* Variáveis CSS */
         :root {
             --primary-color: #0056b3;
@@ -124,7 +163,61 @@
             width: 100%;
         }
         
-        /* Seção Hero */
+        /* Menu Mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+        
+        .mobile-menu a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            padding: 0.5rem 1rem;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu a:hover {
+            color: var(--accent-color);
+        }
+        
+        .close-mobile-menu {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
         .hero {
             display: flex;
             align-items: center;
@@ -247,7 +340,7 @@
             font-size: 0.9rem;
         }
         
-        /* Seção de Processo */
+        /* Seção de Processo de Inscrição */
         .process-section {
             margin: 6rem 0;
             background: white;
@@ -525,7 +618,7 @@
             font-size: 0.8rem;
         }
         
-        /* Seção de Eventos */
+        /* Seção de Eventos e Notícias */
         .events-section {
             margin: 6rem 0;
             background: white;
@@ -617,86 +710,6 @@
             display: flex;
             align-items: center;
             gap: 0.3rem;
-        }
-        
-        /* Seção de Notícias */
-        .news-section {
-            margin: 6rem 0;
-        }
-        
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-        
-        .news-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-        }
-        
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-image {
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .news-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .news-card:hover .news-image img {
-            transform: scale(1.05);
-        }
-        
-        .news-content {
-            padding: 1.5rem;
-        }
-        
-        .news-date {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .news-content h4 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-        
-        .news-content p {
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-        
-        .read-more {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: var(--transition);
-        }
-        
-        .read-more:hover {
-            gap: 0.8rem;
-            text-decoration: underline;
         }
         
         /* Seção de Estatísticas */
@@ -1490,7 +1503,7 @@
         }
         
         /* Responsividade */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
             .hero {
                 flex-direction: column;
                 text-align: center;
@@ -1519,24 +1532,72 @@
                 max-width: 100%;
             }
             
+            .courses-grid, 
+            .events-grid,
+            .related-events-grid,
+            .related-news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
             
-            .courses-grid, 
-            .news-grid,
-            .events-grid,
-            .related-events-grid,
-            .related-news-grid {
-                grid-template-columns: 1fr;
+            .mobile-menu-btn {
+                display: block;
             }
             
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
+            .hero h2 {
+                font-size: 2.2rem;
             }
             
-            .testimonials-slider {
-                padding-bottom: 1rem;
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .cta-button {
+                padding: 0.8rem 1.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .secondary-button {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            .section-header h3 {
+                font-size: 1.8rem;
+            }
+            
+            .section-header p {
+                font-size: 1rem;
+            }
+            
+            .highlights-section,
+            .process-section,
+            .testimonials-section,
+            .stats-section,
+            .faq-section,
+            .events-section {
+                padding: 2rem;
+            }
+            
+            .highlight-card {
+                padding: 1.5rem;
+            }
+            
+            .highlight-icon {
+                font-size: 2rem;
+            }
+            
+            .highlight-card h4 {
+                font-size: 1.1rem;
             }
             
             .course-modal-details,
@@ -1549,19 +1610,73 @@
                 flex-direction: column;
             }
             
-            .highlights-section,
-            .process-section,
-            .testimonials-section,
-            .stats-section,
-            .faq-section,
-            .events-section,
-            .news-section {
-                padding: 2rem;
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 1rem;
+                border-radius: 0;
+            }
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero {
+                padding: 2rem 0;
+                margin-bottom: 3rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .courses-grid,
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-card {
+                min-width: 250px;
+                padding: 1.5rem;
+            }
+            
+            .floating-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader" id="preloader">
+            {% load static %}
+            <img src="{% static 'imagem/ipiz.png' %}" alt="Logotipo do Instituto 17 de Dezembro" class="preloader-logo">
+            <div class="preloader-text">Carregando...</div>
+        </div>
+        <div class="preloader-text">Carregando...</div>
+    </div>
     <div class="container">
         <!-- Header -->
         <header>
@@ -1572,6 +1687,11 @@
                     <p>Sistema de Inscrições</p>
                 </div>
             </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <nav class="nav-links">
                 <a href="#">Início</a>
                 <a href="#highlights">Destaques</a>
@@ -1584,6 +1704,22 @@
                 <a href="#" id="openLogin">Login</a>
             </nav>
         </header>
+        
+        <!-- Menu Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#">Início</a>
+            <a href="#highlights">Destaques</a>
+            <a href="#process">Processo</a>
+            <a href="#courses">Cursos</a>
+            <a href="#events">Eventos</a>
+            <a href="#testimonials">Depoimentos</a>
+            <a href="#stats">Estatísticas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" id="mobileLogin">Login</a>
+        </div>
         
         <!-- Hero Section -->
         <section class="hero">
@@ -1690,62 +1826,35 @@
             </div>
             
             <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Electrotécnica">
-                        <div class="course-badge">Novo</div>
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title" data-course="electrotecnica">Electrotécnica</h4>
-                        <p>Formação em instalações elétricas, manutenção de equipamentos e sistemas de energia.</p>
-                        <div class="course-meta">
-                            <div class="course-duration">
-                                <i class="far fa-clock"></i>
-                                <span>3 Anos</span>
+                {% for curso in curso %}
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+                            {% if curso.destaque %}
+                            <div class="course-badge">Novo</div>
+                            {% endif %}
+                        </div>
+                        <div class="course-content">
+                            <a href="{% url 'detalhe_curso' curso.id %}"><h4 class="course-title" data-course="{{ curso.nome|lower }}">{{ curso.nome }}</h4></a>
+                            <p>{{ curso.descricao }}</p>
+                            <div class="course-meta">
+                                <div class="course-duration">
+                                    <i class="far fa-clock"></i>
+                                    <span>{{ curso.duracao }}</span>
+                                </div>
+                                <a href="#" class="course-button">Saiba Mais</a>
                             </div>
-                            <a href="#" class="course-button">Saiba Mais</a>
                         </div>
                     </div>
-                </div>
-                
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mecânica Industrial">
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title" data-course="mecanica">Mecânica Industrial</h4>
-                        <p>Formação em manutenção de máquinas industriais, sistemas mecânicos e automação.</p>
-                        <div class="course-meta">
-                            <div class="course-duration">
-                                <i class="far fa-clock"></i>
-                                <span>3 Anos</span>
-                            </div>
-                            <a href="#" class="course-button">Saiba Mais</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Informática Industrial">
-                        <div class="course-badge">Popular</div>
-                    </div>
-                    <div class="course-content">
-                        <h4 class="course-title" data-course="informatica">Informática Industrial</h4>
-                        <p>Formação em programação, redes de computadores e automação industrial.</p>
-                        <div class="course-meta">
-                            <div class="course-duration">
-                                <i class="far fa-clock"></i>
-                                <span>3 Anos</span>
-                            </div>
-                            <a href="#" class="course-button">Saiba Mais</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </section>
         
-        <!-- Seção de Eventos -->
+        
+        
+        
+        
+        <!-- Seção de Depoimentos -->
         <section class="events-section" id="events">
             <div class="section-header">
                 <h3>Eventos e Notícias</h3>
@@ -1753,165 +1862,30 @@
             </div>
             
             <div class="events-grid">
-                <div class="event-card" data-event="feira-profissoes">
-                    <div class="event-date">15 MAI</div>
-                    <div class="event-image">
-                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Feira das Profissões">
-                    </div>
-                    <div class="event-content">
-                        <h4 class="event-title">Feira das Profissões 2024</h4>
-                        <p>Evento anual que reúne empresas e ex-alunos para apresentar oportunidades de carreira para nossos estudantes.</p>
-                        <div class="event-meta">
-                            <div class="event-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Auditório Principal</span>
+                {% for evento in eventos %}
+                    <div class="event-card" data-event="{{ evento.nome|slugify }}">
+                        <div class="event-date">{{ evento.data|date:"d M" }}</div>
+                        <div class="event-image">
+                            <img src="{{ evento.imagem.url }}" alt="{{ evento.nome }}">
+                        </div>
+                        <div class="event-content">
+                            <h4 class="event-title">
+                                <a href="{% url 'detalhe_evento' evento.id %}">{{ evento.nome }}</a>  <!-- Usando evento.id -->
+                            </h4>
+                            <p>{{ evento.descricao }}</p>
+                            <div class="event-meta">
+                                <div class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>{{ evento.local }}</span>
+                                </div>
+                                <span>{{ evento.horario_inicio|time:"H:i" }} - {{ evento.horario_fim|time:"H:i" }}</span>
                             </div>
-                            <span>09:00 - 17:00</span>
                         </div>
                     </div>
-                </div>
-                
-                <div class="event-card" data-event="workshop-robotica">
-                    <div class="event-date">22 MAI</div>
-                    <div class="event-image">
-                        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Workshop de Robótica">
-                    </div>
-                    <div class="event-content">
-                        <h4 class="event-title">Workshop de Robótica Industrial</h4>
-                        <p>Workshop prático sobre programação de robôs industriais com especialistas da indústria automotiva.</p>
-                        <div class="event-meta">
-                            <div class="event-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Laboratório 5</span>
-                            </div>
-                            <span>14:00 - 18:00</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="event-card" data-event="palestra-energia">
-                    <div class="event-date">30 MAI</div>
-                    <div class="event-image">
-                        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Energias Renováveis">
-                    </div>
-                    <div class="event-content">
-                        <h4 class="event-title">Palestra: Futuro das Energias Renováveis</h4>
-                        <p>Especialista internacional compartilha visão sobre o futuro da geração de energia limpa em Angola.</p>
-                        <div class="event-meta">
-                            <div class="event-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>Sala de Conferências</span>
-                            </div>
-                            <span>10:00 - 12:00</span>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </section>
         
-        <!-- Seção de Notícias -->
-        <section class="news-section" id="news">
-            <div class="section-header">
-                <h3>Últimas Notícias</h3>
-                <p>Acompanhe as novidades e acontecimentos do nosso instituto</p>
-            </div>
-            
-            <div class="news-grid">
-                <div class="news-card" data-news="parceria-industria">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Parceria Industrial">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>10 de Maio, 2024</span>
-                        </div>
-                        <h4 class="news-title">IMI firma parceria com grupo industrial</h4>
-                        <p>Acordo prevê estágios remunerados e bolsas de estudo para alunos de mecânica e eletrotécnica.</p>
-                        <a href="#" class="read-more news-read-more">Ler mais</a>
-                    </div>
-                </div>
-                
-                <div class="news-card" data-news="premiacao-alunos">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Alunos premiados">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>5 de Maio, 2024</span>
-                        </div>
-                        <h4 class="news-title">Alunos ganham competição nacional de robótica</h4>
-                        <p>Equipe do IMI venceu com projeto de automação industrial usando inteligência artificial.</p>
-                        <a href="#" class="read-more news-read-more">Ler mais</a>
-                    </div>
-                </div>
-                
-                <div class="news-card" data-news="novos-laboratorios">
-                    <div class="news-image">
-                        <img src="https://images.unsplash.com/photo-1581093057307-9c4d60d4b893?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Novos laboratórios">
-                    </div>
-                    <div class="news-content">
-                        <div class="news-date">
-                            <i class="far fa-calendar-alt"></i>
-                            <span>28 de Abril, 2024</span>
-                        </div>
-                        <h4 class="news-title">Instituto inaugura novos laboratórios</h4>
-                        <p>Investimento de 2 milhões de dólares em equipamentos de última geração para cursos técnicos.</p>
-                        <a href="#" class="read-more news-read-more">Ler mais</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Seção de Depoimentos -->
-        <section class="testimonials-section" id="testimonials">
-            <div class="section-header">
-                <h3>O Que Dizem Nossos Alunos</h3>
-                <p>Depoimentos de quem já passou pelo IMI 17 de Dezembro e transformou sua carreira</p>
-            </div>
-            
-            <div class="testimonials-slider">
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>O curso de Electrotécnica me proporcionou conhecimento prático que apliquei imediatamente no mercado de trabalho. Hoje sou supervisor em uma grande empresa graças à formação que tive.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="João Silva" class="author-avatar">
-                        <div class="author-info">
-                            <h5>João Silva</h5>
-                            <p>Ex-aluno de Electrotécnica</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>A estrutura dos laboratórios e a qualificação dos professores fizeram toda diferença na minha formação. Consegui meu primeiro emprego antes mesmo de me formar.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Santos" class="author-avatar">
-                        <div class="author-info">
-                            <h5>Maria Santos</h5>
-                            <p>Ex-aluna de Informática Industrial</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        <p>O IMI foi fundamental para minha carreira. Além do conhecimento técnico, aprendi valores profissionais que levo para toda vida. Recomendo a todos que querem se destacar no mercado industrial.</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="Carlos Oliveira" class="author-avatar">
-                        <div class="author-info">
-                            <h5>Carlos Oliveira</h5>
-                            <p>Ex-aluno de Mecânica Industrial</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         
         <!-- Seção de Estatísticas -->
         <section class="stats-section" id="stats">
@@ -2027,33 +2001,190 @@
         </div>
     </div>
     
-    <!-- Modal de Login -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-box">
-            <button class="close-login">&times;</button>
-            <h3>Acesse o Sistema</h3>
-            <p>Faça login para iniciar ou continuar sua inscrição</p>
+ <!-- Modal de Login -->
+<div class="login-modal" id="loginModal">
+    <div class="login-box">
+        <button class="close-login">&times;</button>
+        <h3>Acesse o Sistema</h3>
+        <p>Faça login para iniciar ou continuar sua inscrição</p>
+        
+        <form class="login-form" id="loginForm" action="{% url 'valida_login_aluno' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="text" id="username" placeholder="Digite seu número de documento" name="email" required>
+            </div>
             
-            <form class="login-form" id="loginForm">
-                <div class="form-group">
-                    <label for="username">Número de BI ou Passaporte</label>
-                    <input type="text" id="username" placeholder="Digite seu número de documento">
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" placeholder="Digite sua senha">
-                </div>
-                
-                <button type="submit" class="login-btn">Entrar no Sistema</button>
-                
-                <div class="form-footer">
-                    <p>É seu primeiro acesso? <a href="#">Crie uma conta</a></p>
-                    <p>Esqueceu sua senha? <a href="#">Recuperar senha</a></p>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" name="senha" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Entrar no Sistema</button>
+            
+            <div class="form-footer">
+                <p>É seu primeiro acesso? <a href="#" id="openCadastroLink">Crie uma conta</a></p>
+                <p>Esqueceu sua senha? <a href="#">Recuperar senha</a></p>
+            </div>
+        </form>
     </div>
+</div>
+
+<!-- Modal de Cadastro -->
+<div class="login-modal" id="cadastroModal">
+    <div class="login-box">
+        <button class="close-login">&times;</button>
+        <h3>Crie uma Conta</h3>
+        <p>Preencha as informações abaixo para se cadastrar</p>
+        
+        <form class="login-form" id="cadastroForm" action="{% url 'valida_cadastro_aluno' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" placeholder="Digite seu nome" name="nome" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="Digite sua senha" name="senha" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Criar Conta</button>
+            
+            <div class="form-footer">
+                <p>Já tem uma conta? <a href="#" id="openLoginLink">Faça login</a></p>
+                <p>Esqueceu sua senha? <a href="#">Recuperar senha</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    /* Estilos para os modais de login e cadastro em telas menores */
+@media (max-width: 768px) {
+    .login-box {
+        width: 90%;
+        padding: 2rem;
+        max-width: 400px; /* Largura máxima reduzida */
+    }
+    
+    .login-box h3 {
+        font-size: 1.5rem;
+    }
+    
+    .login-box p {
+        font-size: 0.9rem;
+    }
+    
+    .login-form input {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .login-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .form-footer {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box {
+        width: 95%;
+        padding: 1.5rem;
+        max-width: 350px; /* Ainda mais estreito para telas muito pequenas */
+    }
+    
+    .login-box h3 {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+}
+</style>
+<script>
+    // Função para abrir o modal de cadastro
+document.getElementById('openCadastroLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('loginModal').classList.remove('active');
+    document.getElementById('cadastroModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+// Função para abrir o modal de login
+document.getElementById('openLoginLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('cadastroModal').classList.remove('active');
+    document.getElementById('loginModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+
+// Fechar modais ao clicar no botão de fechar
+document.querySelectorAll('.close-login').forEach(button => {
+    button.addEventListener('click', function() {
+        document.getElementById('loginModal').classList.remove('active');
+        document.getElementById('cadastroModal').classList.remove('active');
+        document.body.style.overflow = '';
+    });
+});
+
+// Fechar modais ao clicar fora do conteúdo
+window.addEventListener('click', function(e) {
+    if (e.target === document.getElementById('loginModal')) {
+        document.getElementById('loginModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    if (e.target === document.getElementById('cadastroModal')) {
+        document.getElementById('cadastroModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Ajustar altura do modal em telas pequenas
+function adjustModalHeight() {
+    const modals = [document.getElementById('loginModal'), document.getElementById('cadastroModal')];
+    const windowHeight = window.innerHeight;
+    
+    modals.forEach(modal => {
+        if (modal) {
+            const modalContent = modal.querySelector('.login-box');
+            if (modalContent && windowHeight < 600) { // Se a altura da tela for menor que 600px
+                modalContent.style.maxHeight = '90vh';
+                modalContent.style.overflowY = 'auto';
+            } else if (modalContent) {
+                modalContent.style.maxHeight = '';
+                modalContent.style.overflowY = '';
+            }
+        }
+    });
+}
+
+// Chamar a função quando a janela é redimensionada
+window.addEventListener('resize', adjustModalHeight);
+
+// Chamar a função quando o modal é aberto
+document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(element => {
+    element.addEventListener('click', adjustModalHeight);
+});
+</script>
+
+
+    
     
     <!-- Modal de Evento -->
     <div class="event-modal" id="eventModal">
@@ -2319,12 +2450,12 @@
                 image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
                 description: "Workshop prático sobre programação de robôs industriais com especialistas da indústria automotiva. Os participantes terão a oportunidade de programar robôs industriais reais usados em linhas de produção."
             },
-            "palestra-energia": {
-                title: "Palestra: Futuro das Energias Renováveis",
-                date: "30 de Maio de 2024 | 10:00 - 12:00",
+            "parceria-industria": {
+                title: "IMI firma parceria com grupo industrial",
+                date: "10 de Maio de 2024 | 10:00 - 12:00",
                 location: "Sala de Conferências",
-                image: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                description: "Especialista internacional compartilha visão sobre o futuro da geração de energia limpa em Angola, com foco nas oportunidades para técnicos especializados."
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                description: "O Instituto Médio Industrial 17 de Dezembro anunciou hoje uma importante parceria com o Grupo Industrial Angolano (GIA), um dos maiores conglomerados industriais do país. O acordo prevê a criação de um programa de estágios remunerados para alunos dos cursos de Mecânica Industrial e Electrotécnica."
             }
         };
         
@@ -2414,6 +2545,31 @@
                 }
             });
 
+            // Menu Mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+            const mobileLoginBtn = document.getElementById('mobileLogin');
+
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeMobileMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            // Fechar menu ao clicar em um link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
             // Modal de Documentos
             const requirementsModal = document.getElementById('requirementsModal');
             const openRequirementsBtn = document.getElementById('openRequirements');
@@ -2444,6 +2600,13 @@
 
             footerLoginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
+                loginModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            mobileLoginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                mobileMenu.classList.remove('active');
                 loginModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
@@ -2506,8 +2669,7 @@
 
             // Modal de Notícia
             const newsModal = document.getElementById('newsModal');
-            const newsCards = document.querySelectorAll('.news-card');
-            const newsReadMoreLinks = document.querySelectorAll('.news-read-more');
+            const newsCards = document.querySelectorAll('.event-card[data-event="parceria-industria"]');
             const closeNewsModal = newsModal.querySelector('.close-modal');
 
             function openNewsModal(newsId) {
@@ -2524,19 +2686,7 @@
 
             newsCards.forEach(card => {
                 card.addEventListener('click', function(e) {
-                    // Evita abrir o modal se o clique foi em um link "Ler mais"
-                    if (!e.target.classList.contains('news-read-more') && !e.target.closest('.news-read-more')) {
-                        const newsId = this.getAttribute('data-news');
-                        openNewsModal(newsId);
-                    }
-                });
-            });
-
-            newsReadMoreLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const newsCard = this.closest('.news-card');
-                    const newsId = newsCard.getAttribute('data-news');
+                    const newsId = this.getAttribute('data-event');
                     openNewsModal(newsId);
                 });
             });
@@ -2613,23 +2763,14 @@
                     newsModal.classList.remove('active');
                     document.body.style.overflow = '';
                 }
-            });
-
-            // Validação do formulário de login
-            document.getElementById('loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
                 
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                
-                if (username && password) {
-                    alert('Login realizado com sucesso! Redirecionando para o formulário de inscrição...');
-                    loginModal.classList.remove('active');
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
                     document.body.style.overflow = '';
-                } else {
-                    alert('Por favor, preencha todos os campos.');
                 }
             });
+
+            
 
             // Scroll suave
             document.getElementById('scrollToProcess').addEventListener('click', function() {
@@ -2638,6 +2779,24 @@
                 });
             });
         });
+    </script>
+    <script>
+        // Preloader
+document.addEventListener('DOMContentLoaded', function() {
+    const preloader = document.getElementById('preloader');
+    
+    // Simular um carregamento de 6 segundos
+    setTimeout(function() {
+        preloader.classList.add('fade-out');
+        
+        // Remover completamente o preloader após a animação
+        setTimeout(function() {
+            preloader.style.display = 'none';
+        }, 500); // Tempo da animação de fade
+    }, 6000); // 6 segundos
+});
+
+// Restante do seu código JavaScript...
     </script>
 </body>
 </html>
