@@ -625,7 +625,6 @@
             <span>Formulário de Inscrição</span>
         </div>
         
-        <!-- Formulário de Inscrição -->
         <div class="application-container">
             <div class="application-header">
                 <h2>Formulário de Inscrição</h2>
@@ -639,7 +638,6 @@
             <form id="applicationForm" method="POST" action="{% url 'inscricao' %}" enctype="multipart/form-data">
 
                 {% csrf_token %}
-                <!-- Seção 1: Informações Pessoais -->
                 <div class="form-section">
                     <div class="form-section-header">
                         <h3>Informações Pessoais</h3>
@@ -715,14 +713,12 @@
                     </div>
                 </div>
                 
-                <!-- Seção 2: Documentos -->
                 <div class="form-section">
                     <div class="form-section-header">
                         <h3>Documentos Necessários</h3>
                         <div class="step-number">2</div>
                     </div>
                     
-                    <!-- Campo do Certificado -->
                     <div class="form-group">
                         <label for="certificate">Certificado da 9ª Classe (PDF) <span class="required">*</span></label>
                         <input type="file" id="certificate" name="certificado" class="form-control-file" accept=".pdf" required>

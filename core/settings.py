@@ -20,6 +20,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,7 +124,6 @@ JAZZMIN_SETTINGS = {
     "site_title": "Inscrição",
     "site_header": "Inscrição",
     "site_brand": "",
-    "site_logo": "static/img/logo.png",  
     "site_icon": "static/img/favicon.png",  
     "welcome_sign": "Bem-vindo ao Painel de Administração",
     "copyright": "Admin",

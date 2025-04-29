@@ -1116,23 +1116,140 @@
         <p class="copyright">© 2024 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
     </div>
 </footer>
+
+
 <script>
-    // Preloader
+    document.addEventListener('DOMContentLoaded', function() {
+        const preloader = document.getElementById('preloader');
+        
+        setTimeout(function() {
+            preloader.classList.add('fade-out');
+            
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500); 
+        }, 6000); 
+    });
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileLoginBtn = document.getElementById('mobileLogin');
+
+    mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeMobileMenu.addEventListener('click', function() {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.getAttribute('data-tab');
+            
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            button.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    const loginModal = document.getElementById('loginModal');
+    const openLoginBtn = document.getElementById('openLogin');
+    const footerLoginBtn = document.getElementById('footerLogin');
+    const closeLoginModal = loginModal.querySelector('.close-login');
+
+    openLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    footerLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    mobileLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        mobileMenu.classList.remove('active');
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeLoginModal.addEventListener('click', function() {
+        loginModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    const cadastroModal = document.getElementById('cadastroModal');
+    const openCadastroLink = document.getElementById('openCadastroLink');
+    const openLoginLink = document.getElementById('openLoginLink');
+    const closeCadastroModal = cadastroModal.querySelector('.close-login');
+
+    openCadastroLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.remove('active');
+        cadastroModal.classList.add('active');
+    });
+
+    openLoginLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        cadastroModal.classList.remove('active');
+        loginModal.classList.add('active');
+    });
+
+    closeCadastroModal.addEventListener('click', function() {
+        cadastroModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (e.target === cadastroModal) {
+            cadastroModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+</script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
 const preloader = document.getElementById('preloader');
 
-// Simular um carregamento de 6 segundos
 setTimeout(function() {
     preloader.classList.add('fade-out');
     
-    // Remover completamente o preloader após a animação
     setTimeout(function() {
         preloader.style.display = 'none';
-    }, 500); // Tempo da animação de fade
-}, 6000); // 6 segundos
+    }, 500); 
+}, 6000); 
 });
 
-// Restante do seu código JavaScript...
 </script>
 </body>
 </html>

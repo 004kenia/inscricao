@@ -119,6 +119,13 @@ class Inscricao(models.Model):
     def __str__(self):
         return f'{self.nome_completo} - {self.curso}'
     
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils import timezone
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import User
+
 class EnvioMensagem(models.Model):
     mensagem = models.TextField(_('Mensagem'))
     data_envio = models.DateTimeField(_('Data de Envio'), default=timezone.now)
@@ -133,6 +140,49 @@ class EnvioMensagem(models.Model):
     class Meta:
         verbose_name = 'Envio de Mensagem'
         verbose_name_plural = 'Envios de Mensagens'
+
+    def enviar_email_para_alunos(self):
+        """
+        Função para enviar e-mail para todos os alunos que ainda não receberam a mensagem.
+        """
+        # Primeiro, obtenha todos os alunos cadastrados
+        todos_alunos = Aluno.objects.all()
+        self.total_alunos = todos_alunos.count()  # Atualiza o total de alunos
+        
+        # Obtenha os alunos que já receberam a mensagem
+        alunos_enviados = self.alunos_enviados.all()
+        
+        # Filtre os alunos que ainda não receberam a mensagem
+        alunos_para_enviar = todos_alunos.exclude(id__in=alunos_enviados.values_list('id', flat=True))
+        
+        # Para cada aluno que ainda não recebeu a mensagem
+        for aluno in alunos_para_enviar:
+            if aluno.email:  # Verifique se o aluno tem um e-mail
+                try:
+                    send_mail(
+                        subject="Nova Mensagem",  # Assunto do e-mail
+                        message=self.mensagem,  # Corpo da mensagem
+                        from_email=settings.EMAIL_HOST_USER,  # Remetente
+                        recipient_list=[aluno.email],  # Destinatário
+                        fail_silently=False,
+                    )
+                    # Adiciona o aluno à lista de enviados
+                    self.alunos_enviados.add(aluno)
+                    self.progresso += 1  # Atualiza o progresso
+                    self.save()  # Salva após cada envio para manter o progresso
+                except Exception as e:
+                    # Log do erro de envio
+                    print(f"Erro ao enviar para {aluno.email}: {e}")
+                    # Você pode querer continuar tentando enviar para os outros
+                    continue
+        
+        # Verifica se todos os e-mails foram enviados
+        if self.progresso >= self.total_alunos:
+            self.enviado = True
+            self.save()
+
+
+
         
         
 class Curso(models.Model):
