@@ -13,7 +13,7 @@ from hashlib import sha256
 from datetime import datetime
 import os
 from django.shortcuts import render, get_object_or_404
-from .models import Inscricao, Aluno, EnvioMensagem, Curso, Evento
+from .models import Inscricao, Aluno, EnvioMensagem, Curso, Evento, Testimonial
 
 
 
@@ -31,9 +31,11 @@ def detalhe_curso(request, id):
 
 
 def home(request):
+    status = request.GET.get('status')
     curso = Curso.objects.all() 
+    comentario = Testimonial.objects.all()
     eventos = Evento.objects.all()
-    return render(request, "index.html", {'curso': curso, 'eventos':eventos})
+    return render(request, "index.html", {'curso': curso, 'eventos':eventos, status:'status', 'comentario':comentario})
 
 def admin(request):
     return render(request, 'admin.html')
@@ -274,3 +276,8 @@ def bem_vindo(request):
 def cursos(request):
     curso = Curso.objects.all() 
     return render(request, 'index.html', {'curso': curso})
+
+
+def termo(request):
+    return render(request, 'termo.html')
+

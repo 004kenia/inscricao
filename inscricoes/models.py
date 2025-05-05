@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinLengthValidator
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
+from django.db import models
 
 class Aluno(models.Model):
     nome = models.CharField(_('Nome Completo'), max_length=100)
@@ -13,13 +14,14 @@ class Aluno(models.Model):
     data_cadastro = models.DateTimeField(_('Data de Cadastro'), default=timezone.now)
     ativo = models.BooleanField(_('Ativo'), default=True)
     
+    
     def __str__(self):
         return f"Aluno: {self.nome}"
 
     class Meta:
         verbose_name = 'Aluno'
         verbose_name_plural = 'Alunos'
-        
+   
 
 class PerfilAluno(models.Model):
     aluno = models.OneToOneField('Aluno', on_delete=models.CASCADE, related_name='perfil')
@@ -51,7 +53,7 @@ class Inscricao(models.Model):
         verbose_name='Cópia do BI'
     )
     nome_completo = models.CharField(max_length=200, verbose_name='Nome Completo')
-    numero_bi = models.CharField(max_length=14, verbose_name='Número do BI')
+    numero_bi = models.CharField(max_length=14, verbose_name='Número do BI', unique=True)
     data_nascimento = models.DateField(verbose_name='Data de Nascimento')
     idade = models.PositiveIntegerField(verbose_name='Idade')
     data_emissao = models.DateField(verbose_name='Data de Emissão do BI')
@@ -62,7 +64,7 @@ class Inscricao(models.Model):
     )
     nacionalidade = models.CharField(max_length=100, verbose_name='Nacionalidade')
     
-    # Documentos
+    
     certificado = models.FileField(
         upload_to='documentos/certificados/',
         validators=[FileExtensionValidator(['pdf'])],
@@ -215,3 +217,16 @@ class Evento(models.Model):
     class Meta:
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
+
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Nome do cliente")
+    photo = models.ImageField(upload_to='testimonials/', blank=True, null=True, verbose_name="Foto do cliente")
+    message = models.TextField(verbose_name="Depoimento")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Data de criação")
+    is_active = models.BooleanField(default=True, verbose_name="Ativo")
+
+    def __str__(self):
+        return f"{self.name} - {self.message[:30]}"
+    
+

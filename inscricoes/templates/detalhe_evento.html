@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Curso - Instituto 17 de Dezembro</title>
+    <link rel="stylesheet" href="{% static 'css/evento.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+</head>
+<body>
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader" id="preloader">
+            {% load static %}
+            <img src="{% static 'imagem/ipiz.png' %}" alt="Logotipo do Instituto 17 de Dezembro" class="preloader-logo">
+            <div class="preloader-text">Carregando...</div>
+        </div>
+        <div class="preloader-text">Carregando...</div>
+    </div>
+    
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Sistema de Inscrições</p>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        
+            <nav class="nav-links">
+                <a href="{% url 'home' %}">Início</a>
+                <a href="#highlights">Destaques</a>
+                <a href="#process">Processo</a>
+                <a href="#courses">Cursos</a>
+                <a href="#events">Eventos</a>
+                <a href="#testimonials">Depoimentos</a>
+                <a href="#stats">Estatísticas</a>
+                <a href="#faq">FAQ</a>
+                <a href="#" id="openLogin">Login</a>
+            </nav>
+        </header>
+        
+        <!-- Menu Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#">Início</a>
+            <a href="#highlights">Destaques</a>
+            <a href="#process">Processo</a>
+            <a href="#courses">Cursos</a>
+            <a href="#events">Eventos</a>
+            <a href="#testimonials">Depoimentos</a>
+            <a href="#stats">Estatísticas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" id="mobileLogin">Login</a>
+        </div>
+        
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="#">Início</a>
+            <span>/</span>
+            <a href="#">Cursos</a>
+            <span>/</span>
+            <span>{{ evento.nome }}</span>
+        </div>
+        
+        <!-- Course Header -->
+        <div class="course-header">
+            <div class="course-image">
+                <img src="{{ evento.imagem.url }}" alt="{{ curso.nome }}">
+            </div>
+            <div class="course-info">
+                <h1 class="course-title">{{ evento.nome }}</h1>
+                <p class="course-subtitle">{{ evento.descricao }}</p>
+                
+                <div class="course-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-clock meta-icon"></i>
+                        <span>{{ curso.duracao }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-user-graduate meta-icon"></i>
+                        <span>{{ curso.vagas }} vagas</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-money-bill-wave meta-icon"></i>
+                        <span>{{ curso.preco }} Kz</span>
+                    </div>
+                </div>
+                
+                <p>{{ curso.descricao }}</p>
+                
+                <div class="course-actions">
+                    <button class="cta-button">Iniciar Inscrição</button>
+                    <button class="cta-button secondary-button">Baixar Programa</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course Tabs -->
+        <div class="course-tabs">
+            <button class="tab-button active" data-tab="overview">Visão Geral</button>
+            <button class="tab-button" data-tab="curriculum">Grade Curricular</button>
+            <button class="tab-button" data-tab="teachers">Professores</button>
+            <button class="tab-button" data-tab="requirements">Requisitos</button>
+        </div>
+        
+        <!-- Tab Content -->
+        <div class="tab-content active" id="overview">
+            <div class="overview-content">
+                <h3>Sobre o Curso</h3>
+                <p>{{ curso.descricao_completa }}</p>
+                
+                <h3>O que você vai aprender</h3>
+                <div class="overview-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Habilidades Técnicas</h4>
+                            <p>Domine as principais técnicas e ferramentas utilizadas no mercado de trabalho atual.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-chart-line highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Mercado de Trabalho</h4>
+                            <p>Conheça as demandas do mercado e como se destacar na sua área de atuação.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-flask highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Prática Laboratorial</h4>
+                            <p>Acesso a laboratórios equipados com tecnologia de ponta para aprendizagem prática.</p>
+                        </div>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-briefcase highlight-icon"></i>
+                        <div class="highlight-text">
+                            <h4>Oportunidades</h4>
+                            <p>Programa de estágios e parcerias com empresas para inserção no mercado de trabalho.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>Áreas de Atuação</h3>
+                <p>{{ curso.areas_atuacao }}</p>
+                
+                <h3>Diferenciais do Curso</h3>
+                <p>{{ curso.diferenciais }}</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="curriculum">
+            <div class="curriculum-content">
+                <h3>Grade Curricular Completa</h3>
+                <p>O curso está organizado em módulos que combinam teoria e prática para uma formação completa.</p>
+                
+                <div class="semester">
+                    <h4 class="semester-title">1º Semestre</h4>
+                    <div class="subjects-list">
+                        <div class="subject">
+                            <h4>Introdução à {{ curso.nome }}</h4>
+                            <p>Conceitos básicos e fundamentos da área</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Matemática Aplicada</h4>
+                            <p>Fundamentos matemáticos para aplicações práticas</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Física Técnica</h4>
+                            <p>Princípios físicos aplicados à área técnica</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Desenho Técnico</h4>
+                            <p>Leitura e interpretação de projetos técnicos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="semester">
+                    <h4 class="semester-title">2º Semestre</h4>
+                    <div class="subjects-list">
+                        <div class="subject">
+                            <h4>Tecnologia dos Materiais</h4>
+                            <p>Estudo dos materiais e suas aplicações</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Processos de Fabricação</h4>
+                            <p>Técnicas e métodos de produção industrial</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Metrologia</h4>
+                            <p>Técnicas de medição e controle dimensional</p>
+                        </div>
+                        <div class="subject">
+                            <h4>Segurança no Trabalho</h4>
+                            <p>Normas e procedimentos de segurança industrial</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Adicione mais semestres conforme necessário -->
+                
+                <h3>Estágio Supervisionado</h3>
+                <p>O curso inclui estágio obrigatório no último semestre, com duração de 300 horas, em empresas parceiras do instituto.</p>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="teachers">
+            <div class="teachers-content">
+                <h3>Corpo Docente</h3>
+                <p>Nossos professores combinam experiência acadêmica com atuação no mercado profissional.</p>
+                
+                <div class="teachers-grid">
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Professor" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.º João Miguel</h4>
+                            <p class="teacher-title">Coordenador do Curso</p>
+                            <p class="teacher-bio">Mestre em Engenharia Industrial com 15 anos de experiência em projetos de automação.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Professora" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.ª Maria Santos</h4>
+                            <p class="teacher-title">Professora Titular</p>
+                            <p class="teacher-bio">Doutora em Engenharia Mecânica com especialização em Manutenção Industrial.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="teacher-card">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Professor" class="teacher-avatar">
+                        <div class="teacher-details">
+                            <h4 class="teacher-name">Eng.º Carlos Fernandes</h4>
+                            <p class="teacher-title">Professor Assistente</p>
+                            <p class="teacher-bio">Especialista em Controle de Qualidade com experiência em indústrias automotivas.</p>
+                            <div class="teacher-social">
+                                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="requirements">
+            <div class="requirements-content">
+                <h3>Requisitos para Inscrição</h3>
+                
+                <div class="requirements-list">
+                    <h4>Documentação Necessária</h4>
+                    <ul>
+                        <li>Cópia do Bilhete de Identidade ou documento equivalente</li>
+                        <li>Cópia do Certificado de Habilitações Literárias</li>
+                        <li>2 Fotografias tipo passe (fundo branco)</li>
+                        <li>Cópia do Cartão de Utente do Serviço Nacional de Saúde</li>
+                        <li>Comprovativo de residência</li>
+                    </ul>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>Pré-requisitos Acadêmicos</h4>
+                    <ul>
+                        <li>Conclusão do Ensino Médio ou equivalente</li>
+                        <li>Conhecimentos básicos de matemática e física</li>
+                        <li>Para alguns cursos, pode ser necessário teste de aptidão específica</li>
+                    </ul>
+                </div>
+                
+                <div class="requirements-list">
+                    <h4>Processo Seletivo</h4>
+                    <p>O ingresso nos cursos técnicos do IMI 17 de Dezembro ocorre através de:</p>
+                    <ul>
+                        <li>Análise documental</li>
+                        <li>Entrevista com a coordenação do curso (quando necessário)</li>
+                        <li>Teste de conhecimentos básicos (para alguns cursos)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-logo">IPIZ 17 de Dezembro</div>
+        
+        <div class="footer-links">
+            <a href="#">Início</a>
+            <a href="#highlights">Destaques</a>
+            <a href="#process">Processo</a>
+            <a href="#courses">Cursos</a>
+            <a href="#events">Eventos</a>
+            <a href="#testimonials">Depoimentos</a>
+            <a href="#stats">Estatísticas</a>
+            <a href="#faq">FAQ</a>
+            <a href="#" id="footerLogin">Login</a>
+            <a href="#">Contato</a>
+        </div>
+        
+        <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <p class="copyright">© 2025 Instituto Politécnico Industrial do Zango "17 de Dezembro. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const preloader = document.getElementById('preloader');
+        
+        setTimeout(function() {
+            preloader.classList.add('fade-out');
+            
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500); 
+        }, 6000); 
+    });
+
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileLoginBtn = document.getElementById('mobileLogin');
+
+    mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeMobileMenu.addEventListener('click', function() {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabId = button.getAttribute('data-tab');
+            
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            button.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    const loginModal = document.getElementById('loginModal');
+    const openLoginBtn = document.getElementById('openLogin');
+    const footerLoginBtn = document.getElementById('footerLogin');
+    const closeLoginModal = loginModal.querySelector('.close-login');
+
+    openLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    footerLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    mobileLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        mobileMenu.classList.remove('active');
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    closeLoginModal.addEventListener('click', function() {
+        loginModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    const cadastroModal = document.getElementById('cadastroModal');
+    const openCadastroLink = document.getElementById('openCadastroLink');
+    const openLoginLink = document.getElementById('openLoginLink');
+    const closeCadastroModal = cadastroModal.querySelector('.close-login');
+
+    openCadastroLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginModal.classList.remove('active');
+        cadastroModal.classList.add('active');
+    });
+
+    openLoginLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        cadastroModal.classList.remove('active');
+        loginModal.classList.add('active');
+    });
+
+    closeCadastroModal.addEventListener('click', function() {
+        cadastroModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    window.addEventListener('click', function(e) {
+        if (e.target === loginModal) {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (e.target === cadastroModal) {
+            cadastroModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (e.target === mobileMenu) {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const preloader = document.getElementById('preloader');
+
+setTimeout(function() {
+    preloader.classList.add('fade-out');
+    
+    setTimeout(function() {
+        preloader.style.display = 'none';
+    }, 500); 
+}, 6000); 
+});
+
+</script>
+</body>
+</html>
