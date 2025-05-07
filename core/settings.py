@@ -118,7 +118,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     "site_title": "Inscrição",
     "site_header": "Inscrição",
-    "site_brand": "",
+    "site_brand": "Dashboard Admin",
     "site_icon": "static/img/favicon.png",  
     "welcome_sign": "Bem-vindo",
     "copyright": "Admin",

@@ -21,7 +21,7 @@
 }
 
 body {
-    background-color: #f9f9f9;
+    background-color:#d3d1d1;
     color: #333;
     display: flex;
     min-height: 100vh;
@@ -73,7 +73,7 @@ body {
     display: flex;
     align-items: center;
     padding: 12px 20px;
-    color: var(--dark-color);
+    color: #0056b3;
     text-decoration: none;
     transition: all 0.3s;
     border-left: 3px solid transparent;

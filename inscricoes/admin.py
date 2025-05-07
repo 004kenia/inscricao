@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Aluno, PerfilAluno, Inscricao, EnvioMensagem,
-    Curso, Evento, Testimonial
+    Curso, Evento, Testimonial, professor
 )
 
 
@@ -18,3 +18,4 @@ admin.site.register(Inscricao)
 admin.site.register(EnvioMensagem)
 admin.site.register(Curso)
 admin.site.register(Evento)
+admin.site.register(professor)

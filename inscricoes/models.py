@@ -230,3 +230,14 @@ class Testimonial(models.Model):
         return f"{self.name} - {self.message[:30]}"
     
 
+class professor(models.Model):
+    nome = models.CharField(_('Nome Completo'), max_length=100)
+    email = models.EmailField(_('E-mail'), unique=True)
+    senha = models.CharField(_('Senha'), max_length=128)
+    data_cadastro = models.DateTimeField(_('Data de Cadastro'), default=timezone.now)
+    bio = models.TextField()
+    curso = models.ForeignKey('Curso', on_delete=models.CASCADE, null=True)
+    
+    
+    def __str__(self):
+        return f" professor: {self.nome}"

@@ -180,9 +180,16 @@
                         <label for="selectedCourse">Curso Selecionado <span class="required">*</span></label>
                         <select id="selectedCourse" name="curso" class="form-control" required>
                             <option value="">Selecione o curso</option>
-                            <option value="electrotecnica">Electrotécnica</option>
-                            <option value="mecanica">Mecânica Industrial</option>
-                            <option value="informatica">Informática Industrial</option>
+                            <option value="electricidade">Electrónica, Automação e Instrumentação</option>
+                            <option value="electricidade">Electrónica Indústrial e Automação</option>
+                            <option value="electricidade">Energia e Instalaçãos Electricas</option>
+                            <option value="mecanica">Frio e Climatização</option>
+                            <option value="informatica">Informática</option>
+                            <option value="lqb">Laboratório de Química e Biologia</option>
+                            <option value="mecanica">Máquinas e Motores</option>
+                            <option value="mecanica">Manutenção Mecanica</option>
+                            <option value="mecanica">Mecatrónica</option>
+                            <option value="mecanica">Produção em Metalomecanica</option>
                         </select>
                         <div class="error-message">Por favor, selecione um curso</div>
                     </div>
@@ -264,6 +271,30 @@
                             <label for="municipality">Município <span class="required">*</span></label>
                             <select id="municipality" name="municipio" class="form-control" required>
                                 <option value="">Selecione o município</option>
+                                <option value="Belas">Belas</option>
+                                <option value="Cacuaco">Cacuaco</option>
+                                <option value="Cazenga">Cazenga</option>
+                                <option value="Ícolo e Bengo">Ícolo e Bengo</option>
+                                <option value="Luanda">Luanda</option>
+                                <option value="Quiçama">Quiçama</option>
+                                <option value="Viana">Viana</option>
+                                <option value="Kilamba Kiaxi">Kilamba Kiaxi</option>
+                                <option value="Baía Farta">Baía Farta</option>
+                                <option value="Balombo">Balombo</option>
+                                <option value="Benguela">Benguela</option>
+                                <option value="Lobito">Lobito</option>
+                                <option value="Mbaza Congo">Mbaza Congo</option>
+                                <option value="Catumbela">Catumbela</option>
+                                <option value="Chongoroi">Chongoroi</option>
+                                <option value="Cubal">Cubal</option>
+                                <option value="Ondjiva">Ondjiva</option>
+                                <option value="Lobito">Lobito</option>
+                                <option value="Caconda">Caconda</option>
+                                <option value="Lubango">Lubango</option>
+                                <option value="Caxito">Caxito</option>
+                                <option value="Kuito">Kuito</option>
+                                <option value="Luena">Luena</option> 
+
                             </select>
                             <div class="error-message">Por favor, selecione seu município</div>
                         </div>
@@ -337,17 +368,17 @@
     <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">IMI 17 de Dezembro</div>
+            <div class="footer-logo">IPIZ 17 de Dezembro</div>
             
             <div class="footer-links">
                 <a href="#">Início</a>
                 <a href="#">Cursos</a>
                 <a href="#">Processo de Inscrição</a>
                 <a href="#">Contato</a>
-                <a href="#">Termos e Condições</a>
+                <a href="{% url 'termo' %}">Termos e Condições</a>
             </div>
             
-            <p class="copyright">© 2025 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+            <p class="copyright">© 2025 Instituto Politécnico Industrial 17 de Dezembro. Todos os direitos reservados.</p>
         </div>
     </footer>
     
@@ -375,6 +406,7 @@
         'huila': ['Caconda', 'Caluquembe', 'Chibia', 'Chicomba', 'Chipindo', 'Gambos', 'Humpata', 'Jamba', 'Lubango', 'Matala', 'Quilengues', 'Quipungo'],
         'cabinda': ['Belize', 'Buco-Zau', 'Cabinda', 'Cacongo']
     };
+
 
     // 1. Atualizar municípios quando a província muda
     provinceSelect.addEventListener('change', function() {

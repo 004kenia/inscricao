@@ -25,7 +25,7 @@
                 <div class="logo-icon">IPIZ</div>
                 <div class="logo-text">
                     <h4>17 de Dezembro</h4>
-                    <p>SIDIE</p>
+                    <p>Sistema de Inscrição</p>
                 </div>
             </a>
             
@@ -158,7 +158,7 @@
         <!-- Seção de Cursos -->
         <section class="courses-section" id="courses">
             <div class="section-header">
-                <h3>Cursos Disponível</h3>
+                <h3>Cursos Disponíveis</h3>
                 <p>Conheça nossos programas técnicos e escolha o que melhor se adapta ao seu perfil</p>
             </div>
             
@@ -172,7 +172,7 @@
                             {% endif %}
                         </div>
                         <div class="course-content">
-                            <a href="{% url 'detalhe_curso' curso.id %}"><h4 class="course-title" data-course="{{ curso.nome|lower }}">{{ curso.nome }}</h4></a>
+                            <a style="text-align: none;" href="{% url 'detalhe_curso' curso.id %}"><h4 class="course-title" data-course="{{ curso.nome|lower }}">{{ curso.nome }}</h4></a>
                             <p>{{ curso.descricao }}</p>
                             <div class="course-meta">
                                 <div class="course-duration">
@@ -293,7 +293,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Todos os nossos cursos técnicos têm duração de 3 anos, divididos em 6 semestres letivos, com carga horária que combina teoria e prática em laboratórios.</p>
+                        <p>Todos os nossos cursos técnicos têm duração de 4 anos, divididos em 3 trimestres letivos, com carga horária que combina teoria e prática em laboratórios.</p>
                     </div>
                 </div>
                 
@@ -303,7 +303,7 @@
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Sim, a partir do 4º semestre os alunos podem concorrer a estágios em nossas empresas parceiras. Além disso, temos um programa de empregabilidade que auxilia na colocação profissional.</p>
+                        <p>Sim, a partir do 13ª classes os alunos podem concorrer a estágios em nossas empresas parceiras.</p>
                     </div>
                 </div>
             </div>
@@ -486,12 +486,12 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
             <div class="event-modal-details">
                 <div class="event-detail-card">
                     <h5>Organização</h5>
-                    <p>Departamento de Empregabilidade do IPII</p>
+                    <p>Associação dos Estundastes do IPIZ</p>
                 </div>
                 
                 <div class="event-detail-card">
                     <h5>Público-Alvo</h5>
-                    <p>Alunos do 2º e 3º ano</p>
+                    <p>Alunos do 1º e 3º ano</p>
                 </div>
                 
                 <div class="event-detail-card">
@@ -502,29 +502,23 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
             
             <div class="event-modal-description">
                 <h4>Sobre o Evento</h4>
-                <p id="eventModalDescription">Feira Tecnologica é o maior evento de carreiras do IMI, reunindo anualmente as principais empresas do setor industrial angolano. Nesta edição, teremos a participação de mais de 30 empresas, incluindo multinacionais do setor petrolífero, de construção civil e manufatura.</p>
+                <p id="eventModalDescription">Feira Tecnologica é o maior evento do IPIZ, reunindo anualmente as principais empresas do setor industrial angolano.</p>
                 
                 <p>Os participantes terão a oportunidade de:</p>
                 <ul>
-                    <li>Conhecer oportunidades de estágio e emprego</li>
+                    <li>Apresentar os seus projetos para os nossos vistantes apartir da Feira Tecnologica.</li>
+                    <li>Aprender como empreender com as suas áreas de formações Feira Empreendedora.</li>
                     <li>Participar de palestras com profissionais experientes</li>
-                    <li>Fazer networking com recrutadores</li>
+                    <li>Aprender sobre outras culturas com a Feira Cultural</li>
                     <li>Conhecer os requisitos do mercado de trabalho</li>
                 </ul>
-                
-                <h4>Programação</h4>
-                <p><strong>09:00 - 10:30</strong> Abertura oficial e palestra "O futuro da indústria em Angola"</p>
-                <p><strong>10:30 - 12:30</strong> Visita aos estandes das empresas</p>
-                <p><strong>12:30 - 14:00</strong> Intervalo para almoço</p>
-                <p><strong>14:00 - 16:00</strong> Rodadas de entrevistas e workshops setoriais</p>
-                <p><strong>16:00 - 17:00</strong> Encerramento e sorteio de brindes</p>
             </div>
             
             <div class="related-events">
                 <h4>Eventos Relacionados</h4>
                 <div class="related-events-grid">
                     <div class="related-event-card" data-event="workshop-curriculo">
-                        <h5>Workshop: Como elaborar um currículo eficiente</h5>
+                        <h5>Saídas dos seus cursos para o ensino Superior</h5>
                         <div class="related-event-date">18 de Maio, 14:00</div>
                     </div>
                     
@@ -553,48 +547,26 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
             <button class="close-modal">&times;</button>
             <div class="modal-header">
                 <h3 id="newsModalTitle">IPIZ firma parceria com grupo industrial</h3>
-                <div class="news-date" id="newsModalDate"><i class="far fa-calendar-alt"></i> 10 de Maio, 2024</div>
+                <div class="news-date" id="newsModalDate"><i class="far fa-calendar-alt"></i> 10 de Maio, 2025</div>
             </div>
             
             <div class="modal-body">
                 <div class="news-modal-image">
                     <img id="newsModalImage" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Parceria Industrial">
                 </div>
-                
-                <div class="news-modal-content">
-                    <p id="newsModalContent">O Instituto Médio Industrial 17 de Dezembro anunciou hoje uma importante parceria com o Grupo Industrial Angolano (GIA), um dos maiores conglomerados industriais do país. O acordo, assinado na manhã desta sexta-feira na sede do instituto, prevê a criação de um programa de estágios remunerados para alunos dos cursos de Mecânica Industrial e Electrotécnica.</p>
-                    
-                    <p>Segundo o diretor do IPIZ, Dr. Manuel Kiala, "esta parceria representa um marco importante para nossa instituição, pois garantirá que nossos alunos tenham acesso às mais modernas práticas industriais ainda durante sua formação". O GIA se comprometeu a oferecer 50 vagas de estágio por semestre, com possibilidade de efetivação para os melhores desempenhos.</p>
-                    
-                    <p>Além dos estágios, o acordo inclui:</p>
-                    <ul>
-                        <li>Bolsa de estudos integral para 10 alunos por ano</li>
-                        <li>Doação de equipamentos industriais para os laboratórios do IMI</li>
-                        <li>Palestras mensais com engenheiros do GIA</li>
-                        <li>Visitas técnicas às fábricas do grupo</li>
-                    </ul>
-                    
-                    <p>O presidente do GIVA, Eng.º José Carlos, destacou a qualidade da formação oferecida pelo IMI: "Temos contratado vários técnicos formados aqui e o nível de preparação sempre nos impressionou. Esta parceria formaliza uma relação que já existia e que agora será ampliada para beneficiar mais estudantes".</p>
-                    
-                    <p>As inscrições para o primeiro grupo de estagiários já estão abertas e podem ser feitas no setor de estágios do IMI até o dia 25 de maio.</p>
-                </div>
+
                 
                 <div class="related-news">
                     <h4>Notícias Relacionadas</h4>
                     <div class="related-news-grid">
                         <div class="related-news-card" data-news="alunos-premiados">
-                            <h5>Alunos ganham competições nacionais de robótica</h5>
-                            <div class="related-news-date">5 de Maio, 2024</div>
+                            <h5>Alunos ganham competições nas Olímpiadas de Matemática</h5>
+                            <div class="related-news-date">6 de Maio, 2025</div>
                         </div>
                         
                         <div class="related-news-card" data-news="novos-cursos">
-                            <h5>IPIZ anúncia novos cursos para 2025</h5>
-                            <div class="related-news-date">1 de Maio, 2024</div>
-                        </div>
-                        
-                        <div class="related-news-card" data-news="visita-ministerio">
-                            <h5>Ministro visita instalações do instituto</h5>
-                            <div class="related-news-date">28 de Abril, 2024</div>
+                            <h5>IPIZ anúncia o início das defesas para os estudantes do 4º ano</h5>
+                            <div class="related-news-date">5 de Maio, 2025</div>
                         </div>
                     </div>
                 </div>
@@ -603,7 +575,7 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
     </div>
 
     <section class="testimonials-section">
-        <h2>O que nossos clientes dizem</h2>
+        <h2>O que os nossos Professores e Alunos dizem</h2>
         <div class="testimonial-container">
           {% for comentario in comentario %}
           <div class="testimonial">
@@ -618,7 +590,7 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
     <style>
         .testimonials-section {
       padding: 60px 20px;
-      background-color: #fff;
+      background-color: #edecec;
       text-align: center;
     }
 
@@ -694,22 +666,19 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
                 <div class="course-modal-details">
                     <div class="course-detail-card">
                         <h5>Duração</h5>
-                        <p>3 anos (6 semestres)</p>
+                        <p>4 anos (3 Trimestre)</p>
                     </div>
                     
                     <div class="course-detail-card">
                         <h5>Horário</h5>
-                        <p>Manhã: 8h00 - 12h30<br>Tarde: 14h00 - 18h30</p>
+                        <p>Manhã: 8h00 - 12h30<br>Tarde: 12h00 - 18h30</p>
                     </div>
                     
-                    <div class="course-detail-card">
-                        <h5>Vagas Disponíveis</h5>
-                        <p>40 por turma</p>
-                    </div>
+                   
                     
                     <div class="course-detail-card">
                         <h5>Taxa de Inscrição</h5>
-                        <p>5.000,00 Kz</p>
+                        <p>1.000,00 Kz</p>
                     </div>
                 </div>
                 
@@ -757,7 +726,7 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
                 <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
             </div>
             
-            <p class="copyright">© 2024 Instituto Médio Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+            <p class="copyright">© 2025 Instituto Politécnico Industrial 17 de Dezembro. Todos os direitos reservados.</p>
         </div>
     </footer>
     
@@ -807,11 +776,11 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
                 description: "Workshop prático sobre programação de robôs industriais com especialistas da indústria automotiva. Os participantes terão a oportunidade de programar robôs industriais reais usados em linhas de produção."
             },
             "parceria-industria": {
-                title: "IMI firma parceria com grupo industrial",
+                title: "IPIZ firma parceria com grupo industrial",
                 date: "10 de Maio de 2024 | 10:00 - 12:00",
                 location: "Sala de Conferências",
                 image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                description: "O Instituto Médio Industrial 17 de Dezembro anunciou hoje uma importante parceria com o Grupo Industrial Angolano (GIA), um dos maiores conglomerados industriais do país. O acordo prevê a criação de um programa de estágios remunerados para alunos dos cursos de Mecânica Industrial e Electrotécnica."
+                description: "O Instituto Politécnico Industrial 17 de Dezembro anunciou hoje uma importante parceria com o Grupo Industrial Angolano (GIA), um dos maiores conglomerados industriais do país. O acordo prevê a criação de um programa de estágios remunerados para alunos dos cursos de Mecânica Industrial e Electrotécnica."
             }
         };
         
@@ -833,7 +802,7 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
                 title: "Instituto inaugura novos laboratórios",
                 date: "28 de Abril, 2024",
                 image: "https://images.unsplash.com/photo-1581093057307-9c4d60d4b893?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                content: "O IMI 17 de Dezembro inaugurou nesta sexta-feira três novos laboratórios equipados com tecnologia de ponta, em um investimento de 2 milhões de dólares. Os novos espaços incluem um laboratório de automação industrial com robôs programáveis, um laboratório de energias renováveis e um centro de manutenção mecânica com equipamentos modernos."
+                content: "O IPIZ 17 de Dezembro inaugurou nesta sexta-feira três novos laboratórios equipados com tecnologia de ponta, em um investimento de 2 milhões de dólares. Os novos espaços incluem um laboratório de automação industrial com robôs programáveis, um laboratório de energias renováveis e um centro de manutenção mecânica com equipamentos modernos."
             }
         };
 
@@ -843,21 +812,17 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
             const coursesChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Electrotécnica', 'Informática', 'Mecânica Auto', 'Mecânica Ind.', 'Construção Civil', 'Química'],
+                    labels: ['Electricidade', 'Informática', 'Mecânica', 'TLQB'],
                     datasets: [{
-                        label: 'Inscrições por Curso',
-                        data: [142, 156, 124, 118, 98, 87],
+                        label: 'Inscrições por Área de Formação',
+                        data: [142, 156, 124, 98, 87],
                         backgroundColor: [
-                            'rgba(0, 86, 179, 0.7)',
-                            'rgba(0, 168, 232, 0.7)',
                             'rgba(0, 86, 179, 0.7)',
                             'rgba(0, 168, 232, 0.7)',
                             'rgba(0, 86, 179, 0.7)',
                             'rgba(0, 168, 232, 0.7)',
                         ],
                         borderColor: [
-                            'rgba(0, 86, 179, 1)',
-                            'rgba(0, 168, 232, 1)',
                             'rgba(0, 86, 179, 1)',
                             'rgba(0, 168, 232, 1)',
                             'rgba(0, 86, 179, 1)',
