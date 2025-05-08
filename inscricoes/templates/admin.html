@@ -3,163 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Admin - Instituto 17 de Dezembro</title>
-    <link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <title>Área Administrativa - Instituto 17 de Dezembro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #00a8e8;
+            --dark-color: #ffffff;
+            --light-color: #333333;
+            --accent-color: #0077cc;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --glass-color: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Estilos Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--light-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1.5rem 2rem;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
+        }
+        
+        .logo-text h1 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        /* Botões */
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 0.9rem 2.2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+        }
+        
+        .secondary-button {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            margin-left: 1rem;
+        }
+        
+        /* Área Administrativa */
+        .admin-section {
+            margin: 2rem 0;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+        
+        .welcome-message {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .welcome-message strong {
+            color: var(--primary-color);
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-tab {
+            padding: 0.8rem 1.5rem;
+            background: #f5f5f5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            border: none;
+        }
+        
+        .admin-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .admin-tab:hover:not(.active) {
+            background: #e0e0e0;
+        }
+        
+        .admin-content {
+            display: none;
+        }
+        
+        .admin-content.active {
+            display: block;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .admin-table th, 
+        .admin-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table th {
+            background: #f9f9f9;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .admin-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .admin-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        
+        .admin-btn.edit {
+            background: var(--warning-color);
+            color: #333;
+        }
+        
+        .admin-btn.delete {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        .admin-btn.view {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .admin-form {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            flex: 1;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card-admin {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .stat-card-admin h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .stat-card-admin p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Cards com imagens */
+        .card-with-image {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+        
+        .card-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-content {
+            flex: 1;
+        }
+        
+        /* Seções comuns */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .admin-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .admin-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .card-with-image {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .card-image {
+                width: 100%;
+                height: auto;
+                max-height: 200px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="https://via.placeholder.com/40" alt="Logo">
-            <h3>Admin IPIZ</h3>
-        </div>
-        <div class="sidebar-menu">
-            <ul>
-                <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
-                <li><a href="#"><i class="fas fa-users"></i> <span>Alunos</span></a></li>
-                <li><a href="#"><i class="fas fa-graduation-cap"></i> <span>Cursos</span></a></li>
-                <li><a href="#"><i class="fas fa-calendar-alt"></i> <span>Eventos</span></a></li>
-                <li><a href="#"><i class="fas fa-file-alt"></i> <span>Inscrições</span> <span class="badge">5</span></a></li>
-                <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Relatórios</span></a></li>
-                <li><a href="#"><i class="fas fa-cog"></i> <span>Configurações</span></a></li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
+    <div class="container">
         <!-- Header -->
-        <div class="header">
-            <div class="header-left">
-                <h1>Dashboard</h1>
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Área Administrativa</p>
+                </div>
+            </a>
+            <div class="user-info">
+                <div class="user-avatar">CM</div>
+                <div class="user-name">Carlos Muquisi</div>
             </div>
-            <div class="header-right">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Pesquisar...">
+        </header>
+        
+        <!-- Área Administrativa -->
+        <section class="admin-section" id="adminSection">
+            <div class="admin-header">
+                <div>
+                    <h3>Painel de Controle</h3>
+                    <p class="welcome-message">Bem-vindo, <strong>Carlos Muquisi</strong></p>
                 </div>
-                <div class="user-menu">
-                    <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
-                    <span class="user-name">Admin</span>
-                    <div class="dropdown-menu">
-                        <ul>
-                            <li><a href="#"><i class="fas fa-user"></i> Perfil</a></li>
-                            <li><a href="#"><i class="fas fa-cog"></i> Configurações</a></li>
-                            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <button class="cta-button secondary-button" id="logoutBtn">Sair</button>
             </div>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-            <div class="page-header">
-                <div class="page-title">
-                    <h2>Visão Geral</h2>
-                    <p>Bem-vindo ao painel administrativo</p>
-                </div>
-                <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>
-                    <li>Dashboard</li>
-                </ul>
+            
+            <div class="admin-tabs">
+                <div class="admin-tab active" data-tab="dashboard">Dashboard</div>
+                <div class="admin-tab" data-tab="inscricoes">Inscrições</div>
+                <div class="admin-tab" data-tab="cursos">Cursos</div>
+                <div class="admin-tab" data-tab="eventos">Eventos</div>
+                <div class="admin-tab" data-tab="usuarios">Usuários</div>
             </div>
-
-            <!-- Cards -->
-            <div class="cards">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Total de Alunos</h4>
-                        <div class="card-icon primary">
-                            <i class="fas fa-users"></i>
-                        </div>
+            
+            <!-- Dashboard -->
+            <div class="admin-content active" id="dashboardContent">
+                <div class="stats-cards">
+                    <div class="stat-card-admin">
+                        <h4>Inscrições Hoje</h4>
+                        <p>24</p>
                     </div>
-                    <div class="card-body">
-                        <h3>1,257</h3>
-                        <p>+12% desde o último mês</p>
+                    <div class="stat-card-admin">
+                        <h4>Inscrições Totais</h4>
+                        <p>1.287</p>
                     </div>
-                    <div class="card-footer">
-                        <i class="fas fa-calendar-alt"></i> Atualizado hoje
+                    <div class="stat-card-admin">
+                        <h4>Cursos Ativos</h4>
+                        <p>6</p>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Inscrições Pendentes</h4>
-                        <div class="card-icon warning">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3>24</h3>
-                        <p>5 novas hoje</p>
-                    </div>
-                    <div class="card-footer">
-                        <i class="fas fa-calendar-alt"></i> Atualizado hoje
+                    <div class="stat-card-admin">
+                        <h4>Eventos Agendados</h4>
+                        <p>5</p>
                     </div>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Cursos Ativos</h4>
-                        <div class="card-icon success">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3>6</h3>
-                        <p>3 cursos técnicos</p>
-                    </div>
-                    <div class="card-footer">
-                        <i class="fas fa-calendar-alt"></i> Atualizado hoje
-                    </div>
+                
+                <div class="section-header">
+                    <h3>Últimas Inscrições</h3>
                 </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Taxa de Empregabilidade</h4>
-                        <div class="card-icon danger">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h3>92%</h3>
-                        <p>+2% desde o último ano</p>
-                    </div>
-                    <div class="card-footer">
-                        <i class="fas fa-calendar-alt"></i> Atualizado esta semana
-                    </div>
-                </div>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Curso</th>
+                            <th>Data</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>João Miguel Silva</td>
+                            <td>Electrotécnica</td>
+                            <td>10/05/2024</td>
+                            <td><span style="color: var(--success-color);">Aprovado</span></td>
+                            <td class="admin-actions">
+                                <button class="admin-btn view">Ver</button>
+                                <button class="admin-btn edit">Editar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Maria Fernanda Santos</td>
+                            <td>Informática Industrial</td>
+                            <td>09/05/2024</td>
+                            <td><span style="color: var(--warning-color);">Pendente</span></td>
+                            <td class="admin-actions">
+                                <button class="admin-btn view">Ver</button>
+                                <button class="admin-btn edit">Editar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-
-            <!-- Charts -->
-            <div class="chart-container">
-                <div class="chart-header">
-                    <h3 class="chart-title">Inscrições por Curso</h3>
-                    <div class="chart-actions">
+            
+            <!-- Inscrições -->
+            <div class="admin-content" id="inscricoesContent">
+                <div class="section-header">
+                    <h3>Gerenciar Inscrições</h3>
+                    <p>Visualize e gerencie todas as inscrições realizadas no sistema</p>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group" style="flex: 2;">
+                        <input type="text" placeholder="Pesquisar por nome, curso ou data...">
+                    </div>
+                    <div class="form-group">
                         <select>
-                            <option>Últimos 30 dias</option>
-                            <option>Últimos 3 meses</option>
-                            <option>Últimos 6 meses</option>
-                            <option>Este ano</option>
+                            <option>Todos os status</option>
+                            <option>Aprovado</option>
+                            <option>Pendente</option>
+                            <option>Recusado</option>
                         </select>
                     </div>
+                    <button class="cta-button">Filtrar</button>
                 </div>
-                <div class="chart">
-                    <canvas id="coursesChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Recent Inscriptions -->
-            <div class="table-container">
-                <div class="table-header">
-                    <h3 class="table-title">Inscrições Recentes</h3>
-                    <div class="table-actions">
-                        <button class="btn">Ver Todas</button>
-                    </div>
-                </div>
-                <table>
+                
+                <table class="admin-table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -173,180 +537,358 @@
                     <tbody>
                         <tr>
                             <td>#1001</td>
-                            <td>João Silva</td>
+                            <td>João Miguel Silva</td>
                             <td>Electrotécnica</td>
-                            <td>15/05/2024</td>
-                            <td><span class="status approved">Aprovado</span></td>
-                            <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                            <td>10/05/2024</td>
+                            <td><span style="color: var(--success-color);">Aprovado</span></td>
+                            <td class="admin-actions">
+                                <button class="admin-btn view">Ver</button>
+                                <button class="admin-btn edit">Editar</button>
+                                <button class="admin-btn delete">Excluir</button>
                             </td>
                         </tr>
                         <tr>
                             <td>#1002</td>
-                            <td>Maria Santos</td>
+                            <td>Maria Fernanda Santos</td>
                             <td>Informática Industrial</td>
-                            <td>14/05/2024</td>
-                            <td><span class="status pending">Pendente</span></td>
-                            <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#1003</td>
-                            <td>Carlos Oliveira</td>
-                            <td>Mecânica Industrial</td>
-                            <td>13/05/2024</td>
-                            <td><span class="status pending">Pendente</span></td>
-                            <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#1004</td>
-                            <td>Ana Pereira</td>
-                            <td>Electrotécnica</td>
-                            <td>12/05/2024</td>
-                            <td><span class="status rejected">Rejeitado</span></td>
-                            <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#1005</td>
-                            <td>Pedro Costa</td>
-                            <td>Informática Industrial</td>
-                            <td>11/05/2024</td>
-                            <td><span class="status approved">Aprovado</span></td>
-                            <td>
-                                <button class="action-btn view"><i class="fas fa-eye"></i></button>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
+                            <td>09/05/2024</td>
+                            <td><span style="color: var(--warning-color);">Pendente</span></td>
+                            <td class="admin-actions">
+                                <button class="admin-btn view">Ver</button>
+                                <button class="admin-btn edit">Editar</button>
+                                <button class="admin-btn delete">Excluir</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <!-- Recent Activity -->
-            <div class="activity-container">
-                <h3 class="chart-title">Atividade Recente</h3>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>Novo aluno registrado</h4>
-                        <p>João Silva se inscreveu no curso de Electrotécnica</p>
-                        <div class="activity-time">10 minutos atrás</div>
-                    </div>
+            
+            <!-- Cursos -->
+            <div class="admin-content" id="cursosContent">
+                <div class="section-header">
+                    <h3>Gerenciar Cursos</h3>
+                    <p>Adicione, edite ou remova cursos oferecidos pelo instituto</p>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h4>Nova inscrição</h4>
-                        <p>Maria Santos enviou documentos para análise</p>
-                        <div class="activity-time">1 hora atrás</div>
-                    </div>
+                
+                <button class="cta-button" id="addCourseBtn">Adicionar Novo Curso</button>
+                
+                <!-- Lista de Cursos com Imagens -->
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Detalhes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Electrotécnica" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Electrotécnica</h4>
+                                    <p>Duração: 3 anos | Vagas: 40 | Inscrições: 142</p>
+                                    <p><span style="color: var(--success-color);">Ativo</span></p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Desativar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Informática Industrial" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Informática Industrial</h4>
+                                    <p>Duração: 3 anos | Vagas: 35 | Inscrições: 156</p>
+                                    <p><span style="color: var(--success-color);">Ativo</span></p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Desativar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Mecânica Industrial" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Mecânica Industrial</h4>
+                                    <p>Duração: 3 anos | Vagas: 30 | Inscrições: 98</p>
+                                    <p><span style="color: var(--success-color);">Ativo</span></p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Desativar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-check-circle"></i>
+                
+                <!-- Formulário de Curso -->
+                <div class="admin-form" id="courseForm" style="display: none;">
+                    <h4>Adicionar Novo Curso</h4>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nome do Curso</label>
+                            <input type="text">
+                        </div>
+                        <div class="form-group">
+                            <label>Duração</label>
+                            <select>
+                                <option>3 anos</option>
+                                <option>2 anos</option>
+                                <option>1 ano</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="activity-content">
-                        <h4>Inscrição aprovada</h4>
-                        <p>Pedro Costa foi aprovado no curso de Informática Industrial</p>
-                        <div class="activity-time">3 horas atrás</div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Vagas Disponíveis</label>
+                            <input type="number">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select>
+                                <option>Ativo</option>
+                                <option>Inativo</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-calendar-alt"></i>
+                    
+                    <div class="form-group">
+                        <label>Imagem do Curso</label>
+                        <input type="file" accept="image/*">
                     </div>
-                    <div class="activity-content">
-                        <h4>Novo evento agendado</h4>
-                        <p>Feira das Profissões marcada para 15/05/2024</p>
-                        <div class="activity-time">Ontem</div>
+                    
+                    <div class="form-group">
+                        <label>Descrição do Curso</label>
+                        <textarea rows="4"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="cta-button secondary-button">Cancelar</button>
+                        <button class="cta-button">Salvar Curso</button>
                     </div>
                 </div>
             </div>
-        </div>
+            
+            <!-- Eventos -->
+            <div class="admin-content" id="eventosContent">
+                <div class="section-header">
+                    <h3>Gerenciar Eventos</h3>
+                    <p>Adicione e gerencie eventos do instituto</p>
+                </div>
+                
+                <button class="cta-button" id="addEventBtn">Adicionar Novo Evento</button>
+                
+                <!-- Lista de Eventos com Imagens -->
+                <div class="admin-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Detalhes</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Feira das Profissões" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Feira das Profissões 2024</h4>
+                                    <p>Data: 15/05/2024 | Local: Auditório Principal</p>
+                                    <p>Inscrições: 124</p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Excluir</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Workshop de Robótica" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Workshop de Robótica Industrial</h4>
+                                    <p>Data: 22/05/2024 | Local: Laboratório 5</p>
+                                    <p>Inscrições: 87</p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Excluir</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 120px;">
+                                    <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" 
+                                         alt="Palestra Energias" 
+                                         style="width: 100px; height: 60px; object-fit: cover; border-radius: 5px;">
+                                </td>
+                                <td>
+                                    <h4>Palestra: Futuro das Energias Renováveis</h4>
+                                    <p>Data: 30/05/2024 | Local: Sala de Conferências</p>
+                                    <p>Inscrições: 65</p>
+                                </td>
+                                <td class="admin-actions">
+                                    <button class="admin-btn view">Ver</button>
+                                    <button class="admin-btn edit">Editar</button>
+                                    <button class="admin-btn delete">Excluir</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Usuários -->
+            <div class="admin-content" id="usuariosContent">
+                <div class="section-header">
+                    <h3>Gerenciar Usuários</h3>
+                    <p>Administre os usuários com acesso ao sistema</p>
+                </div>
+                
+                <button class="cta-button" id="addUserBtn">Adicionar Novo Usuário</button>
+                
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Tipo</th>
+                            <th>Último Acesso</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="user-avatar" style="width: 30px; height: 30px; font-size: 0.8rem;">CM</div>
+                                    Carlos Muquisi
+                                </div>
+                            </td>
+                            <td>admin@imi17dez.ed.ao</td>
+                            <td>Administrador</td>
+                            <td>10/05/2024 15:32</td>
+                            <td class="admin-actions">
+                                <button class="admin-btn edit">Editar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <div class="user-avatar" style="width: 30px; height: 30px; font-size: 0.8rem;">SM</div>
+                                    Secretaria Master
+                                </div>
+                            </td>
+                            <td>secretaria@imi17dez.ed.ao</td>
+                            <td>Secretário</td>
+                            <td>10/05/2024 14:15</td>
+                            <td class="admin-actions">
+                                <button class="admin-btn edit">Editar</button>
+                                <button class="admin-btn delete">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
-
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
-        // Toggle sidebar on mobile
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
-        });
-
-        // Initialize charts
         document.addEventListener('DOMContentLoaded', function() {
-            // Courses Chart
-            const coursesCtx = document.getElementById('coursesChart').getContext('2d');
-            const coursesChart = new Chart(coursesCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Electrotécnica', 'Informática', 'Mecânica', 'Construção Civil', 'Química', 'Eletrónica'],
-                    datasets: [{
-                        label: 'Inscrições',
-                        data: [142, 156, 124, 98, 87, 76],
-                        backgroundColor: [
-                            'rgba(96, 125, 139, 0.7)',
-                            'rgba(139, 195, 74, 0.7)',
-                            'rgba(255, 193, 7, 0.7)',
-                            'rgba(121, 85, 72, 0.7)',
-                            'rgba(244, 67, 54, 0.7)',
-                            'rgba(23, 162, 184, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(96, 125, 139, 1)',
-                            'rgba(139, 195, 74, 1)',
-                            'rgba(255, 193, 7, 1)',
-                            'rgba(121, 85, 72, 1)',
-                            'rgba(244, 67, 54, 1)',
-                            'rgba(23, 162, 184, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#eee'
-                            },
-                            ticks: {
-                                color: '#777'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#777'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+            // Tabs administrativas
+            const adminTabs = document.querySelectorAll('.admin-tab');
+            const adminContents = document.querySelectorAll('.admin-content');
+            
+            // Navegação entre tabs administrativas
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove classe active de todas as tabs
+                    adminTabs.forEach(t => t.classList.remove('active'));
+                    // Adiciona classe active apenas na tab clicada
+                    this.classList.add('active');
+                    
+                    // Esconde todos os conteúdos
+                    adminContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Mostra apenas o conteúdo correspondente
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}Content`).classList.add('active');
+                });
+            });
+            
+            // Mostrar/ocultar formulário de curso
+            const addCourseBtn = document.getElementById('addCourseBtn');
+            const courseForm = document.getElementById('courseForm');
+            
+            if (addCourseBtn && courseForm) {
+                addCourseBtn.addEventListener('click', function() {
+                    courseForm.style.display = courseForm.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+            
+            // Botão de logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function() {
+                    if (confirm('Deseja realmente sair da área administrativa?')) {
+                        // Redirecionar para a página de login
+                        window.location.href = 'login.html';
                     }
-                }
+                });
+            }
+            
+            // Simular visualização de curso/evento
+            const viewButtons = document.querySelectorAll('.admin-btn.view');
+            viewButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Visualizar detalhes - Esta funcionalidade abriria um modal com todos os detalhes');
+                });
+            });
+            
+            // Simular edição
+            const editButtons = document.querySelectorAll('.admin-btn.edit');
+            editButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('Editar item - Esta funcionalidade abriria um formulário de edição');
+                });
+            });
+            
+            // Simular exclusão
+            const deleteButtons = document.querySelectorAll('.admin-btn.delete');
+            deleteButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (confirm('Tem certeza que deseja excluir este item?')) {
+                        alert('Item excluído com sucesso!');
+                    }
+                });
             });
         });
     </script>

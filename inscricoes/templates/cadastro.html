@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Alunos - Instituto 17 de Dezembro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #00a8e8;
+            --accent-color: #0077cc;
+            --light-gray: #f5f5f5;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        /* Estilos Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .register-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+        
+        .register-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            display: none;
+        }
+        
+        .register-form {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .form-header {
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-header p {
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .register-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 86, 179, 0.2);
+        }
+        
+        .terms {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .terms input {
+            margin-right: 0.5rem;
+        }
+        
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-link {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsividade */
+        @media (min-width: 768px) {
+            .register-image {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .register-form {
+                padding: 2rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+         /* Estilos para os alertas */
+.alert-container {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.custom-alert {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+    gap: 1rem;
+}
+
+.custom-alert i {
+    font-size: 1.5rem;
+    margin-top: 2px;
+}
+
+.custom-alert div {
+    flex: 1;
+}
+
+.custom-alert strong {
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.custom-alert p {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.success {
+    background-color: #e8f5e9;
+    border-left: 4px solid #2e7d32;
+    color: #2e7d32;
+}
+
+.error {
+    background-color: #ffebee;
+    border-left: 4px solid #c62828;
+    color: #c62828;
+}
+
+.warning {
+    background-color: #fff8e1;
+    border-left: 4px solid #f9a825;
+    color: #f9a825;
+}
+
+.alert-close {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+    </style>
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <!-- Imagem de fundo -->
+        <div class="register-image"></div>
+        
+        <!-- Formulário de Cadastro -->
+        <div class="register-form">
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h1>17 de Dezembro</h1>
+                    <p>Sistema de Inscrições</p>
+                </div>
+            </a>
+            
+            <div class="form-header">
+                <h2>Crie sua conta</h2>
+                <p>Preencha os dados abaixo para se cadastrar</p>
+            </div>
+
+            <div class="alert-container">
+                {% if status == '0' %}
+                    <div class="custom-alert success">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <strong>Cadastro realizado com sucesso!</strong>
+                            <p>Bem-vindo ao IPIZ! Um e-mail de confirmação foi enviado para sua caixa de entrada.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            
+                {% if status == '1' %}
+                    <div class="custom-alert error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>Campos obrigatórios</strong>
+                            <p>Nome e senha são campos obrigatórios. Preencha todos os campos corretamente.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            
+                {% if status == '2' %}
+                    <div class="custom-alert warning">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>Senha fraca</strong>
+                            <p>A senha deve ter no mínimo 8 caracteres. Crie uma senha mais segura.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            
+                {% if status == '3' %}
+                    <div class="custom-alert error">
+                        <i class="fas fa-user-times"></i>
+                        <div>
+                            <strong>E-mail já cadastrado</strong>
+                            <p>Este e-mail já está em uso. Tente recuperar sua senha ou use outro e-mail.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            
+                {% if status == '4' %}
+                    <div class="custom-alert error">
+                        <i class="fas fa-bug"></i>
+                        <div>
+                            <strong>Erro no cadastro</strong>
+                            <p>Ocorreu um erro durante o cadastro. Por favor, tente novamente mais tarde.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+
+                {% if status == '5' %}
+                    <div class="custom-alert warning">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <strong>E-mail inválido</strong>
+                            <p>Por favor, insira um endereço de e-mail válido para continuar.</p>
+                        </div>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <form id="studentRegisterForm" action="{% url 'valida_cadastro_aluno' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">Nome</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input name="nome" type="text" id="firstName" placeholder="Digite seu nome" required>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input name="email" type="email" id="email" placeholder="Digite seu email" required>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input name="senha" type="password" id="password" placeholder="Crie uma senha" required>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                
+                
+                <div class="terms">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">Eu concordo com os <a href="#">Termos de Serviço</a> e <a href="#">Política de Privacidade</a></label>
+                </div>
+                
+                <button type="submit" class="register-btn">Cadastrar</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

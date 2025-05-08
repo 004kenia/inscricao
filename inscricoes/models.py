@@ -187,7 +187,24 @@ class EnvioMensagem(models.Model):
 
         
         
+class Area(models.Model):
+    nome = models.CharField(max_length=255, verbose_name="Nome da Área")
+    descricao = models.TextField(verbose_name="Descrição da Área", blank=True, null=True)
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        verbose_name = 'Área'
+        verbose_name_plural = 'Áreas'
+
 class Curso(models.Model):
+    area = models.ForeignKey(
+        Area, 
+        on_delete=models.SET_NULL, 
+        verbose_name="Área do Curso",
+        null=True,
+        blank=True
+    )
     nome = models.CharField(max_length=255, verbose_name="Nome do Curso")
     descricao = models.TextField(verbose_name="Descrição do Curso")
     duracao = models.CharField(max_length=50, verbose_name="Duração")

@@ -1,0 +1,415 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratórios e Oficinas - Instituto 17 de Dezembro</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos específicos para a página de laboratórios */
+        .laboratorios-section {
+            padding: 60px 0;
+        }
+        
+        .laboratorio-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .laboratorio-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .laboratorio-image {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .laboratorio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .laboratorio-card:hover .laboratorio-image img {
+            transform: scale(1.1);
+        }
+        
+        .laboratorio-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #0056b3;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .laboratorio-info {
+            padding: 20px;
+        }
+        
+        .laboratorio-info h3 {
+            margin: 0 0 10px;
+            color: #0056b3;
+        }
+        
+        .laboratorio-equipamentos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .equipamento-tag {
+            background-color: #e9f0f8;
+            color: #0056b3;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .laboratorio-detalhes {
+            margin-top: 15px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .departamento-title {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin: 40px 0 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader" id="preloader">
+            {% load static %}
+            <img src="{% static 'imagem/Logo IPIZ.png' %}" alt="Logotipo do Instituto 17 de Dezembro" class="preloader-logo">
+            <div class="preloader-text">Carregando...</div>
+        </div>
+        <div class="preloader-text">Carregando...</div>
+    </div>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h4>17 de Dezembro</h4>
+                    <p>Laboratórios e Oficinas</p>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links">
+                <a href="#">Início</a>
+                <a href="#eletrotecnica">Elétrica</a>
+                <a href="#informatica">Informática</a>
+                <a href="#mecanica">Mecânica</a>
+                <a href="#quimica">Química</a>
+                <a href="{% url 'login' %}">Login</a>
+            </nav>
+        </header>
+        
+        <!-- Menu Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#">Início</a>
+            <a href="#eletrotecnica">Elétrica</a>
+            <a href="#informatica">Informática</a>
+            <a href="#mecanica">Mecânica</a>
+            <a href="#quimica">Química</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        
+        <!-- Hero Section modificada para laboratórios -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Infraestrutura de Ponta</h2>
+                <p>Conheça nossos laboratórios e oficinas equipados com tecnologia de última geração para formação prática dos nossos alunos.</p>
+                <div>
+                    <button class="cta-button" id="scrollToLab">Conheça Nossos Espaços</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'imagem/laboratorios-hero.jpg' %}">
+            </div>
+        </section>
+        
+        <!-- Seção de Laboratórios -->
+        <section class="laboratorios-section" id="laboratorios">
+            <div class="section-header">
+                <h3>Nossos Laboratórios e Oficinas</h3>
+                <p>Ambientes equipados para proporcionar a melhor experiência prática aos nossos alunos</p>
+            </div>
+            
+            <!-- Laboratórios de Electrotecnia -->
+            <div id="eletrotecnica">
+                <h3 class="departamento-title">Laboratórios de Electricidade</h3>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-eletrica.jpg' %}" alt="Laboratório de Instalações Elétricas">
+                        <span class="laboratorio-badge">Capacidade: 20 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Instalações Elétricas</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Espaço equipado para práticas de instalações elétricas prediais e industriais, com quadros de distribuição, dispositivos de proteção e sistemas de aterramento.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Quadros de distribuição</span>
+                            <span class="equipamento-tag">Disjuntores</span>
+                            <span class="equipamento-tag">Medidores de energia</span>
+                            <span class="equipamento-tag">Sistemas de aterramento</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-automacao.jpg' %}" alt="Laboratório de Automação Industrial">
+                        <span class="laboratorio-badge">Capacidade: 15 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Automação Industrial</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Equipado com CLPs (Controladores Lógicos Programáveis), painéis de comando e sistemas de supervisão para práticas de automação de processos industriais.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">CLPs Siemens e Allen Bradley</span>
+                            <span class="equipamento-tag">Painéis de comando</span>
+                            <span class="equipamento-tag">Sensores industriais</span>
+                            <span class="equipamento-tag">Software de programação</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Laboratórios de Informática -->
+            <div id="informatica">
+                <h3 class="departamento-title">Laboratórios de Informática</h3>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-redes.jpg' %}" alt="Laboratório de Redes de Computadores">
+                        <span class="laboratorio-badge">Capacidade: 25 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Redes de Computadores</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Infraestrutura completa para montagem e configuração de redes locais, com roteadores, switches, cabos de rede e equipamentos de teste.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Roteadores Cisco</span>
+                            <span class="equipamento-tag">Switches gerenciáveis</span>
+                            <span class="equipamento-tag">Analisadores de rede</span>
+                            <span class="equipamento-tag">Servidores</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-programacao.jpg' %}" alt="Laboratório de Programação">
+                        <span class="laboratorio-badge">Capacidade: 30 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Programação</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Computadores de alto desempenho com ambientes de desenvolvimento para diversas linguagens de programação e bancos de dados.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Computadores i7</span>
+                            <span class="equipamento-tag">IDEs profissionais</span>
+                            <span class="equipamento-tag">Servidores de banco de dados</span>
+                            <span class="equipamento-tag">Kits de desenvolvimento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Oficinas de Mecânica -->
+            <div id="mecanica">
+                <h3 class="departamento-title">Oficinas de Mecânica Industrial</h3>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/oficina-mecanica.jpg' %}" alt="Oficina de Mecânica Industrial">
+                        <span class="laboratorio-badge">Capacidade: 18 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Oficina de Mecânica Industrial</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Espaço equipado com máquinas e ferramentas para práticas de usinagem, soldagem e manutenção mecânica industrial.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Tornos mecânicos</span>
+                            <span class="equipamento-tag">Fresadoras</span>
+                            <span class="equipamento-tag">Equipamentos de solda</span>
+                            <span class="equipamento-tag">Ferramentas de medição</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-cad.jpg' %}" alt="Laboratório de CAD/CAM">
+                        <span class="laboratorio-badge">Capacidade: 20 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de CAD/CAM</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Computadores com software especializado para desenho e projeto mecânico assistido por computador, além de impressora 3D para prototipagem.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">AutoCAD Mechanical</span>
+                            <span class="equipamento-tag">SolidWorks</span>
+                            <span class="equipamento-tag">Impressora 3D</span>
+                            <span class="equipamento-tag">Scanner 3D</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Laboratórios de Química -->
+            <div id="quimica">
+                <h3 class="departamento-title">Laboratórios de Química Industrial</h3>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-quimica.jpg' %}" alt="Laboratório de Análise Química">
+                        <span class="laboratorio-badge">Capacidade: 15 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Análise Química</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Equipado para análises químicas qualitativas e quantitativas, com instrumentos de medição e bancadas preparadas para experimentos seguros.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Espectrofotômetros</span>
+                            <span class="equipamento-tag">pHmetros</span>
+                            <span class="equipamento-tag">Balanças analíticas</span>
+                            <span class="equipamento-tag">Capelas de exaustão</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="laboratorio-card">
+                    <div class="laboratorio-image">
+                        <img src="{% static 'imagem/lab-processos.jpg' %}" alt="Laboratório de Processos Químicos">
+                        <span class="laboratorio-badge">Capacidade: 12 alunos</span>
+                    </div>
+                    <div class="laboratorio-info">
+                        <h3>Laboratório de Processos Químicos</h3>
+                        <div class="laboratorio-detalhes">
+                            <p>Miniplantas industriais para simulação de processos químicos como destilação, extração, reação e separação de componentes.</p>
+                        </div>
+                        <div class="laboratorio-equipamentos">
+                            <span class="equipamento-tag">Coluna de destilação</span>
+                            <span class="equipamento-tag">Reatores químicos</span>
+                            <span class="equipamento-tag">Sistema de filtração</span>
+                            <span class="equipamento-tag">Tanques de armazenamento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IPIZ 17 de Dezembro</div>
+            
+            <div class="footer-links">
+                <a href="#">Início</a>
+                <a href="#eletrotecnica">Elétrica</a>
+                <a href="#informatica">Informática</a>
+                <a href="#mecanica">Mecânica</a>
+                <a href="#quimica">Química</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'termo' %}">Termos e políticas</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fas fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-youtube"></i></a>
+            </div>
+            
+            <p class="copyright">© 2025 Instituto Politécnico Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Preloader
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.getElementById('preloader');
+            
+            // Simular um carregamento de 6 segundos
+            setTimeout(function() {
+                preloader.classList.add('fade-out');
+                
+                // Remover completamente o preloader após a animação
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 500); // Tempo da animação de fade
+            }, 2000);
+            
+            // Menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeMobileMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Fechar menu ao clicar em um link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Scroll suave para a seção de laboratórios
+            document.getElementById('scrollToLab').addEventListener('click', function() {
+                document.getElementById('laboratorios').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

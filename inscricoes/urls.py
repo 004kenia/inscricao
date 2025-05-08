@@ -15,7 +15,13 @@ urlpatterns = [
     path('eventos/', views.eventos, name='eventos'),
     path('evento/<int:id>/', views.detalhe_evento, name='detalhe_evento'),
     path('curso/<int:id>/', views.detalhe_curso, name='detalhe_curso'),
-    path('termo/', views.termo, name = 'termo')
+    path('termo/', views.termo, name = 'termo'),
+    path('login/', views.login, name = 'login'),
+    path('test-404/', views.trigger_404),
+    path('cadastro/', views.cadastro, name = 'cadastro'),
+    path('inscricao-detalhes/<int:inscricao_id>/', views.inscricao_detalhes, name='inscricao_detalhes'),
+    path('professor/', views.professor, name = 'professor'),
+    path('cursos/', views.todos_cursos, name='todos_cursos'),
     
 ]
 

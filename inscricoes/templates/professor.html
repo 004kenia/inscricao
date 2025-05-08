@@ -1,0 +1,475 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcerias - Instituto 17 de Dezembro</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos específicos para a página de parcerias */
+        .parcerias-section {
+            padding: 60px 0;
+        }
+        
+        .empresa-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 30px;
+        }
+        
+        .empresa-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .empresa-logo {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .empresa-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .empresa-info {
+            padding: 20px;
+        }
+        
+        .empresa-info h3 {
+            margin: 0 0 10px;
+            color: #0056b3;
+        }
+        
+        .empresa-setor {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .empresa-beneficios {
+            margin-top: 15px;
+        }
+        
+        .beneficio-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        
+        .beneficio-item i {
+            color: #0056b3;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .setor-title {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin: 40px 0 20px;
+            display: inline-block;
+        }
+        
+        .destaque-parceria {
+            background-color: #e9f0f8;
+            border-left: 4px solid #0056b3;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="preloader" id="preloader">
+        <div class="preloader" id="preloader">
+            {% load static %}
+            <img src="{% static 'imagem/Logo IPIZ.png' %}" alt="Logotipo do Instituto 17 de Dezembro" class="preloader-logo">
+            <div class="preloader-text">Carregando...</div>
+        </div>
+        <div class="preloader-text">Carregando...</div>
+    </div>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="#" class="logo">
+                <div class="logo-icon">IPIZ</div>
+                <div class="logo-text">
+                    <h4>17 de Dezembro</h4>
+                    <p>Empresas Parceiras</p>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav-links">
+                <a href="#">Início</a>
+                <a href="#industriais">Industriais</a>
+                <a href="#tecnologicas">Tecnológicas</a>
+                <a href="#energia">Energia</a>
+                <a href="#construcao">Construção</a>
+                <a href="{% url 'login' %}">Login</a>
+            </nav>
+        </header>
+        
+        <!-- Menu Mobile -->
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="close-mobile-menu" id="closeMobileMenu">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="#">Início</a>
+            <a href="#industriais">Industriais</a>
+            <a href="#tecnologicas">Tecnológicas</a>
+            <a href="#energia">Energia</a>
+            <a href="#construcao">Construção</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+        
+        <!-- Hero Section modificada para parcerias -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Parcerias que Transformam</h2>
+                <p>Conheça as empresas que colaboram com o IPIZ para oferecer estágios, empregos e desenvolvimento profissional aos nossos alunos.</p>
+                <div>
+                    <button class="cta-button" id="scrollToParcerias">Conheça Nossos Parceiros</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'imagem/parcerias-hero.jpg' %}">
+            </div>
+        </section>
+        
+        <!-- Destaque de Parceria -->
+        <div class="destaque-parceria">
+            <div class="container">
+                <h3><i class="fas fa-handshake"></i> Programa de Estágios IPIZ</h3>
+                <p>Nossas empresas parceiras oferecem mais de 200 vagas de estágio anualmente, proporcionando experiência prática e oportunidades de emprego para nossos estudantes.</p>
+            </div>
+        </div>
+        
+        <!-- Seção de Parcerias -->
+        <section class="parcerias-section" id="parcerias">
+            <div class="section-header">
+                <h3>Nossas Empresas Parceiras</h3>
+                <p>Relações estratégicas que beneficiam nossos alunos e a comunidade industrial</p>
+            </div>
+            
+            <!-- Empresas Industriais -->
+            <div id="industriais">
+                <h3 class="setor-title">Empresas Industriais</h3>
+                
+                <div class="empresas-grid">
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-industrial-1.png' %}" alt="Indústria Mecânica Angola">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Indústria Mecânica Angola</h3>
+                            <div class="empresa-setor">Manufatura e Montagem Industrial</div>
+                            <p>Líder na fabricação de componentes mecânicos para diversos setores da indústria angolana.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Oferece 50 vagas de estágio anual</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Programa de trainees exclusivo para formados no IPIZ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-industrial-2.png' %}" alt="Plásticos Modernos">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Plásticos Modernos</h3>
+                            <div class="empresa-setor">Indústria de Transformação</div>
+                            <p>Especializada na produção de embalagens plásticas e componentes para indústrias diversas.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Bolsas de estudo para alunos destaque</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Visitas técnicas mensais às instalações</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empresas de Tecnologia -->
+            <div id="tecnologicas">
+                <h3 class="setor-title">Empresas de Tecnologia</h3>
+                
+                <div class="empresas-grid">
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-tec-1.png' %}" alt="TechSolutions Angola">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>TechSolutions Angola</h3>
+                            <div class="empresa-setor">Tecnologia da Informação</div>
+                            <p>Desenvolvimento de software e soluções de automação industrial para o mercado angolano.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Laboratório de inovação compartilhado com o IPIZ</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Mentoria profissional para alunos de informática</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-tec-2.png' %}" alt="Automação Industrial SA">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Automação Industrial SA</h3>
+                            <div class="empresa-setor">Automação e Robótica</div>
+                            <p>Implementação de sistemas automatizados para indústrias de grande porte.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Certificações profissionais gratuitas para alunos</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Projetos conjuntos de pesquisa e desenvolvimento</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empresas de Energia -->
+            <div id="energia">
+                <h3 class="setor-title">Empresas de Energia</h3>
+                
+                <div class="empresas-grid">
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-energia-1.png' %}" alt="Energia Total Angola">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Energia Total Angola</h3>
+                            <div class="empresa-setor">Geração e Distribuição de Energia</div>
+                            <p>Uma das principais empresas do setor energético em Angola, com foco em soluções sustentáveis.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Programa de estágio remunerado</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Financiamento de projetos de eficiência energética</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-energia-2.png' %}" alt="SolarAngola">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>SolarAngola</h3>
+                            <div class="empresa-setor">Energias Renováveis</div>
+                            <p>Especializada em projetos de energia solar fotovoltaica para indústrias e residências.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Workshops técnicos mensais</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Bolsa de estudos para pesquisas em energias renováveis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empresas de Construção -->
+            <div id="construcao">
+                <h3 class="setor-title">Empresas de Construção</h3>
+                
+                <div class="empresas-grid">
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-construcao-1.png' %}" alt="Construtora Nacional">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Construtora Nacional</h3>
+                            <div class="empresa-setor">Construção Civil e Obras Públicas</div>
+                            <p>Responsável por grandes obras de infraestrutura em todo o território angolano.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Vagas prioritárias para técnicos formados no IPIZ</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Programa de capacitação em gestão de obras</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="empresa-card">
+                        <div class="empresa-logo">
+                            <img src="{% static 'imagem/logo-construcao-2.png' %}" alt="Materiais de Construção SA">
+                        </div>
+                        <div class="empresa-info">
+                            <h3>Materiais de Construção SA</h3>
+                            <div class="empresa-setor">Fabricação de Materiais</div>
+                            <p>Produção de materiais de construção de alta qualidade para o mercado nacional.</p>
+                            <div class="empresa-beneficios">
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Visitas técnicas às unidades de produção</span>
+                                </div>
+                                <div class="beneficio-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Parceria em pesquisas de novos materiais</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Benefícios das Parcerias -->
+            <div class="section-header" style="margin-top: 60px;">
+                <h3>Benefícios para Nossos Alunos</h3>
+                <p>Como essas parcerias contribuem para a formação profissional</p>
+            </div>
+            
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h4>Estágios Garantidos</h4>
+                    <p>Mais de 80% dos nossos alunos realizam estágios em empresas parceiras durante o curso</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h4>Empregabilidade</h4>
+                    <p>70% dos formados são contratados por empresas parceiras no primeiro ano após a conclusão</p>
+                </div>
+                
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h4>Projetos Reais</h4>
+                    <p>Oportunidade de trabalhar em projetos reais das empresas durante a formação</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">IPIZ 17 de Dezembro</div>
+            
+            <div class="footer-links">
+                <a href="#">Início</a>
+                <a href="#industriais">Industriais</a>
+                <a href="#tecnologicas">Tecnológicas</a>
+                <a href="#energia">Energia</a>
+                <a href="#construcao">Construção</a>
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'termo' %}">Termos e políticas</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fas fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fas fa-youtube"></i></a>
+            </div>
+            
+            <p class="copyright">© 2025 Instituto Politécnico Industrial 17 de Dezembro. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Preloader
+        document.addEventListener('DOMContentLoaded', function() {
+            const preloader = document.getElementById('preloader');
+            
+            // Simular um carregamento de 6 segundos
+            setTimeout(function() {
+                preloader.classList.add('fade-out');
+                
+                // Remover completamente o preloader após a animação
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 500); // Tempo da animação de fade
+            }, 2000);
+            
+            // Menu mobile
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            closeMobileMenu.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Fechar menu ao clicar em um link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+            
+            // Scroll suave para a seção de parcerias
+            document.getElementById('scrollToParcerias').addEventListener('click', function() {
+                document.getElementById('parcerias').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

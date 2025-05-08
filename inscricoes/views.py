@@ -17,8 +17,23 @@ from .models import Inscricao, Aluno, EnvioMensagem, Curso, Evento, Testimonial
 
 
 
+def login(request):
+    status = request.GET.get('status')
+    return render(request, 'login.html', {'status':status})
+
+def cadastro(request):
+    status = request.GET.get('status')
+    return render(request, 'cadastro.html', {'status':status})
+
+def trigger_404(request):
+    raise Http404("Página não encontrada")
+
+def erro_404_view(request, exception):
+    return render(request, '404.html', status=404)
+
+
 def eventos(request):
-    eventos = Evento.objects.all()  # Obtém todos os eventos
+    eventos = Evento.objects.all() 
     return render(request, 'index.html', {'eventos': eventos})
 
 def detalhe_evento(request, id):
@@ -70,13 +85,16 @@ def valida_cadastro_aluno(request):
     aluno = Aluno.objects.filter(email=email)
     
     if not nome or not senha or len(nome.strip()) == 0 or len(senha.strip()) == 0:
-        return redirect('/?status=1')
+        return redirect('/auth/cadastro/?status=1')
+    
+    if not email or '@' not in email or '.' not in email.split('@')[-1]:
+        return redirect('/cadastro/?status=5')  
     
     if len(senha) < 8:
-        return redirect('/?status=2')
+        return redirect('/auth/cadastro/?status=2')
     
     if aluno.exists():
-        return redirect('/?status=3')
+        return redirect('/auth/cadastro/?status=3')
     
     try:
         senha_hash = sha256(senha.encode()).hexdigest()
@@ -86,11 +104,11 @@ def valida_cadastro_aluno(request):
        
         enviar_email_boas_vindas(nome, email)
         
-        return redirect('/?status=0')
+        return redirect('/auth/cadastro/?status=0')
     
     except Exception as e:
         print(f"Erro ao cadastrar aluno: {e}")
-        return redirect('/?status=4')
+        return redirect('/auth/cadastro/?status=4')
 
 def enviar_email_boas_vindas(nome, email):
     assunto = "Bem-vindo ao IPIZ!"
@@ -123,14 +141,14 @@ def valida_login_aluno(request):
     senha = request.POST.get('senha')
     
     if not email or not senha:
-        return redirect('/?status=1')
+        return redirect('/auth/login/?status=1')
     
     try:
         senha_hash = sha256(senha.encode()).hexdigest()
         aluno = Aluno.objects.get(email=email)
         
         if not aluno.ativo:
-            return redirect('/?status=2')
+            return redirect('/auth/login/?status=2')
             
             
         request.session['aluno'] = aluno.id
@@ -138,9 +156,9 @@ def valida_login_aluno(request):
         return redirect('/auth/ficha?status=0')
         
     except Aluno.DoesNotExist:
-        return redirect('/?status=1')
+        return redirect('/auth/login/?status=1')
     except Exception as e:
-        return redirect('/?status=3')
+        return redirect('/auth/login/?status=3')
     
     
 
@@ -244,13 +262,11 @@ def salvar_inscricao(request):
                 inscricao.email
             )
 
-            if not email_enviado:
-                print("Aviso: E-mail de confirmação não foi enviado, mas a inscrição foi salva")
-
             return JsonResponse({
                 'success': True,
-                'message': 'Inscrição realizada com sucesso!',
+                'message': 'Inscrição realizada com sucesso! Em breve você receberá um e-mail de confirmação.',
                 'inscricao_id': inscricao.id
+                
             })
 
         except Exception as e:
@@ -264,6 +280,7 @@ def salvar_inscricao(request):
         'success': False,
         'message': 'Método não permitido'
     }, status=405)
+
 
 
         
@@ -281,3 +298,36 @@ def cursos(request):
 def termo(request):
     return render(request, 'termo.html')
 
+
+def inscricao_detalhes(request, inscricao_id):
+    try:
+        inscricao = Inscricao.objects.get(id=inscricao_id)
+        return render(request, 'detalhe_inscricao.html', {
+            'inscricao': inscricao,
+            'title': f'Inscrição #{inscricao.id}',
+            'status': 'success'
+        })
+    except Inscricao.DoesNotExist:
+        messages.error(request, 'Inscrição não encontrada')
+        return redirect('home')
+    except Exception as e:
+        messages.error(request, f'Ocorreu um erro: {str(e)}')
+        return redirect('home')
+    
+def professor(request):
+    return render(request, 'professor.html')
+
+
+def todos_cursos(request):
+    cursos_eletrica = Curso.objects.filter(area='ELETRICA')
+    cursos_informatica = Curso.objects.filter(area='INFORMATICA')
+    cursos_mecanica = Curso.objects.filter(area='MECANICA')
+    cursos_quimica = Curso.objects.filter(area='QUIMICA')
+    
+    context = {
+        'cursos_eletrica': cursos_eletrica,
+        'cursos_informatica': cursos_informatica,
+        'cursos_mecanica': cursos_mecanica,
+        'cursos_quimica': cursos_quimica,
+    }
+    return render(request, 'cursos.html', context)

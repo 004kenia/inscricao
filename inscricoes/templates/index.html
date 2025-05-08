@@ -42,7 +42,7 @@
                 <a href="#testimonials">Depoimentos</a>
                 <a href="#stats">Estatísticas</a>
                 <a href="#faq">FAQ</a>
-                <a href="#" id="openLogin">Login</a>
+                <a href="{% url 'login' %}" >Login</a>
             </nav>
         </header>
         
@@ -108,14 +108,6 @@
                     <h4>Parcerias com Empresas</h4>
                     <p>Oportunidades de estágio e emprego nas principais indústrias da região</p>
                 </div>
-                
-                <div class="highlight-card">
-                    <div class="highlight-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h4>Alta Empregabilidade</h4>
-                    <p>Mais de 90% dos nossos alunos estão empregados no primeiro ano após formação</p>
-                </div>
             </div>
         </section>
         
@@ -154,16 +146,16 @@
             </div>
         </section>
         
-        
+      
         <!-- Seção de Cursos -->
         <section class="courses-section" id="courses">
             <div class="section-header">
                 <h3>Cursos Disponíveis</h3>
                 <p>Conheça nossos programas técnicos e escolha o que melhor se adapta ao seu perfil</p>
             </div>
-            
+        
             <div class="courses-grid">
-                {% for curso in curso %}
+                {% for curso in curso|slice:":6" %}
                     <div class="course-card">
                         <div class="course-image">
                             <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
@@ -172,8 +164,10 @@
                             {% endif %}
                         </div>
                         <div class="course-content">
-                            <a style="text-align: none;" href="{% url 'detalhe_curso' curso.id %}"><h4 class="course-title" data-course="{{ curso.nome|lower }}">{{ curso.nome }}</h4></a>
-                            <p>{{ curso.descricao }}</p>
+                            <a style="text-align: none;" href="{% url 'detalhe_curso' curso.id %}">
+                                <h4 class="course-title" data-course="{{ curso.nome|lower }}">{{ curso.nome }}</h4>
+                            </a>
+                            <p>{{ curso.descricao|truncatechars:70 }}</p>
                             <div class="course-meta">
                                 <div class="course-duration">
                                     <i class="far fa-clock"></i>
@@ -184,6 +178,10 @@
                         </div>
                     </div>
                 {% endfor %}
+            </div>
+        
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="#" class="course-button">Ver mais cursos</a>
             </div>
         </section>
         
@@ -199,7 +197,7 @@
             </div>
             
             <div class="events-grid">
-                {% for evento in eventos %}
+                {% for evento in eventos|slice:":6" %}
                     <div class="event-card" data-event="{{ evento.nome|slugify }}">
                         <div class="event-date">{{ evento.data|date:"d M" }}</div>
                         <div class="event-image">
@@ -222,6 +220,10 @@
                     </div>
                 {% endfor %}
             </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="#" class="course-button">Ver mais eventos</a>
+            </div>
+            
         </section>
         
         
@@ -309,6 +311,8 @@
             </div>
         </section>
     </div>
+
+    
     
     <!-- Modal de Documentos Necessários -->
     <div class="modal" id="requirementsModal">
@@ -343,7 +347,7 @@
         <h3>Acesse o Sistema</h3>
         <p>Faça login para iniciar e continuar sua inscrição</p>
         
-        <form class="login-form" id="loginForm" action="{% url 'valida_login_aluno' %}" method="POST">
+        <form class="login-form" id="loginForm" action="#" method="POST">
             {% csrf_token %}
             <div class="form-group">
                 <label for="username">Email</label>
@@ -573,6 +577,8 @@ document.querySelectorAll('[id^="open"], #mobileLogin, #footerLogin').forEach(el
             </div>
         </div>
     </div>
+
+    
 
     <section class="testimonials-section">
         <h2>O que os nossos Professores e Alunos dizem</h2>

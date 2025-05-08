@@ -38,7 +38,21 @@
             <span class="separator">/</span>
             <span>Formulário de Inscrição</span>
         </div>
-        
+        <!-- Adicione isso no cabeçalho do seu template -->
+        <div id="messageToast" class="toast-container">
+            <div class="toast-message">
+                <div class="toast-icon">
+                    <i id="toastIcon" class="fas fa-check-circle"></i>
+                </div>
+                <div class="toast-content">
+                    <h4 id="toastTitle">Sucesso</h4>
+                    <p id="toastMessage">Inscrição realizada com sucesso!</p>
+                </div>
+                <button class="toast-close" onclick="hideToast()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
         <div class="application-container">
             <div class="application-header">
                 <h2>Formulário de Inscrição</h2>
@@ -464,6 +478,102 @@ document.getElementById('medicalReport').addEventListener('change', function(e) 
 document.getElementById('idCopy').addEventListener('change', function(e) {
     const fileName = e.target.files[0] ? e.target.files[0].name : 'Nenhum arquivo selecionado';
     document.getElementById('idCopyFileName').textContent = fileName;
+});
+</script>
+<script>
+    // Funções para mostrar/ocultar mensagens
+function showToast(type, title, message, duration = 5000) {
+    const toast = document.getElementById('messageToast');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMessage = document.getElementById('toastMessage');
+    
+    // Reset classes
+    toast.className = 'toast-container';
+    toast.classList.add(`toast-${type}`);
+    
+    // Definir ícone com base no tipo
+    switch(type) {
+        case 'success':
+            toastIcon.className = 'fas fa-check-circle';
+            break;
+        case 'error':
+            toastIcon.className = 'fas fa-exclamation-circle';
+            break;
+        case 'warning':
+            toastIcon.className = 'fas fa-exclamation-triangle';
+            break;
+        default:
+            toastIcon.className = 'fas fa-info-circle';
+    }
+    
+    // Definir conteúdo
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+    
+    // Mostrar toast
+    toast.style.display = 'flex';
+    
+    // Ocultar automaticamente após o tempo definido
+    if (duration > 0) {
+        setTimeout(hideToast, duration);
+    }
+}
+
+function hideToast() {
+    const toast = document.getElementById('messageToast');
+    toast.style.animation = 'fadeOut 0.3s forwards';
+    toast.addEventListener('animationend', () => {
+        toast.style.display = 'none';
+        toast.style.animation = '';
+    }, { once: true });
+}
+
+// Modificar o evento de submit do formulário
+document.getElementById('applicationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const submitBtn = this.querySelector('button[type="submit"]');
+    
+    // Desativar botão durante o envio
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+    
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro na rede');
+        }
+        return response.json();
+    })
+    .then(data => {
+    if (data.success) {
+        showToast('success', 'Sucesso!', data.message);
+        
+        // Adicione a barra no final da URL
+        setTimeout(() => {
+            window.location.href = `/inscricao-detalhes/${data.inscricao_id}/`;
+        }, 3000);
+    } else {
+        showToast('error', 'Erro', data.message);
+    }
+})
+    .catch(error => {
+        showToast('error', 'Erro', 'Ocorreu um erro ao processar sua inscrição. Por favor, tente novamente.');
+        console.error('Error:', error);
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar Inscrição';
+    });
 });
 </script>
 </body>
