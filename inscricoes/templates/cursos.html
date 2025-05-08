@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        /* Variáveis */
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2c3e50;
+        --accent-color: #e74c3c;
+        --light-gray: #f8f9fa;
+        --dark-gray: #343a40;
+        --text-color: #333;
+        --text-light: #6c757d;
+    }
+    
+    /* Reset e Estilos Base */
+    .courses-page {
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Hero Section */
+    .courses-hero {
+        background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        color: white;
+        padding: 100px 0;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .courses-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+    }
+    
+    .courses-hero p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .cta-button {
+        display: inline-block;
+        background-color: white;
+        color: var(--primary-color);
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Section Header */
+    .section-header {
+        text-align: center;
+        margin: 60px 0 40px;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+    }
+    
+    .section-header p {
+        color: var(--text-light);
+        font-size: 1.1rem;
+    }
+    
+    /* Filtros */
+    .area-filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+    
+    .filter-btn {
+        padding: 10px 20px;
+        border: 2px solid var(--primary-color);
+        background: none;
+        color: var(--primary-color);
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .filter-btn i {
+        font-size: 1.1rem;
+    }
+    
+    .filter-btn:hover, .filter-btn.active {
+        background-color: var(--primary-color);
+        color: white;
+    }
+    
+    /* Áreas e Cursos */
+    .area-section {
+        margin-bottom: 60px;
+    }
+    
+    .area-header {
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--light-gray);
+    }
+    
+    .area-header h3 {
+        font-size: 1.8rem;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .area-header p {
+        color: var(--text-light);
+        margin-top: 10px;
+    }
+    
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+    }
+    
+    /* Cartão de Curso */
+    .course-card {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .course-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-image {
+        position: relative;
+        height: 180px;
+        overflow: hidden;
+    }
+    
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .course-card:hover .card-image img {
+        transform: scale(1.05);
+    }
+    
+    .highlight-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background-color: var(--accent-color);
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .card-content {
+        padding: 20px;
+        flex-grow: 1;
+    }
+    
+    .card-content h4 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: var(--secondary-color);
+    }
+    
+    .description {
+        color: var(--text-light);
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+    }
+    
+    .course-meta {
+        display: flex;
+        align-items: center;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+        margin-top: 15px;
+    }
+    
+    .course-meta i {
+        margin-right: 5px;
+    }
+    
+    .card-actions {
+        padding: 0 20px 20px;
+    }
+    
+    .details-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background-color: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+    
+    .details-btn:hover {
+        background-color: var(--secondary-color);
+    }
+    
+    /* Área Vazia */
+    .empty-area {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 40px;
+        background-color: var(--light-gray);
+        border-radius: 10px;
+    }
+    
+    /* CTA Final */
+    .cta-section {
+        background-color: var(--secondary-color);
+        color: white;
+        padding: 60px 0;
+        text-align: center;
+        margin-top: 60px;
+    }
+    
+    .cta-section h2 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+    
+    .cta-section p {
+        margin-bottom: 25px;
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+    
+    .cta-section .cta-button {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    .cta-section .cta-button:hover {
+        background-color: #c0392b;
+    }
+    
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .courses-hero h1 {
+            font-size: 2.2rem;
+        }
+        
+        .courses-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .courses-hero {
+            padding: 70px 0;
+        }
+        
+        .area-filters {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .filter-btn {
+            justify-content: center;
+        }
+    }
+    </style>
+    
+    <section class="courses-page">
+        <!-- Banner Hero -->
+        <div class="courses-hero">
+            <div class="hero-content">
+                <h1>Nossos Cursos Técnicos</h1>
+                <p>Encontre o programa perfeito para sua carreira profissional</p>
+                <a href="#areas" class="cta-button">Explorar Cursos</a>
+            </div>
+        </div>
+    
+        <!-- Áreas de Formação -->
+        <div class="container" id="areas">
+            <div class="section-header">
+                <h2>Cursos por Área de Formação</h2>
+                <p>Selecione uma área para filtrar os cursos</p>
+            </div>
+    
+            <!-- Filtros -->
+            <div class="area-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                {% for area_data in areas_com_cursos %}
+                    <button class="filter-btn" data-filter="area-{{ area_data.area.id }}">
+                        {% if area_data.area.icone %}
+                        <i class="{{ area_data.area.icone }}"></i>
+                        {% endif %}
+                        {{ area_data.area.nome }}
+                    </button>
+                {% endfor %}
+            </div>
+    
+            <!-- Lista de Cursos -->
+            <div class="courses-container">
+                {% for area_data in areas_com_cursos %}
+                <div class="area-section" id="area-{{ area_data.area.id }}">
+                    <div class="area-header">
+                        <h3>
+                            {% if area_data.area.icone %}
+                            <i class="{{ area_data.area.icone }}"></i>
+                            {% endif %}
+                            {{ area_data.area.nome }}
+                        </h3>
+                        {% if area_data.area.descricao %}
+                        <p>{{ area_data.area.descricao }}</p>
+                        {% endif %}
+                    </div>
+    
+                    <div class="courses-grid">
+                        {% for curso in area_data.cursos %}
+                        <div class="course-card">
+                            <div class="card-image">
+                                <img src="{{ curso.imagem.url }}" alt="{{ curso.nome }}">
+                                {% if curso.destaque %}
+                                <span class="highlight-badge">Destaque</span>
+                                {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <h4>{{ curso.nome }}</h4>
+                                <p class="description">{{ curso.descricao|truncatechars:100 }}</p>
+                                <div class="course-meta">
+                                    <span class="duration">
+                                        <i class="far fa-clock"></i> {{ curso.duracao }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <a href="{% url 'detalhe_curso' curso.id %}" class="details-btn">
+                                    Ver Detalhes <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="empty-area">
+                            <p>Nenhum curso disponível nesta área no momento.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <!-- CTA Final -->
+        <div class="cta-section">
+            <div class="container">
+                <h2>Pronto para transformar sua carreira?</h2>
+                <p>Entre em contato conosco para mais informações</p>
+                <a href="#" class="cta-button">Fale Conosco</a>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        // Filtro de Áreas
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const areaSections = document.querySelectorAll('.area-section');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove a classe active de todos os botões
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Adiciona a classe active ao botão clicado
+                button.classList.add('active');
+                
+                const filterValue = button.getAttribute('data-filter');
+                
+                // Mostra/oculta as seções conforme o filtro
+                areaSections.forEach(section => {
+                    if (filterValue === 'all' || section.id === filterValue) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Rola suavemente para a seção se não for "todos"
+                if (filterValue !== 'all') {
+                    const targetSection = document.getElementById(filterValue);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Animação dos cards ao aparecer na tela
+        const observerOptions = {
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.course-card').forEach(card => {
+            observer.observe(card);
+        });
+    });
+    </script>
+    
+</body>
+</html>

@@ -21,7 +21,7 @@ urlpatterns = [
     path('cadastro/', views.cadastro, name = 'cadastro'),
     path('inscricao-detalhes/<int:inscricao_id>/', views.inscricao_detalhes, name='inscricao_detalhes'),
     path('professor/', views.professor, name = 'professor'),
-    path('cursos/', views.todos_cursos, name='todos_cursos'),
+    path('todos_cursos/', views.todos_cursos, name='todos_cursos'),
     
 ]
 

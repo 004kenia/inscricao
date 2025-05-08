@@ -13,7 +13,7 @@ from hashlib import sha256
 from datetime import datetime
 import os
 from django.shortcuts import render, get_object_or_404
-from .models import Inscricao, Aluno, EnvioMensagem, Curso, Evento, Testimonial
+from .models import Inscricao, Aluno, EnvioMensagem, Curso, Evento, Testimonial, Area
 
 
 
@@ -319,15 +319,16 @@ def professor(request):
 
 
 def todos_cursos(request):
-    cursos_eletrica = Curso.objects.filter(area='ELETRICA')
-    cursos_informatica = Curso.objects.filter(area='INFORMATICA')
-    cursos_mecanica = Curso.objects.filter(area='MECANICA')
-    cursos_quimica = Curso.objects.filter(area='QUIMICA')
+    areas = Area.objects.all()
+    areas_com_cursos = []
+    
+    for area in areas:
+        areas_com_cursos.append({
+            'area': area,
+            'cursos': Curso.objects.filter(area=area)
+        })
     
     context = {
-        'cursos_eletrica': cursos_eletrica,
-        'cursos_informatica': cursos_informatica,
-        'cursos_mecanica': cursos_mecanica,
-        'cursos_quimica': cursos_quimica,
+        'areas_com_cursos': areas_com_cursos
     }
     return render(request, 'cursos.html', context)

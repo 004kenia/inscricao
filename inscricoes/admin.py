@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (
     Aluno, PerfilAluno, Inscricao, EnvioMensagem,
-    Curso, Evento, Testimonial, professor
+    Curso, Evento, Testimonial, professor, Area
 )
 
 
@@ -13,6 +13,7 @@ class TestimonialAdmin(admin.ModelAdmin):
     search_fields = ('name', 'message')
 
 admin.site.register(Aluno) 
+admin.site.register(Area) 
 admin.site.register(PerfilAluno)
 admin.site.register(Inscricao)
 admin.site.register(EnvioMensagem)
