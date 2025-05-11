@@ -184,8 +184,6 @@ class EnvioMensagem(models.Model):
             self.save()
 
 
-
-        
         
 class Area(models.Model):
     nome = models.CharField(max_length=255, verbose_name="Nome da Área")
@@ -258,3 +256,178 @@ class professor(models.Model):
     
     def __str__(self):
         return f" professor: {self.nome}"
+
+
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+class Departamento(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    descricao = models.TextField(blank=True, null=True)
+    ativo = models.BooleanField(default=True)
+    icone = models.CharField(max_length=50, blank=True, null=True)  
+    
+    class Meta:
+        verbose_name = "Departamento"
+        verbose_name_plural = "Departamentos"
+        ordering = ['nome']
+    
+    def __str__(self):
+        return self.nome
+
+class Disciplina(models.Model):
+    nome = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=10, blank=True, null=True)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+    carga_horaria = models.PositiveIntegerField()
+    descricao = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Disciplina"
+        verbose_name_plural = "Disciplinas"
+        ordering = ['nome']
+        unique_together = ['nome', 'departamento']
+    
+    def __str__(self):
+        return f"{self.nome} ({self.departamento})"
+
+class FormacaoAcademica(models.Model):
+    GRAU_CHOICES = [
+        ('GR', 'Graduação'),
+        ('ES', 'Especialização'),
+        ('ME', 'Mestrado'),
+        ('DO', 'Doutorado'),
+        ('PD', 'Pós-Doutorado'),
+    ]
+    
+    grau = models.CharField(max_length=2, choices=GRAU_CHOICES)
+    curso = models.CharField(max_length=100)
+    instituicao = models.CharField(max_length=100)
+    ano_conclusao = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1900),
+            MaxValueValidator(2100)
+        ]
+    )
+    descricao = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Formação Acadêmica"
+        verbose_name_plural = "Formações Acadêmicas"
+        ordering = ['-ano_conclusao', 'grau']
+    
+    def __str__(self):
+        return f"{self.get_grau_display()} em {self.curso} - {self.instituicao} ({self.ano_conclusao})"
+
+class ExperienciaProfissional(models.Model):
+    cargo = models.CharField(max_length=100)
+    empresa = models.CharField(max_length=100)
+    data_inicio = models.DateField()
+    data_fim = models.DateField(blank=True, null=True)  # Null significa que ainda trabalha lá
+    descricao = models.TextField(blank=True, null=True)
+    atual = models.BooleanField(default=False)
+    
+    class Meta:
+        verbose_name = "Experiência Profissional"
+        verbose_name_plural = "Experiências Profissionais"
+        ordering = ['-data_inicio']
+    
+    def __str__(self):
+        return f"{self.cargo} na {self.empresa}"
+
+class AreaPesquisa(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Área de Pesquisa"
+        verbose_name_plural = "Áreas de Pesquisa"
+        ordering = ['nome']
+    
+    def __str__(self):
+        return self.nome
+
+class Publicacao(models.Model):
+    TIPO_CHOICES = [
+        ('AR', 'Artigo'),
+        ('LI', 'Livro'),
+        ('CP', 'Capítulo de Livro'),
+        ('TR', 'Trabalho em Conferência'),
+        ('OU', 'Outro'),
+    ]
+    
+    titulo = models.CharField(max_length=200)
+    tipo = models.CharField(max_length=2, choices=TIPO_CHOICES)
+    autores = models.CharField(max_length=300)
+    veiculo = models.CharField(max_length=100)  
+    ano = models.PositiveIntegerField(
+        validators=[
+            MinValueValidator(1900),
+            MaxValueValidator(2100)
+        ]
+    )
+    link = models.URLField(blank=True, null=True)
+    descricao = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name = "Publicação"
+        verbose_name_plural = "Publicações"
+        ordering = ['-ano', 'titulo']
+    
+    def __str__(self):
+        return f"{self.titulo} ({self.ano})"
+
+class Docente(models.Model):
+    CARGO_CHOICES = [
+        ('PR', 'Professor'),
+        ('CO', 'Coordenador'),
+        ('DC', 'Diretor de Curso'),
+        ('DP', 'Diretor de Departamento'),
+    ]
+    
+    NIVEL_CHOICES = [
+        ('AS', 'Assistente'),
+        ('AD', 'Adjunto'),
+        ('TI', 'Titular'),
+        ('VI', 'Visitante'),
+    ]
+    
+    nome = models.CharField(max_length=100)
+    foto = models.ImageField(upload_to='docentes/', blank=True, null=True)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
+    cargo = models.CharField(max_length=2, choices=CARGO_CHOICES, default='PR')
+    nivel = models.CharField(max_length=2, choices=NIVEL_CHOICES, default='AS')
+    email = models.EmailField()
+    telefone = models.CharField(max_length=20, blank=True, null=True)
+    lattes = models.URLField(blank=True, null=True)
+    biografia = models.TextField(blank=True, null=True)
+    
+    disciplinas = models.ManyToManyField(Disciplina, blank=True)
+    formacao = models.ManyToManyField(FormacaoAcademica, blank=True)
+    experiencia = models.ManyToManyField(ExperienciaProfissional, blank=True)
+    areas_pesquisa = models.ManyToManyField(AreaPesquisa, blank=True)
+    publicacoes = models.ManyToManyField(Publicacao, blank=True)
+    
+    horario_atendimento = models.TextField(blank=True, null=True)
+    
+    ativo = models.BooleanField(default=True)
+    data_cadastro = models.DateTimeField(auto_now_add=True)
+    data_atualizacao = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Docente"
+        verbose_name_plural = "Docentes"
+        ordering = ['nome']
+    
+    def __str__(self):
+        return f"{self.nome} ({self.get_cargo_display()})"
+    
+    @property
+    def coordenador_departamento(self):
+        return self.cargo == 'DP' or self.cargo == 'CO'
+    
+    def get_disciplinas_str(self):
+        return ", ".join([d.nome for d in self.disciplinas.all()])
+    
+    def get_areas_pesquisa_str(self):
+        return ", ".join([a.nome for a in self.areas_pesquisa.all()])

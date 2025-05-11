@@ -4,90 +4,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parcerias - Instituto 17 de Dezembro</title>
+    <title>Corpo Docente - Instituto 17 de Dezembro</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estilos específicos para a página de parcerias */
-        .parcerias-section {
+        /* Estilos específicos para a seção de docentes */
+        .docentes-section {
             padding: 60px 0;
         }
         
-        .empresa-card {
+        .docentes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .docente-card {
             background: white;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
-            margin-bottom: 30px;
         }
         
-        .empresa-card:hover {
+        .docente-card:hover {
             transform: translateY(-10px);
         }
         
-        .empresa-logo {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .docente-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .docente-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .docente-card:hover .docente-image img {
+            transform: scale(1.1);
+        }
+        
+        .docente-info {
             padding: 20px;
-            background-color: #f9f9f9;
-            border-bottom: 1px solid #eee;
         }
         
-        .empresa-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        
-        .empresa-info {
-            padding: 20px;
-        }
-        
-        .empresa-info h3 {
+        .docente-info h4 {
             margin: 0 0 10px;
             color: #0056b3;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
         
-        .empresa-setor {
+        .docente-info h4:hover {
+            text-decoration: underline;
+        }
+        
+        .docente-cargo {
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
         
-        .empresa-beneficios {
+        .docente-disciplinas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
             margin-top: 15px;
         }
         
-        .beneficio-item {
+        .disciplina-tag {
+            background-color: #e9f0f8;
+            color: #0056b3;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        /* Modal de perfil do docente - mantendo o mesmo estilo dos outros modais */
+        .docente-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
             display: flex;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .docente-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .docente-modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .docente-modal-header {
+            padding: 30px;
+            background-color: #f5f9ff;
+            border-bottom: 1px solid #e0e9f5;
+            display: flex;
+            align-items: center;
+        }
+        
+        .docente-modal-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 30px;
+            border: 5px solid white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .docente-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .docente-modal-title h3 {
+            margin: 0 0 5px;
+            color: #0056b3;
+        }
+        
+        .docente-modal-departamento {
+            display: inline-block;
+            background-color: #0056b3;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .docente-modal-contato {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .contato-item {
+            display: flex;
+            align-items: center;
+            color: #444;
+            font-size: 0.9rem;
+        }
+        
+        .contato-item i {
+            margin-right: 8px;
+            color: #0056b3;
+        }
+        
+        .docente-modal-body {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .docente-section {
+            margin-bottom: 25px;
+        }
+        
+        .docente-section h4 {
+            color: #0056b3;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e9f5;
+        }
+        
+        .docente-section p, .docente-section ul {
+            color: #444;
+            line-height: 1.6;
+        }
+        
+        .docente-section ul {
+            padding-left: 20px;
+        }
+        
+        .docente-section li {
             margin-bottom: 8px;
         }
         
-        .beneficio-item i {
-            color: #0056b3;
-            margin-right: 10px;
-            margin-top: 3px;
+        .disciplinas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .setor-title {
-            background-color: #0056b3;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 5px;
-            margin: 40px 0 20px;
-            display: inline-block;
-        }
-        
-        .destaque-parceria {
+        .disciplina-tag-large {
             background-color: #e9f0f8;
-            border-left: 4px solid #0056b3;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 0 5px 5px 0;
+            color: #0056b3;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .docente-modal-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .docente-modal-image {
+                margin: 0 auto 20px;
+            }
+            
+            .docente-modal-body {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .docente-modal-contato {
+                justify-content: center;
+            }
+            
+            .docentes-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -104,11 +258,11 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <a href="#" class="logo">
+            <a href="{% url 'home' %}" class="logo">
                 <div class="logo-icon">IPIZ</div>
                 <div class="logo-text">
                     <h4>17 de Dezembro</h4>
-                    <p>Empresas Parceiras</p>
+                    <p>Corpo Docente</p>
                 </div>
             </a>
             
@@ -117,11 +271,11 @@
             </button>
             
             <nav class="nav-links">
-                <a href="#">Início</a>
-                <a href="#industriais">Industriais</a>
-                <a href="#tecnologicas">Tecnológicas</a>
-                <a href="#energia">Energia</a>
-                <a href="#construcao">Construção</a>
+                <a href="{% url 'home' %}">Início</a>
+                <a href="#eletrotecnica">Electricidade</a>
+                <a href="#informatica">Informática</a>
+                <a href="#mecanica">Mecânica</a>
+                <a href="#quimica">Química</a>
                 <a href="{% url 'login' %}">Login</a>
             </nav>
         </header>
@@ -131,271 +285,183 @@
             <button class="close-mobile-menu" id="closeMobileMenu">
                 <i class="fas fa-times"></i>
             </button>
-            <a href="#">Início</a>
-            <a href="#industriais">Industriais</a>
-            <a href="#tecnologicas">Tecnológicas</a>
-            <a href="#energia">Energia</a>
-            <a href="#construcao">Construção</a>
+            <a href="{% url 'home' %}">Início</a>
+            <a href="#eletrotecnica">Electricidade</a>
+            <a href="#informatica">Informática</a>
+            <a href="#mecanica">Mecânica</a>
+            <a href="#quimica">Química</a>
             <a href="{% url 'login' %}">Login</a>
         </div>
         
-        <!-- Hero Section modificada para parcerias -->
+        <!-- Hero Section modificada para docentes -->
         <section class="hero">
             <div class="hero-content">
-                <h2>Parcerias que Transformam</h2>
-                <p>Conheça as empresas que colaboram com o IPIZ para oferecer estágios, empregos e desenvolvimento profissional aos nossos alunos.</p>
+                <h2>Conheça Nosso Corpo Docente</h2>
+                <p>Professores qualificados com ampla experiência acadêmica e profissional, comprometidos com a excelência no ensino técnico e formação profissional dos nossos alunos.</p>
                 <div>
-                    <button class="cta-button" id="scrollToParcerias">Conheça Nossos Parceiros</button>
+                    <button class="cta-button" id="scrollToDocentes">Ver Docentes</button>
                 </div>
             </div>
             <div class="hero-image">
-                <img src="{% static 'imagem/parcerias-hero.jpg' %}">
+                <img src="{% static 'imagem/professores-hero.jpg' %}">
             </div>
         </section>
         
-        <!-- Destaque de Parceria -->
-        <div class="destaque-parceria">
-            <div class="container">
-                <h3><i class="fas fa-handshake"></i> Programa de Estágios IPIZ</h3>
-                <p>Nossas empresas parceiras oferecem mais de 200 vagas de estágio anualmente, proporcionando experiência prática e oportunidades de emprego para nossos estudantes.</p>
+        <!-- Seção de Docentes -->
+<!-- Seção de Docentes -->
+<section class="docentes-section" id="docentes">
+    <div class="section-header">
+        <h3>Nossos Professores</h3>
+        <p>Conheça a equipe de profissionais que fazem do IPIZ uma referência em ensino técnico</p>
+    </div>
+    
+    {% if departamentos_data %}
+        {% for dept_data in departamentos_data %}
+        <div class="departamentos-container" id="{{ dept_data.obj.nome|slugify }}">
+            <div class="section-header">
+                <h3>{{ dept_data.obj.nome }}</h3>
+                {% if dept_data.obj.descricao %}
+                <p class="dept-description">{{ dept_data.obj.descricao }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="docentes-grid">
+                {% for docente in dept_data.docentes %}
+                <div class="docente-card">
+                    <div class="docente-image">
+                        {% if docente.foto %}
+                            <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}" loading="lazy">
+                        {% else %}
+                            <img src="{% static 'imagem/docente-default.jpg' %}" alt="{{ docente.nome }}" loading="lazy">
+                        {% endif %}
+                    </div>
+                    <div class="docente-info">
+                        <h4 class="docente-nome" onclick="openDocenteModal({{ docente.id }})">
+                            {{ docente.nome }}
+                        </h4>
+                        <div class="docente-cargo">
+                            <span class="nivel">{{ docente.get_nivel_display }}</span>
+                            {% if docente.cargo != 'PR' %}
+                            <span class="cargo">| {{ docente.get_cargo_display }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="docente-disciplinas">
+                            {% for disciplina in docente.disciplinas.all|slice:":2" %}
+                                <span class="disciplina-tag">{{ disciplina.nome }}</span>
+                            {% endfor %}
+                            {% if docente.disciplinas.count > 2 %}
+                                <span class="disciplina-tag mais-disciplinas">+{{ docente.disciplinas.count|add:-2 }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            <p>Nenhum departamento com professores cadastrados no momento.</p>
+        </div>
+    {% endif %}
+</section>
+
+<!-- Modal de Perfil do Docente -->
+<div class="docente-modal" id="docenteModal">
+    <div class="docente-modal-content">
+        <button class="close-modal" onclick="closeModal()">&times;</button>
+        <div id="modalContent">
+            <!-- Conteúdo será carregado via AJAX -->
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Carregando informações do professor...</p>
+            </div>
+        </div>
+    </div>
+</div>
         
-        <!-- Seção de Parcerias -->
-        <section class="parcerias-section" id="parcerias">
-            <div class="section-header">
-                <h3>Nossas Empresas Parceiras</h3>
-                <p>Relações estratégicas que beneficiam nossos alunos e a comunidade industrial</p>
-            </div>
-            
-            <!-- Empresas Industriais -->
-            <div id="industriais">
-                <h3 class="setor-title">Empresas Industriais</h3>
+        <!-- Modal de Perfil do Docente -->
+        <div class="docente-modal" id="docenteModal">
+            <div class="docente-modal-content">
+                <button class="close-modal">&times;</button>
                 
-                <div class="empresas-grid">
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-industrial-1.png' %}" alt="Indústria Mecânica Angola">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Indústria Mecânica Angola</h3>
-                            <div class="empresa-setor">Manufatura e Montagem Industrial</div>
-                            <p>Líder na fabricação de componentes mecânicos para diversos setores da indústria angolana.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Oferece 50 vagas de estágio anual</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Programa de trainees exclusivo para formados no IPIZ</span>
-                                </div>
+                <div class="docente-modal-header">
+                    <div class="docente-modal-image">
+                        <img id="docenteModalFoto" src="" alt="Foto do docente">
+                    </div>
+                    
+                    <div class="docente-modal-title">
+                        <h3 id="docenteModalNome">Prof. Manuel Kiala</h3>
+                        <div class="docente-modal-departamento" id="docenteModalDepartamento">Electricidade</div>
+                        
+                        <div class="docente-modal-contato">
+                            <div class="contato-item">
+                                <i class="fas fa-envelope"></i>
+                                <span id="docenteModalEmail">manuel.kiala@ipiz.edu.ao</span>
                             </div>
+                            <div class="contato-item">
+                                <i class="fas fa-phone"></i>
+                                <span id="docenteModalTelefone">+244 923 456 789</span>
+                            </div>
+                            <div class="contato-item">
+                                <i class="fas fa-clock"></i>
+                                <span id="docenteModalHorario">Seg/Qua: 10h-12h, Ter/Qui: 14h-16h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="docente-modal-body">
+                    <div class="docente-left-column">
+                        <div class="docente-section">
+                            <h4>Formação Acadêmica</h4>
+                            <ul id="docenteModalFormacao">
+                                <li>Doutorado em Engenharia Elétrica - Universidade de Luanda (2015)</li>
+                                <li>Mestrado em Sistemas de Energia - Universidade Agostinho Neto (2010)</li>
+                                <li>Licenciatura em Engenharia Elétrica - Instituto Superior Politécnico de Luanda (2006)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="docente-section">
+                            <h4>Experiência Profissional</h4>
+                            <ul id="docenteModalExperiencia">
+                                <li>Professor no IPIZ 17 de Dezembro (2012-Presente)</li>
+                                <li>Engenheiro Chefe na Empresa Nacional de Eletricidade (2008-2012)</li>
+                                <li>Técnico de Manutenção Elétrica na Indústria Mecânica de Angola (2006-2008)</li>
+                            </ul>
                         </div>
                     </div>
                     
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-industrial-2.png' %}" alt="Plásticos Modernos">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Plásticos Modernos</h3>
-                            <div class="empresa-setor">Indústria de Transformação</div>
-                            <p>Especializada na produção de embalagens plásticas e componentes para indústrias diversas.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Bolsas de estudo para alunos destaque</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Visitas técnicas mensais às instalações</span>
-                                </div>
+                    <div class="docente-right-column">
+                        <div class="docente-section">
+                            <h4>Disciplinas Ministradas</h4>
+                            <div class="disciplinas-list" id="docenteModalDisciplinas">
+                                <span class="disciplina-tag-large">Instalações Elétricas</span>
+                                <span class="disciplina-tag-large">Automação Industrial</span>
+                                <span class="disciplina-tag-large">Eletrônica de Potência</span>
                             </div>
+                        </div>
+                        
+                        <div class="docente-section">
+                            <h4>Áreas de Pesquisa</h4>
+                            <ul id="docenteModalPesquisa">
+                                <li>Eficiência Energética em Sistemas Industriais</li>
+                                <li>Integração de Energias Renováveis em Redes Elétricas</li>
+                                <li>Sistemas de Controle Automático para Indústria</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="docente-section">
+                            <h4>Publicações Recentes</h4>
+                            <ul id="docenteModalPublicacoes">
+                                <li>"Otimização do Consumo Energético em Indústrias de Transformação" - Revista Angolana de Engenharia (2023)</li>
+                                <li>"Sistemas Fotovoltaicos para Pequenas Indústrias: Estudo de Caso" - Congresso Internacional de Energias Renováveis (2022)</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Empresas de Tecnologia -->
-            <div id="tecnologicas">
-                <h3 class="setor-title">Empresas de Tecnologia</h3>
-                
-                <div class="empresas-grid">
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-tec-1.png' %}" alt="TechSolutions Angola">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>TechSolutions Angola</h3>
-                            <div class="empresa-setor">Tecnologia da Informação</div>
-                            <p>Desenvolvimento de software e soluções de automação industrial para o mercado angolano.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Laboratório de inovação compartilhado com o IPIZ</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Mentoria profissional para alunos de informática</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-tec-2.png' %}" alt="Automação Industrial SA">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Automação Industrial SA</h3>
-                            <div class="empresa-setor">Automação e Robótica</div>
-                            <p>Implementação de sistemas automatizados para indústrias de grande porte.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Certificações profissionais gratuitas para alunos</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Projetos conjuntos de pesquisa e desenvolvimento</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Empresas de Energia -->
-            <div id="energia">
-                <h3 class="setor-title">Empresas de Energia</h3>
-                
-                <div class="empresas-grid">
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-energia-1.png' %}" alt="Energia Total Angola">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Energia Total Angola</h3>
-                            <div class="empresa-setor">Geração e Distribuição de Energia</div>
-                            <p>Uma das principais empresas do setor energético em Angola, com foco em soluções sustentáveis.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Programa de estágio remunerado</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Financiamento de projetos de eficiência energética</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-energia-2.png' %}" alt="SolarAngola">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>SolarAngola</h3>
-                            <div class="empresa-setor">Energias Renováveis</div>
-                            <p>Especializada em projetos de energia solar fotovoltaica para indústrias e residências.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Workshops técnicos mensais</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Bolsa de estudos para pesquisas em energias renováveis</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Empresas de Construção -->
-            <div id="construcao">
-                <h3 class="setor-title">Empresas de Construção</h3>
-                
-                <div class="empresas-grid">
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-construcao-1.png' %}" alt="Construtora Nacional">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Construtora Nacional</h3>
-                            <div class="empresa-setor">Construção Civil e Obras Públicas</div>
-                            <p>Responsável por grandes obras de infraestrutura em todo o território angolano.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Vagas prioritárias para técnicos formados no IPIZ</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Programa de capacitação em gestão de obras</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="empresa-card">
-                        <div class="empresa-logo">
-                            <img src="{% static 'imagem/logo-construcao-2.png' %}" alt="Materiais de Construção SA">
-                        </div>
-                        <div class="empresa-info">
-                            <h3>Materiais de Construção SA</h3>
-                            <div class="empresa-setor">Fabricação de Materiais</div>
-                            <p>Produção de materiais de construção de alta qualidade para o mercado nacional.</p>
-                            <div class="empresa-beneficios">
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Visitas técnicas às unidades de produção</span>
-                                </div>
-                                <div class="beneficio-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Parceria em pesquisas de novos materiais</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Seção de Benefícios das Parcerias -->
-            <div class="section-header" style="margin-top: 60px;">
-                <h3>Benefícios para Nossos Alunos</h3>
-                <p>Como essas parcerias contribuem para a formação profissional</p>
-            </div>
-            
-            <div class="highlights-grid">
-                <div class="highlight-card">
-                    <div class="highlight-icon">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <h4>Estágios Garantidos</h4>
-                    <p>Mais de 80% dos nossos alunos realizam estágios em empresas parceiras durante o curso</p>
-                </div>
-                
-                <div class="highlight-card">
-                    <div class="highlight-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <h4>Empregabilidade</h4>
-                    <p>70% dos formados são contratados por empresas parceiras no primeiro ano após a conclusão</p>
-                </div>
-                
-                <div class="highlight-card">
-                    <div class="highlight-icon">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <h4>Projetos Reais</h4>
-                    <p>Oportunidade de trabalhar em projetos reais das empresas durante a formação</p>
-                </div>
-            </div>
-        </section>
+        </div>
     </div>
     
     <!-- Footer -->
@@ -404,11 +470,11 @@
             <div class="footer-logo">IPIZ 17 de Dezembro</div>
             
             <div class="footer-links">
-                <a href="#">Início</a>
-                <a href="#industriais">Industriais</a>
-                <a href="#tecnologicas">Tecnológicas</a>
-                <a href="#energia">Energia</a>
-                <a href="#construcao">Construção</a>
+                <a href="{% url 'home' %}">Início</a>
+                <a href="#eletrotecnica">Electricidade</a>
+                <a href="#informatica">Informática</a>
+                <a href="#mecanica">Mecânica</a>
+                <a href="#quimica">Química</a>
                 <a href="{% url 'login' %}">Login</a>
                 <a href="{% url 'termo' %}">Termos e políticas</a>
             </div>
@@ -425,18 +491,401 @@
     </footer>
     
     <script>
-        // Preloader
-        document.addEventListener('DOMContentLoaded', function() {
-            const preloader = document.getElementById('preloader');
+        // Dados dos docentes (simulando um banco de dados)
+        const docentesData = {
+            "manuel-kiala": {
+                nome: "Prof. Manuel Kiala",
+                departamento: "Electricidade",
+                foto: "{% static 'imagem/professor1.jpg' %}",
+                email: "manuel.kiala@ipiz.edu.ao",
+                telefone: "+244 923 456 789",
+                horario: "Seg/Qua: 10h-12h, Ter/Qui: 14h-16h",
+                formacao: [
+                    "Doutorado em Engenharia Elétrica - Universidade de Luanda (2015)",
+                    "Mestrado em Sistemas de Energia - Universidade Agostinho Neto (2010)",
+                    "Licenciatura em Engenharia Elétrica - Instituto Superior Politécnico de Luanda (2006)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2012-Presente)",
+                    "Engenheiro Chefe na Empresa Nacional de Eletricidade (2008-2012)",
+                    "Técnico de Manutenção Elétrica na Indústria Mecânica de Angola (2006-2008)"
+                ],
+                disciplinas: ["Instalações Elétricas", "Automação Industrial", "Eletrônica de Potência"],
+                pesquisa: [
+                    "Eficiência Energética em Sistemas Industriais",
+                    "Integração de Energias Renováveis em Redes Elétricas",
+                    "Sistemas de Controle Automático para Indústria"
+                ],
+                publicacoes: [
+                    "\"Otimização do Consumo Energético em Indústrias de Transformação\" - Revista Angolana de Engenharia (2023)",
+                    "\"Sistemas Fotovoltaicos para Pequenas Indústrias: Estudo de Caso\" - Congresso Internacional de Energias Renováveis (2022)"
+                ]
+            },
+            "joana-santos": {
+                nome: "Prof.ª Joana dos Santos",
+                departamento: "Electricidade",
+                foto: "{% static 'imagem/professor2.jpg' %}",
+                email: "joana.santos@ipiz.edu.ao",
+                telefone: "+244 924 567 890",
+                horario: "Seg/Qua: 08h-10h, Sex: 14h-16h",
+                formacao: [
+                    "Doutora em Energias Renováveis - Universidade Técnica de Lisboa (2018)",
+                    "Mestrado em Engenharia de Energia - Universidade de Coimbra (2014)",
+                    "Licenciatura em Engenharia Elétrica - Universidade Agostinho Neto (2010)"
+                ],
+                experiencia: [
+                    "Professora no IPIZ 17 de Dezembro (2019-Presente)",
+                    "Engenheira de Projetos na SolarAngola (2015-2019)",
+                    "Estagiária na Endesa Portugal (2013-2014)"
+                ],
+                disciplinas: ["Energias Renováveis", "Eletrônica de Potência", "Sistemas Elétricos"],
+                pesquisa: [
+                    "Microgeração Distribuída",
+                    "Armazenamento de Energia",
+                    "Redes Elétricas Inteligentes"
+                ],
+                publicacoes: [
+                    "\"Potencial de Energia Solar em Angola: Análise de 5 Anos de Dados\" - Revista de Energias Renováveis (2023)",
+                    "\"Integração de Baterias em Sistemas Fotovoltaicos Residenciais\" - Conferência Africana de Energia (2021)"
+                ]
+            },
+            "carlos-mendes": {
+                nome: "Prof. Carlos Mendes",
+                departamento: "Electricidade",
+                foto: "{% static 'imagem/professor3.jpg' %}",
+                email: "carlos.mendes@ipiz.edu.ao",
+                telefone: "+244 925 678 901",
+                horario: "Ter/Qui: 10h-12h, Sex: 08h-10h",
+                formacao: [
+                    "Licenciatura em Engenharia Elétrica - Instituto Superior Politécnico de Luanda (2017)",
+                    "Curso de Especialização em Manutenção Industrial - Centro de Formação Profissional (2019)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2020-Presente)",
+                    "Técnico de Manutenção na Cables Angola (2017-2020)"
+                ],
+                disciplinas: ["Máquinas Elétricas", "Segurança Elétrica", "Instalações Elétricas"],
+                pesquisa: [
+                    "Manutenção Preditiva em Motores Elétricos",
+                    "Proteção de Sistemas Elétricos Industriais"
+                ],
+                publicacoes: [
+                    "\"Análise de Falhas em Motores de Indução Trifásicos\" - Jornal de Engenharia Industrial (2022)"
+                ]
+            },
+            "antonio-fernandes": {
+                nome: "Prof. António Fernandes",
+                departamento: "Informática",
+                foto: "{% static 'imagem/professor4.jpg' %}",
+                email: "antonio.fernandes@ipiz.edu.ao",
+                telefone: "+244 926 789 012",
+                horario: "Seg/Qua: 14h-16h, Sex: 10h-12h",
+                formacao: [
+                    "Doutor em Ciência da Computação - Universidade de Lisboa (2016)",
+                    "Mestrado em Engenharia de Software - Universidade do Porto (2012)",
+                    "Licenciatura em Informática - Universidade Agostinho Neto (2008)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2017-Presente)",
+                    "Desenvolvedor Sênior na Microsoft Angola (2013-2017)",
+                    "Analista de Sistemas na IBM Portugal (2010-2013)"
+                ],
+                disciplinas: ["Programação", "Inteligência Artificial", "Algoritmos"],
+                pesquisa: [
+                    "Aprendizado de Máquina Aplicado à Indústria",
+                    "Sistemas de Recomendação",
+                    "Processamento de Linguagem Natural"
+                ],
+                publicacoes: [
+                    "\"Sistema de Predição de Falhas em Linhas de Produção usando Redes Neurais\" - IEEE Transactions on Industrial Informatics (2023)",
+                    "\"Framework para Integração de IA em Sistemas Industriais Legados\" - Conferência Internacional de Indústria 4.0 (2021)"
+                ]
+            },
+            "maria-luisa": {
+                nome: "Prof.ª Maria Luísa",
+                departamento: "Informática",
+                foto: "{% static 'imagem/professora1.jpg' %}",
+                email: "maria.luisa@ipiz.edu.ao",
+                telefone: "+244 927 890 123",
+                horario: "Ter/Qui: 08h-10h, Sex: 14h-16h",
+                formacao: [
+                    "Mestre em Engenharia de Software - Universidade de Coimbra (2015)",
+                    "Licenciatura em Informática Industrial - Instituto Politécnico de Benguela (2011)"
+                ],
+                experiencia: [
+                    "Professora no IPIZ 17 de Dezembro (2016-Presente)",
+                    "Desenvolvedora Full Stack na TecnoSoft Angola (2013-2016)",
+                    "Estagiária na Siemens Portugal (2012)"
+                ],
+                disciplinas: ["Bancos de Dados", "Desenvolvimento Web", "Sistemas de Informação"],
+                pesquisa: [
+                    "Otimização de Consultas SQL",
+                    "Frameworks Web para Aplicações Industriais",
+                    "Integração de Sistemas"
+                ],
+                publicacoes: [
+                    "\"Modelo de Dados para Gestão de Manutenção Industrial\" - Revista de Informática Aplicada (2022)",
+                    "\"Plataforma Web para Monitoramento de Ativos Industriais\" - Workshop de Tecnologias Web (2020)"
+                ]
+            },
+            "eduardo-gomes": {
+                nome: "Prof. Eduardo Gomes",
+                departamento: "Informática",
+                foto: "{% static 'imagem/professor5.jpg' %}",
+                email: "eduardo.gomes@ipiz.edu.ao",
+                telefone: "+244 928 901 234",
+                horario: "Seg/Qua: 16h-18h, Qui: 10h-12h",
+                formacao: [
+                    "Licenciatura em Informática Industrial - IPIZ 17 de Dezembro (2018)",
+                    "Curso de Especialização em Redes de Computadores - Cisco Academy (2019)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2020-Presente)",
+                    "Técnico de Redes na Unitel (2018-2020)"
+                ],
+                disciplinas: ["Redes de Computadores", "Sistemas Operacionais", "Segurança Informática"],
+                pesquisa: [
+                    "Redes Industriais",
+                    "Virtualização de Servidores",
+                    "Monitoramento de Redes"
+                ],
+                publicacoes: [
+                    "\"Análise de Desempenho de Protocolos em Redes Industriais\" - Jornal de Redes e Sistemas (2021)"
+                ]
+            },
+            "jose-domingos": {
+                nome: "Prof. José Domingos",
+                departamento: "Mecânica Industrial",
+                foto: "{% static 'imagem/professor6.jpg' %}",
+                email: "jose.domingos@ipiz.edu.ao",
+                telefone: "+244 930 123 456",
+                horario: "Seg/Qua: 10h-12h, Sex: 14h-16h",
+                formacao: [
+                    "Doutor em Engenharia Mecânica - Universidade Técnica de Berlim (2014)",
+                    "Mestrado em Mecânica dos Fluidos - Universidade de Lisboa (2010)",
+                    "Licenciatura em Engenharia Mecânica - Universidade Agostinho Neto (2006)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2015-Presente)",
+                    "Engenheiro de Projetos na Sonangol (2010-2015)",
+                    "Técnico Mecânico na AutoSul (2006-2010)"
+                ],
+                disciplinas: ["Termodinâmica", "Mecânica dos Fluidos", "Projeto Mecânico"],
+                pesquisa: [
+                    "Escoamento em Tubulações Industriais",
+                    "Otimização de Sistemas de Refrigeração",
+                    "Materiais Compósitos para Indústria"
+                ],
+                publicacoes: [
+                    "\"Modelagem Numérica de Escoamento em Dutos Industriais\" - Journal of Mechanical Engineering (2023)",
+                    "\"Sistema de Refrigeração para Climatização de Máquinas\" - Conferência Internacional de Engenharia Mecânica (2021)"
+                ]
+            },
+            "francisco-matias": {
+                nome: "Prof. Francisco Matias",
+                departamento: "Mecânica Industrial",
+                foto: "{% static 'imagem/professor7.jpg' %}",
+                email: "francisco.matias@ipiz.edu.ao",
+                telefone: "+244 931 234 567",
+                horario: "Ter/Qui: 08h-10h, Sex: 10h-12h",
+                formacao: [
+                    "Mestre em Manutenção Industrial - Universidade do Porto (2012)",
+                    "Licenciatura em Engenharia Mecânica - Instituto Superior Politécnico de Luanda (2008)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2013-Presente)",
+                    "Supervisor de Manutenção na Fábrica de Cimentos de Angola (2009-2013)",
+                    "Técnico Mecânico na AutoEuropa Portugal (2006-2009)"
+                ],
+                disciplinas: ["Mecânica Industrial", "Manutenção Mecânica", "Metrologia"],
+                pesquisa: [
+                    "Manutenção Preditiva",
+                    "Gestão de Ativos Industriais",
+                    "Tribologia Aplicada"
+                ],
+                publicacoes: [
+                    "\"Plano de Manutenção para Prensa Hidráulica: Estudo de Caso\" - Revista de Manutenção Industrial (2022)",
+                    "\"Análise de Falhas em Rolamentos de Máquinas Rotativas\" - Workshop de Engenharia Mecânica (2020)"
+                ]
+            },
+            "carla-silva": {
+                nome: "Prof.ª Carla Silva",
+                departamento: "Mecânica Industrial",
+                foto: "{% static 'imagem/professora3.jpg' %}",
+                email: "carla.silva@ipiz.edu.ao",
+                telefone: "+244 932 345 678",
+                horario: "Seg/Qua: 14h-16h, Qui: 08h-10h",
+                formacao: [
+                    "Licenciatura em Engenharia Mecânica - IPIZ 17 de Dezembro (2016)",
+                    "Curso de Especialização em CAD/CAM - Centro de Formação Tecnológica (2017)"
+                ],
+                experiencia: [
+                    "Professora no IPIZ 17 de Dezembro (2018-Presente)",
+                    "Desenhista Projetista na MecanAngola (2016-2018)"
+                ],
+                disciplinas: ["Desenho Técnico", "CAD/CAM", "Elementos de Máquinas"],
+                pesquisa: [
+                    "Modelagem 3D para Peças Industriais",
+                    "Prototipagem Rápida",
+                    "Desenho Assistido por Computador"
+                ],
+                publicacoes: [
+                    "\"Fluxo de Trabalho para Projeto de Moldes usando CAD/CAM\" - Jornal de Tecnologia Mecânica (2021)"
+                ]
+            },
+            "beatriz-costa": {
+                nome: "Prof.ª Beatriz Costa",
+                departamento: "Química Industrial",
+                foto: "{% static 'imagem/professora4.jpg' %}",
+                email: "beatriz.costa@ipiz.edu.ao",
+                telefone: "+244 933 456 789",
+                horario: "Seg/Qua: 08h-10h, Sex: 14h-16h",
+                formacao: [
+                    "Doutora em Engenharia Química - Universidade de Porto (2015)",
+                    "Mestrado em Processos Químicos - Universidade de Lisboa (2011)",
+                    "Licenciatura em Química Industrial - Universidade Agostinho Neto (2007)"
+                ],
+                experiencia: [
+                    "Professora no IPIZ 17 de Dezembro (2016-Presente)",
+                    "Engenheira de Processos na Refinaria de Luanda (2012-2016)",
+                    "Técnica de Laboratório na Sonangol (2008-2012)"
+                ],
+                disciplinas: ["Processos Químicos", "Análise Química", "Operações Unitárias"],
+                pesquisa: [
+                    "Otimização de Processos Químicos",
+                    "Tratamento de Efluentes Industriais",
+                    "Catálise Industrial"
+                ],
+                publicacoes: [
+                    "\"Modelagem Matemática de Reator de Craqueamento Catalítico\" - Journal of Chemical Engineering (2023)",
+                    "\"Sistema de Tratamento de Efluentes para Indústria Têxtil\" - Conferência de Engenharia Química (2021)"
+                ]
+            },
+            "rui-almeida": {
+                nome: "Prof. Rui Almeida",
+                departamento: "Química Industrial",
+                foto: "{% static 'imagem/professor8.jpg' %}",
+                email: "rui.almeida@ipiz.edu.ao",
+                telefone: "+244 934 567 890",
+                horario: "Ter/Qui: 10h-12h, Sex: 08h-10h",
+                formacao: [
+                    "Mestre em Química Industrial - Universidade de Coimbra (2013)",
+                    "Licenciatura em Química Aplicada - Universidade Agostinho Neto (2009)"
+                ],
+                experiencia: [
+                    "Professor no IPIZ 17 de Dezembro (2014-Presente)",
+                    "Químico Industrial na Fábrica de Tintas de Angola (2011-2014)",
+                    "Técnico de Laboratório na Indústria de Plásticos (2009-2011)"
+                ],
+                disciplinas: ["Operações Unitárias", "Segurança Industrial", "Química Orgânica"],
+                pesquisa: [
+                    "Processos de Separação",
+                    "Gestão de Resíduos Industriais",
+                    "Segurança em Processos Químicos"
+                ],
+                publicacoes: [
+                    "\"Sistema de Controle para Destilação Fracionada\" - Revista de Processos Químicos (2022)",
+                    "\"Manual de Boas Práticas em Segurança Química\" - Editora Industrial (2020)"
+                ]
+            },
+            "sofia-martins": {
+                nome: "Prof.ª Sofia Martins",
+                departamento: "Química Industrial",
+                foto: "{% static 'imagem/professora5.jpg' %}",
+                email: "sofia.martins@ipiz.edu.ao",
+                telefone: "+244 935 678 901",
+                horario: "Seg/Qua: 16h-18h, Qui: 14h-16h",
+                formacao: [
+                    "Licenciatura em Química Aplicada - IPIZ 17 de Dezembro (2017)",
+                    "Curso de Especialização em Análise Instrumental - Centro de Formação Química (2018)"
+                ],
+                experiencia: [
+                    "Professora no IPIZ 17 de Dezembro (2019-Presente)",
+                    "Técnica de Controle de Qualidade na Águas de Angola (2017-2019)"
+                ],
+                disciplinas: ["Química Analítica", "Controle de Qualidade", "Química Geral"],
+                pesquisa: [
+                    "Métodos Analíticos Rápidos",
+                    "Controle de Qualidade em Produtos Industriais",
+                    "Análise Instrumental"
+                ],
+                publicacoes: [
+                    "\"Método Rápido para Determinação de pH em Efluentes\" - Jornal de Análise Química (2021)"
+                ]
+            }
+        };
+
+        // Função para abrir o modal com os dados do docente
+        function openDocenteModal(docenteId) {
+            const docente = docentesData[docenteId];
             
-            // Simular um carregamento de 6 segundos
+            // Preencher os dados no modal
+            document.getElementById('docenteModalNome').textContent = docente.nome;
+            document.getElementById('docenteModalDepartamento').textContent = docente.departamento;
+            document.getElementById('docenteModalFoto').src = docente.foto;
+            document.getElementById('docenteModalEmail').textContent = docente.email;
+            document.getElementById('docenteModalTelefone').textContent = docente.telefone;
+            document.getElementById('docenteModalHorario').textContent = docente.horario;
+            
+            // Preencher formação
+            const formacaoList = document.getElementById('docenteModalFormacao');
+            formacaoList.innerHTML = '';
+            docente.formacao.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                formacaoList.appendChild(li);
+            });
+            
+            // Preencher experiência
+            const experienciaList = document.getElementById('docenteModalExperiencia');
+            experienciaList.innerHTML = '';
+            docente.experiencia.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                experienciaList.appendChild(li);
+            });
+            
+            // Preencher disciplinas
+            const disciplinasContainer = document.getElementById('docenteModalDisciplinas');
+            disciplinasContainer.innerHTML = '';
+            docente.disciplinas.forEach(disciplina => {
+                const span = document.createElement('span');
+                span.className = 'disciplina-tag-large';
+                span.textContent = disciplina;
+                disciplinasContainer.appendChild(span);
+            });
+            
+            // Preencher pesquisa
+            const pesquisaList = document.getElementById('docenteModalPesquisa');
+            pesquisaList.innerHTML = '';
+            docente.pesquisa.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                pesquisaList.appendChild(li);
+            });
+            
+            // Preencher publicações
+            const publicacoesList = document.getElementById('docenteModalPublicacoes');
+            publicacoesList.innerHTML = '';
+            docente.publicacoes.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                publicacoesList.appendChild(li);
+            });
+            
+            // Mostrar o modal
+            document.getElementById('docenteModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preloader
             setTimeout(function() {
-                preloader.classList.add('fade-out');
-                
-                // Remover completamente o preloader após a animação
+                document.getElementById('preloader').classList.add('fade-out');
                 setTimeout(function() {
-                    preloader.style.display = 'none';
-                }, 500); // Tempo da animação de fade
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
             }, 2000);
             
             // Menu mobile
@@ -463,13 +912,89 @@
                 });
             });
             
-            // Scroll suave para a seção de parcerias
-            document.getElementById('scrollToParcerias').addEventListener('click', function() {
-                document.getElementById('parcerias').scrollIntoView({
+            // Abrir modal ao clicar no nome do docente
+            const docenteNomes = document.querySelectorAll('.docente-nome');
+            docenteNomes.forEach(nome => {
+                nome.addEventListener('click', function() {
+                    const docenteId = this.getAttribute('data-docente');
+                    openDocenteModal(docenteId);
+                });
+            });
+            
+            // Fechar modal
+            const closeModal = document.querySelector('.docente-modal .close-modal');
+            closeModal.addEventListener('click', function() {
+                document.getElementById('docenteModal').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(e) {
+                if (e.target === document.getElementById('docenteModal')) {
+                    document.getElementById('docenteModal').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Scroll suave para a seção de docentes
+            document.getElementById('scrollToDocentes').addEventListener('click', function() {
+                document.getElementById('docentes').scrollIntoView({
                     behavior: 'smooth'
                 });
             });
         });
     </script>
+    <script>
+        function openDocenteModal(docenteId) {
+            const modal = document.getElementById('docenteModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Mostrar spinner de carregamento
+            modalContent.innerHTML = `
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando informações do professor...</p>
+                </div>
+            `;
+            
+            // Abrir modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Carregar conteúdo via AJAX
+            fetch(`/docentes/${docenteId}/modal/`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar dados');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    modalContent.innerHTML = data.html;
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    modalContent.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Não foi possível carregar as informações do professor.</p>
+                            <button onclick="closeModal()" class="btn btn-primary">Fechar</button>
+                        </div>
+                    `;
+                });
+        }
+        
+        function closeModal() {
+            document.getElementById('docenteModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Fechar modal ao pressionar ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        </script>
 </body>
 </html>

@@ -76,7 +76,6 @@ def ficha(request):
     return render(request, 'ficha.html', {'nome_aluno': nome_aluno, 'abreviacao': abreviacao})
 
 
-
 def valida_cadastro_aluno(request):
     nome = request.POST.get('nome')
     email = request.POST.get('email')  
@@ -101,40 +100,42 @@ def valida_cadastro_aluno(request):
         aluno = Aluno(nome=nome, email=email, senha=senha_hash)
         aluno.save()
         
-       
         enviar_email_boas_vindas(nome, email)
         
         return redirect('/auth/cadastro/?status=0')
     
     except Exception as e:
-        print(f"Erro ao cadastrar aluno: {e}")
+        import traceback
+        traceback.print_exc() 
         return redirect('/auth/cadastro/?status=4')
+
 
 def enviar_email_boas_vindas(nome, email):
     assunto = "Bem-vindo ao IPIZ!"
-    
+
     contexto = {
         'nome': nome,
         'plataforma': 'IPIZ',
-        'cor_primaria': '#333333',  
-        'cor_secundaria': '#000000',  
+        'cor_primaria': '#333333',
+        'cor_secundaria': '#000000',
     }
-    
-    html_content = render_to_string('bem_vindo.html', contexto)
-    text_content = strip_tags(html_content)
-    
-    email_msg = EmailMultiAlternatives(
-        subject=assunto,
-        body=text_content,
-        from_email='nao-responda@educangola.com',
-        to=[email],
-    )
-    email_msg.attach_alternative(html_content, "text/html")
-    
+
     try:
+        html_content = render_to_string('bem_vindo.html', contexto)
+        text_content = strip_tags(html_content)
+
+        email_msg = EmailMultiAlternatives(
+            subject=assunto,
+            body=text_content,
+            from_email='danielkenia@gmail.com',  # Substitua por um e-mail válido
+            to=[email],
+        )
+        email_msg.attach_alternative(html_content, "text/html")
         email_msg.send()
     except Exception as e:
-        print(f"Erro ao enviar e-mail: {e}")
+        import traceback
+        traceback.print_exc()
+        
 
 def valida_login_aluno(request):
     email = request.POST.get('email')
@@ -281,9 +282,7 @@ def salvar_inscricao(request):
         'message': 'Método não permitido'
     }, status=405)
 
-
-
-        
+    
         
 def bem_vindo(request):
     return render(request, 'bem_vindo.html')
@@ -332,3 +331,95 @@ def todos_cursos(request):
         'areas_com_cursos': areas_com_cursos
     }
     return render(request, 'cursos.html', context)
+
+
+def lab(request):
+    return render(request, 'lab.html')
+
+def empresa(request):
+    return render(request, 'empresa.html')
+
+
+from django.shortcuts import render
+from django.shortcuts import render
+from django.db.models import Prefetch
+from .models import Departamento, Docente, Disciplina
+
+from django.shortcuts import render
+from django.db.models import Prefetch
+from .models import Departamento, Docente
+
+def corpo_docente(request):
+    # Debug inicial
+    print("\n=== DEBUG INICIAL ===")
+    print("Total de departamentos:", Departamento.objects.count())
+    print("Departamentos ativos:", Departamento.objects.filter(ativo=True).count())
+    print("Total de professores:", Docente.objects.count())
+    print("Professores ativos:", Docente.objects.filter(ativo=True).count())
+
+    # Query principal
+    departamentos = Departamento.objects.filter(ativo=True).prefetch_related(
+        Prefetch('docente_set', 
+                queryset=Docente.objects.filter(ativo=True)
+                .select_related('departamento')
+                .prefetch_related('disciplinas')
+        )
+    ).order_by('nome')
+
+    departamentos_data = []
+    for dept in departamentos:
+        professores = dept.docente_set.all()
+        if professores.exists():
+            departamentos_data.append({
+                'obj': dept,
+                'docentes': professores
+            })
+            print(f"Departamento '{dept.nome}' com {professores.count()} professores adicionado")
+
+    # Fallback para professores sem departamento ou departamentos sem professores
+    if not departamentos_data:
+        professores_ativos = Docente.objects.filter(ativo=True)
+        if professores_ativos.exists():
+            print("\nAVISO: Usando fallback - mostrando todos os professores ativos")
+            departamentos_data.append({
+                'obj': type('', (), {
+                    'nome': 'Todos os Professores',
+                    'descricao': 'Lista de todos os professores ativos',
+                    'slug': 'todos-professores'
+                })(),
+                'docentes': professores_ativos
+            })
+        else:
+            print("\nAVISO: Nenhum professor ativo encontrado")
+
+    context = {
+        'departamentos_data': departamentos_data,
+        'total_professores': sum(len(dept['docentes']) for dept in departamentos_data)
+    }
+    print(f"Final: {len(departamentos_data)} departamentos, {context['total_professores']} professores")
+    return render(request, 'professor.html', context)
+
+
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+
+def docente_modal(request, docente_id):
+    docente = get_object_or_404(
+        Docente.objects.filter(ativo=True)
+        .select_related('departamento')
+        .prefetch_related(
+            'disciplinas',
+            Prefetch('formacao', queryset=FormacaoAcademica.objects.order_by('-ano_conclusao')),
+            Prefetch('experiencia', queryset=ExperienciaProfissional.objects.order_by('-data_inicio')),
+            'areas_pesquisa',
+            Prefetch('publicacoes', queryset=Publicacao.objects.order_by('-ano'))
+        ),
+        id=docente_id
+    )
+    
+    html = render_to_string('_docente_modal.html', {
+        'docente': docente
+    })
+    
+    return JsonResponse({'html': html})

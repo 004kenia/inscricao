@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Estilos para a seção de docentes */
+.docentes-section {
+    padding: 3rem 1rem;
+    background-color: #f9f9f9;
+}
+
+.departamentos-container {
+    margin-bottom: 3rem;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.dept-description {
+    color: #555;
+    font-size: 0.95rem;
+    max-width: 800px;
+    margin: 0.5rem auto 0;
+}
+
+.docentes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.docente-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.docente-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.docente-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.docente-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.docente-card:hover .docente-image img {
+    transform: scale(1.05);
+}
+
+.docente-info {
+    padding: 1.2rem;
+}
+
+.docente-nome {
+    color: #2c3e50;
+    margin: 0 0 0.5rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s ease;
+}
+
+.docente-nome:hover {
+    color: #3498db;
+}
+
+.docente-cargo {
+    color: #7f8c8d;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+.docente-cargo .nivel {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
+.docente-disciplinas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.disciplina-tag {
+    background-color: #e8f4fc;
+    color: #2980b9;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.mais-disciplinas {
+    background-color: #f0f0f0;
+    color: #7f8c8d;
+}
+
+/* Estilos para o modal */
+.docente-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.docente-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.docente-modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.docente-modal-header {
+    padding: 30px;
+    background-color: #f5f9ff;
+    border-bottom: 1px solid #e0e9f5;
+    display: flex;
+    align-items: center;
+}
+
+.docente-modal-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 30px;
+    border: 5px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.docente-modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.docente-modal-title h3 {
+    margin: 0 0 5px;
+    color: #0056b3;
+}
+
+.docente-modal-departamento {
+    display: inline-block;
+    background-color: #0056b3;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.coord-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
+.docente-modal-contato {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.contato-item {
+    display: flex;
+    align-items: center;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.contato-item i {
+    margin-right: 8px;
+    color: #0056b3;
+}
+
+.docente-modal-body {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.docente-section {
+    margin-bottom: 25px;
+}
+
+.docente-section h4 {
+    color: #0056b3;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e0e9f5;
+    display: flex;
+    align-items: center;
+}
+
+.docente-section h4 i {
+    margin-right: 10px;
+}
+
+.docente-section p, .docente-section ul {
+    color: #444;
+    line-height: 1.6;
+}
+
+.docente-section ul {
+    padding-left: 20px;
+}
+
+.docente-section li {
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+.disciplinas-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.disciplina-tag-large {
+    background-color: #e9f0f8;
+    color: #0056b3;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.publicacoes-list li {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 50px;
+}
+
+.error-message {
+    text-align: center;
+    padding: 50px;
+    color: #dc3545;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #777;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .docente-modal-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .docente-modal-image {
+        margin: 0 auto 20px;
+    }
+    
+    .docente-modal-body {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    
+    .docente-modal-contato {
+        justify-content: center;
+    }
+    
+    .docentes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="docente-modal-header">
+        <div class="docente-modal-image">
+            {% if docente.foto %}
+                <img src="{{ docente.foto.url }}" alt="{{ docente.nome }}">
+            {% else %}
+                <img src="{% static 'imagem/docente-default.jpg' %}" alt="{{ docente.nome }}">
+            {% endif %}
+        </div>
+        
+        <div class="docente-modal-title">
+            <h3>{{ docente.nome }}</h3>
+            <div class="docente-modal-departamento">
+                {{ docente.departamento.nome }}
+                {% if docente.coordenador_departamento %}
+                    <span class="coord-badge">Coordenador</span>
+                {% endif %}
+            </div>
+            
+            <div class="docente-modal-contato">
+                <div class="contato-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:{{ docente.email }}">{{ docente.email }}</a>
+                </div>
+                {% if docente.telefone %}
+                <div class="contato-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ docente.telefone }}</span>
+                </div>
+                {% endif %}
+                {% if docente.horario_atendimento %}
+                <div class="contato-item">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ docente.horario_atendimento }}</span>
+                </div>
+                {% endif %}
+                {% if docente.lattes %}
+                <div class="contato-item">
+                    <i class="fas fa-globe"></i>
+                    <a href="{{ docente.lattes }}" target="_blank">Currículo Lattes</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="docente-modal-body">
+        <div class="docente-left-column">
+            {% if docente.formacao.exists %}
+            <div class="docente-section">
+                <h4><i class="fas fa-graduation-cap"></i> Formação Acadêmica</h4>
+                <ul>
+                    {% for formacao in docente.formacao.all %}
+                    <li>
+                        <strong>{{ formacao.get_grau_display }} em {{ formacao.curso }}</strong><br>
+                        {{ formacao.instituicao }} ({{ formacao.ano_conclusao }})<br>
+                        {% if formacao.descricao %}<small>{{ formacao.descricao }}</small>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            {% if docente.experiencia.exists %}
+            <div class="docente-section">
+                <h4><i class="fas fa-briefcase"></i> Experiência Profissional</h4>
+                <ul>
+                    {% for exp in docente.experiencia.all %}
+                    <li>
+                        <strong>{{ exp.cargo }}</strong> na {{ exp.empresa }}<br>
+                        {{ exp.data_inicio|date:"Y" }} - {% if exp.data_fim %}{{ exp.data_fim|date:"Y" }}{% else %}Atual{% endif %}<br>
+                        {% if exp.descricao %}<small>{{ exp.descricao }}</small>{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="docente-right-column">
+            {% if docente.disciplinas.exists %}
+            <div class="docente-section">
+                <h4><i class="fas fa-book"></i> Disciplinas Ministradas</h4>
+                <div class="disciplinas-list">
+                    {% for disciplina in docente.disciplinas.all %}
+                    <span class="disciplina-tag-large">{{ disciplina.nome }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            {% if docente.areas_pesquisa.exists %}
+            <div class="docente-section">
+                <h4><i class="fas fa-search"></i> Áreas de Pesquisa</h4>
+                <ul>
+                    {% for area in docente.areas_pesquisa.all %}
+                    <li>{{ area.nome }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            {% if docente.publicacoes.exists %}
+            <div class="docente-section">
+                <h4><i class="fas fa-file-alt"></i> Publicações</h4>
+                <ul class="publicacoes-list">
+                    {% for pub in docente.publicacoes.all %}
+                    <li>
+                        <strong>"{{ pub.titulo }}"</strong><br>
+                        {{ pub.autores }}<br>
+                        <em>{{ pub.veiculo }}</em> ({{ pub.ano }})<br>
+                        {% if pub.link %}
+                        <a href="{{ pub.link }}" target="_blank">Ver publicação</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            {% if docente.biografia %}
+            <div class="docente-section">
+                <h4><i class="fas fa-user"></i> Biografia</h4>
+                <p>{{ docente.biografia }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

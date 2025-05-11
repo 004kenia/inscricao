@@ -34,7 +34,7 @@
             </button>
             
             <nav class="nav-links">
-                <a href="#">Início</a>
+                <a href="{% url 'home' %}">Início</a>
                 <a href="#highlights">Destaques</a>
                 <a href="#process">Processo</a>
                 <a href="#courses">Cursos</a>
@@ -51,7 +51,7 @@
             <button class="close-mobile-menu" id="closeMobileMenu">
                 <i class="fas fa-times"></i>
             </button>
-            <a href="#">Início</a>
+            <a href="{% url 'home' %}">Início</a>
             <a href="#highlights">Destaques</a>
             <a href="#process">Processo</a>
             <a href="#courses">Cursos</a>
@@ -89,7 +89,7 @@
                     <div class="highlight-icon">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h4>Corpo Docente Qualificado</h4>
+                    <h4><a href="{% url 'professor' %}">Corpo Docente Qualificado</a></h4>
                     <p>Professores com ampla experiência acadêmica e profissional no mercado industrial</p>
                 </div>
                 
@@ -97,7 +97,7 @@
                     <div class="highlight-icon">
                         <i class="fas fa-flask"></i>
                     </div>
-                    <h4>Laboratórios Modernos</h4>
+                    <h4><a href="{% url 'lab' %}">Laboratórios Modernos</a></h4>
                     <p>Estrutura completa com equipamentos de última geração para prática profissional</p>
                 </div>
                 
@@ -105,7 +105,7 @@
                     <div class="highlight-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <h4>Parcerias com Empresas</h4>
+                    <h4><a href="{% url 'empresa' %}">Parcerias com Empresas</a></h4>
                     <p>Oportunidades de estágio e emprego nas principais indústrias da região</p>
                 </div>
             </div>

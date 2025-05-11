@@ -22,6 +22,10 @@ urlpatterns = [
     path('inscricao-detalhes/<int:inscricao_id>/', views.inscricao_detalhes, name='inscricao_detalhes'),
     path('professor/', views.professor, name = 'professor'),
     path('todos_cursos/', views.todos_cursos, name='todos_cursos'),
+    path('lab/', views.lab, name = 'lab'),
+    path('empresa/', views.empresa, name = 'empresa'),
+    path('docentes/', views.corpo_docente, name='corpo_docente'),
+    path('docentes/<int:docente_id>/modal/', views.docente_modal, name='docente_modal'),
     
 ]
 
